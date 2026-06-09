@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+/* ─── Hero Section — Simple Square Grid Mesh ─────────────────────────────── */
+
+.hero-grid-mesh {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(92, 107, 192, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(92, 107, 192, 0.18) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Right-side fade — grid visible on left, dissolves to white on right */
+.hero-grid-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 70%,
+    rgba(251, 248, 255, 0.5) 85%,
+    rgba(251, 248, 255, 0.7) 100%
+  );
+}

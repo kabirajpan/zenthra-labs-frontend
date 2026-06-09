@@ -1,13 +1,15 @@
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
+import { HeroSquares } from "../components/background/hero-squares";
 
 export default component$(() => {
     return (
         <>
 
             {/* Hero Section */}
-            <section class="max-w-7xl mx-auto px-12 py-16 grid md:grid-cols-12 gap-10 items-center">
-                <div class="md:col-span-7">
+            <section class="relative overflow-hidden max-w-7xl mx-auto px-12 py-16 grid md:grid-cols-12 gap-10 items-center">
+                <HeroSquares />
+                <div class="relative z-10 md:col-span-7">
                     <span class="inline-block px-3 py-1 bg-[#e3e1e9] text-[#454651] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider mb-6 rounded-[4px]">
                         Developer Tools • Open Source • Apps • Games
                     </span>
@@ -27,9 +29,9 @@ export default component$(() => {
                         </a>
                     </div>
                 </div>
-                <div class="md:col-span-5">
+                <div class="relative z-10 md:col-span-5">
                     <div class="bg-[#f5f2fa] rounded-[4px] overflow-hidden border border-[#c6c5d3] aspect-[4/3] flex items-center justify-center p-4">
-                        <svg viewBox="0 0 400 300" class="w-full h-full opacity-80" xmlns="http://www.w3.org/2000/svg">
+                        <svg viewBox="0 0 400 300" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="200" cy="150" r="80" fill="none" stroke="#5c6bc0" stroke-width="1.5" stroke-dasharray="4 4" />
                             <circle cx="200" cy="150" r="50" fill="none" stroke="#5c6bc0" stroke-width="1" opacity="0.5" />
                             <circle cx="200" cy="150" r="20" fill="#5c6bc0" opacity="0.2" />
