@@ -23,3 +23,231 @@
     rgba(251, 248, 255, 0.7) 100%
   );
 }
+
+/* ─── Hero Performance Code Panel ───────────────────────────────────────── */
+
+.hpc-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  font-family: 'Fira Code', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+  font-variant-ligatures: contextual;
+  -moz-font-feature-settings: "liga" 1;
+  -webkit-font-smoothing: antialiased;
+  /* no outer clipping so we can show a gap between editor and terminal box */
+  border-radius: 0;
+  overflow: visible;
+  border: none;
+  outline: none;
+}
+
+/* Dark code editor */
+.hpc-editor {
+  position: relative;
+  flex: 1;
+  background: #071025;
+  color: #cdd3de;
+  overflow: hidden;
+  border-radius: 10px; /* editor gets its own radius */
+  box-shadow: 0 12px 30px rgba(2,6,23,0.28);
+  border: none;
+  outline: none;
+}
+
+/* Sweep scan line */
+.hpc-scan {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(92,107,192,0.5), transparent);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Editor top bar */
+.hpc-editor-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  /* solid transparent background so no light band appears at the rim */
+  background: transparent;
+  border-bottom: none;
+  backdrop-filter: none;
+}
+.hpc-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.hpc-fname {
+  font-size: 11px;
+  color: #9aa6e0;
+  margin-left: 8px;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+/* small caption in the editor header */
+.hpc-caption {
+  margin-left: auto;
+  font-size: 12px;
+  color: #7f8ab5;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+/* Code block */
+.hpc-code {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.hpc-line {
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre;
+  opacity: 0;   /* animated in by anime.js */
+  font-feature-settings: "liga" 1;
+}
+.hpc-empty { height: 0.5em; }
+.hpc-indent { padding-left: 18px; }
+
+/* Syntax token colors */
+.hpc-kw      { color: #c792ea; font-weight: 600; }
+.hpc-fn      { color: #61afef; }
+.hpc-str     { color: #98c379; }
+.hpc-prop    { color: #e5c07b; }
+.hpc-num     { color: #d19a66; }
+.hpc-plain   { color: #bfc9d9; }
+.hpc-comment { color: #6a7b8a; font-style: italic; }
+
+/* Metrics bar at the bottom */
+.hpc-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #071025;
+  border-top: none;
+  padding: 12px 14px;
+  gap: 12px;
+  border-radius: 10px; /* metrics gets its own radius */
+  margin-top: 6px; /* gap between editor and metrics (reduced) */
+  box-shadow: 0 8px 20px rgba(2,6,23,0.18);
+  color: #cdd3de;
+}
+
+/* ensure any outer 3d card wrapper has no border */
+.hero3d-card {
+  border: none !important;
+  outline: none !important;
+}
+.hpc-metric-block {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.hpc-metric-label {
+  font-size: 10px;
+  color: #9aa6e0;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hpc-icon { display: inline-block; color: #9aa6e0; stroke: currentColor; }
+.hpc-metric-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e6edf9;
+  letter-spacing: -0.01em;
+}
+.hpc-green { color: #7ee787; }
+
+/* Build progress bar track */
+.hpc-bar-track {
+  height: 3px;
+  background: #e3e1e9;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.hpc-bar-fill {
+  height: 100%;
+  background: linear-gradient(to right, #5c6bc0, #82aaff);
+  border-radius: 2px;
+  width: 0%;
+}
+
+
+/* Perspective container */
+.hero3d-stack {
+  position: absolute;
+  inset: 0;
+  perspective: 650px;
+  perspective-origin: 50% 38%;
+}
+
+/* Base card */
+.hero3d-card {
+  position: absolute;
+  background: #ffffff;
+  /* remove border to visually match the rounded terminal panel */
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 18px 40px rgba(2,6,23,0.16);
+  overflow: hidden;
+  will-change: transform;
+}
+
+/* Title bar */
+.hero3d-bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 10px;
+  background: #f5f2fa;
+  /* remove bottom border for consistent rounded card */
+  border-bottom: none;
+}
+.hero3d-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.hero3d-bar-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: #767683;
+  margin-left: 4px;
+  letter-spacing: 0.05em;
+}
+
+/* Card body */
+.hero3d-body  { padding: 10px 12px; display: flex; flex-direction: column; gap: 5px; }
+.hero3d-mono  { font-family: 'JetBrains Mono', monospace; }
+
+/* Terminal lines */
+.hero3d-tline { font-size: 9.5px; color: #454651; line-height: 1.5; white-space: nowrap; }
+.hero3d-ps    { color: #5c6bc0; font-weight: 700; margin-right: 5px; }
+.hero3d-ok    { color: #28a745; }
+
+/* Cursor blink */
+.hero3d-cursor { display: inline-block; color: #5c6bc0; animation: hero3dBlink 1s step-end infinite; }
+@keyframes hero3dBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* Server status rows */
+.hero3d-srow  { display: flex; align-items: center; gap: 5px; font-size: 9px; color: #1b1b21; }
+.hero3d-live  { color: #28a745; font-size: 8px; }
+.hero3d-ms    { margin-left: auto; color: #5c6bc0; font-weight: 600; font-size: 9px; }
+.hero3d-uptime { font-size: 8px; color: #767683; margin-top: 4px; padding-top: 6px; border-top: 1px solid #e3e1e9; }
+
+/* Product rows */
+.hero3d-prow  { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; border-bottom: none; }
+.hero3d-prow:last-child { border-bottom: none; }
+.hero3d-pname { font-size: 11px; font-weight: 600; color: #1b1b21; font-family: 'Syne', sans-serif; }
+.hero3d-badge { font-size: 8px; font-weight: 600; padding: 2px 6px; border-radius: 3px; }
+.hero3d-stable { background: #e9e7ef; color: #454651; }
+.hero3d-beta   { background: #dee0ff; color: #2f3f92; }
+.hero3d-ea     { background: #ffdeac; color: #5f4100; }

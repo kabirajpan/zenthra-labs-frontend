@@ -1,6 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { HeroSquares } from "../components/background/hero-squares";
+import { Hero3DScene } from "../components/hero/hero3d";
 
 export default component$(() => {
     return (
@@ -30,23 +31,8 @@ export default component$(() => {
                     </div>
                 </div>
                 <div class="relative z-10 md:col-span-5">
-                    <div class="bg-[#f5f2fa] rounded-[4px] overflow-hidden border border-[#c6c5d3] aspect-[4/3] flex items-center justify-center p-4">
-                        <svg viewBox="0 0 400 300" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="200" cy="150" r="80" fill="none" stroke="#5c6bc0" stroke-width="1.5" stroke-dasharray="4 4" />
-                            <circle cx="200" cy="150" r="50" fill="none" stroke="#5c6bc0" stroke-width="1" opacity="0.5" />
-                            <circle cx="200" cy="150" r="20" fill="#5c6bc0" opacity="0.2" />
-                            <circle cx="200" cy="150" r="8" fill="#5c6bc0" />
-                            <circle cx="280" cy="90" r="6" fill="#5c6bc0" opacity="0.7" />
-                            <circle cx="130" cy="80" r="5" fill="#5c6bc0" opacity="0.6" />
-                            <circle cx="300" cy="200" r="5" fill="#5c6bc0" opacity="0.5" />
-                            <circle cx="120" cy="210" r="4" fill="#5c6bc0" opacity="0.4" />
-                            <line x1="200" y1="150" x2="280" y2="90" stroke="#5c6bc0" stroke-width="1" opacity="0.4" />
-                            <line x1="200" y1="150" x2="130" y2="80" stroke="#5c6bc0" stroke-width="1" opacity="0.4" />
-                            <line x1="200" y1="150" x2="300" y2="200" stroke="#5c6bc0" stroke-width="1" opacity="0.4" />
-                            <line x1="200" y1="150" x2="120" y2="210" stroke="#5c6bc0" stroke-width="1" opacity="0.4" />
-                            <rect x="60" y="60" width="280" height="180" rx="4" fill="none" stroke="#c6c5d3" stroke-width="1" stroke-dasharray="6 3" opacity="0.4" />
-                            <rect x="80" y="80" width="240" height="140" rx="4" fill="none" stroke="#c6c5d3" stroke-width="1" opacity="0.2" />
-                        </svg>
+                    <div class="   aspect-[4/3]">
+                        <Hero3DScene />
                     </div>
                 </div>
             </section>

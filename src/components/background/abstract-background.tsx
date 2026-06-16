@@ -3,7 +3,7 @@ import { component$ } from "@builder.io/qwik";
 // Square checks background (tiled) to sit behind page content
 export const AbstractBackground = component$(() => {
   return (
-    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+    <div class="absolute inset-0 z-0 pointer-events-none  overflow-hidden">
       <svg class="w-full h-full" viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <pattern id="checks" width="36" height="36" patternUnits="userSpaceOnUse">
@@ -29,9 +29,6 @@ export const AbstractBackground = component$(() => {
           <rect width="1440" height="800" fill="url(#checks)" opacity="0.18" />
 
         {/* an additional soft grid to add depth */}
-        <g opacity="0.06">
-            <rect x="0" y="0" width="1440" height="800" fill="none" stroke="#e6e6ec" {...{ 'stroke-width': '1' }} />
-          </g>
 
           {/* subtle light spots for white theme visibility */}
           <circle cx="220" cy="140" r="220" fill="url(#light1)" opacity="0.14" />
