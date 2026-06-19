@@ -58,13 +58,13 @@ export default component$(() => {
     const featuredPost = POSTS.find((p) => p.isFeatured);
 
     return (
-        <section class="max-w-7xl mx-auto px-12 py-16">
+        <section class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
             {/* ── Header ── */}
             <div class="mb-16 border-b border-[#c6c5d3] pb-12">
                 <span class="inline-block px-3 py-1 bg-[#e9e7ef] text-[#4352a5] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px] mb-4">
                     Zenthra Labs · Tech Blog
                 </span>
-                <h1 class="font-['Syne',sans-serif] text-4xl lg:text-5xl font-bold text-[#1b1b21] leading-tight mb-4">
+                <h1 class="font-['Syne',sans-serif] text-3xl lg:text-5xl font-bold text-[#1b1b21] leading-tight mb-4">
                     Engineering, graphics research, &amp; native updates.
                 </h1>
                 <p class="text-[#454651] text-base leading-relaxed max-w-2xl">
@@ -75,8 +75,8 @@ export default component$(() => {
             {/* ── Featured Post Panel ── */}
             {featuredPost && selectedCategory.value === "All" && (
                 <div class="mb-16">
-                    <div class="bg-[#071025] rounded-[6px] overflow-hidden grid lg:grid-cols-12 shadow-xl border border-white/5 group">
-                        <div class="lg:col-span-7 p-8 lg:p-12 flex flex-col justify-between">
+                    <div class="bg-[#071025] rounded-[6px] overflow-hidden grid grid-cols-12 shadow-xl border border-white/5 group">
+                        <div class="col-span-12 lg:col-span-7 p-6 sm:p-8 lg:p-12 flex flex-col justify-between">
                             <div>
                                 <div class="flex items-center gap-3 mb-6">
                                     <span class="px-2 py-0.5 text-[10px] font-['JetBrains_Mono',monospace] bg-[#e9e7ef] text-[#4352a5] rounded-[4px] uppercase tracking-wider">
@@ -86,7 +86,7 @@ export default component$(() => {
                                         {featuredPost.date}
                                     </span>
                                 </div>
-                                <h2 class="font-['Syne',sans-serif] text-2xl lg:text-3xl font-bold text-white mb-4 group-hover:text-[#82aaff] transition-colors">
+                                <h2 class="font-['Syne',sans-serif] text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 group-hover:text-[#82aaff] transition-colors leading-tight">
                                     {featuredPost.title}
                                 </h2>
                                 <p class="text-[#9aa6e0] text-sm leading-relaxed mb-8">
@@ -102,7 +102,7 @@ export default component$(() => {
                                 </span>
                             </div>
                         </div>
-                        <div class="lg:col-span-5 bg-[#12193b] flex items-center justify-center p-8 border-t lg:border-t-0 lg:border-l border-white/5 relative overflow-hidden">
+                        <div class="col-span-12 lg:col-span-5 bg-[#12193b] flex items-center justify-center p-8 border-t lg:border-t-0 lg:border-l border-white/5 relative overflow-hidden">
                             <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 2px, transparent 2px, transparent 24px);" />
                             <div class="w-full max-w-xs aspect-[4/3] bg-[#071025] rounded-[4px] p-4 font-['JetBrains_Mono',monospace] text-[10px] text-[#9aa6e0] leading-relaxed shadow-lg flex flex-col justify-between">
                                 <div class="flex items-center gap-1 mb-2">
@@ -140,7 +140,7 @@ export default component$(() => {
             </div>
 
             {/* ── Posts Grid ── */}
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
                 {filteredPosts.map((post) => (
                     <div
                         key={post.id}

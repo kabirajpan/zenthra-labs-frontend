@@ -3,13 +3,13 @@ import type { DocumentHead } from "@builder.io/qwik-city";
 
 export default component$(() => {
     return (
-        <section class="max-w-7xl mx-auto px-12 py-16">
+        <section class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
             {/* ── Hero ── */}
             <div class="mb-16 border-b border-[#c6c5d3] pb-12">
                 <span class="inline-block px-3 py-1 bg-[#e9e7ef] text-[#4352a5] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px] mb-4">
                     Zenthra Labs · Our Story
                 </span>
-                <h1 class="font-['Syne',sans-serif] text-4xl lg:text-5xl font-bold text-[#1b1b21] leading-tight mb-4">
+                <h1 class="font-['Syne',sans-serif] text-3xl lg:text-5xl font-bold text-[#1b1b21] leading-tight mb-4">
                     Rebuilding desktop &amp; mobile computing from the metal up.
                 </h1>
                 <p class="text-[#454651] text-base leading-relaxed max-w-3xl">
@@ -22,7 +22,7 @@ export default component$(() => {
                 <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] mb-8">
                     Core Operational Tenets
                 </h2>
-                <div class="grid md:grid-cols-3 gap-8">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {[
                         {
                             title: "Performance First",
@@ -56,7 +56,7 @@ export default component$(() => {
             </div>
 
             {/* ── Milestones Timeline ── */}
-            <div class="mb-20 border-t border-[#c6c5d3] pt-20">
+            <div class="mb-20 border-t border-[#c6c5d3] pt-12 md:pt-20">
                 <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] mb-12">
                     Ecosystem Timeline
                 </h2>
@@ -104,7 +104,7 @@ export default component$(() => {
             </div>
 
             {/* ── Sub CTA Banner ── */}
-            <div class="bg-[#071025] rounded-[6px] p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+            <div class="bg-[#071025] rounded-[6px] p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
                 <div>
                     <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-white mb-2">
                         Build with us.
@@ -113,7 +113,7 @@ export default component$(() => {
                         All our layout engines and core crates are free, open source, and available on GitHub.
                     </p>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
                     <a
                         href="https://github.com/kabirajpan/zenthra"
                         target="_blank"

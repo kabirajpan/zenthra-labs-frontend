@@ -67,13 +67,13 @@ const CRATES: CrateInfo[] = [
 
 export default component$(() => {
     return (
-        <section class="max-w-7xl mx-auto px-12 py-16">
+        <section class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
             {/* ── Hero ── */}
             <div class="mb-16 border-b border-[#c6c5d3] pb-12">
                 <span class="inline-block px-3 py-1 bg-[#e9e7ef] text-[#4352a5] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px] mb-4">
                     Zenthra Labs · Open Source
                 </span>
-                <h1 class="font-['Syne',sans-serif] text-4xl lg:text-5xl font-bold text-[#1b1b21] leading-tight mb-4">
+                <h1 class="font-['Syne',sans-serif] text-3xl lg:text-5xl font-bold text-[#1b1b21] leading-tight mb-4">
                     Building in public. Building for speed.
                 </h1>
                 <p class="text-[#454651] text-base leading-relaxed max-w-2xl">
@@ -83,7 +83,7 @@ export default component$(() => {
 
             {/* ── Crate Registry Grid ── */}
             <div class="mb-20">
-                <div class="flex items-center justify-between mb-8">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                     <div>
                         <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] mb-2">Core Registry Packages</h2>
                         <p class="text-xs text-[#767683]">Individual cargo crates published and maintained by Zenthra Labs.</p>
@@ -92,13 +92,13 @@ export default component$(() => {
                         href="https://crates.io/teams/github:kabirajpan:zenthra-publishers"
                         target="_blank"
                         rel="noopener"
-                        class="px-4 py-2 border border-[#c6c5d3] hover:bg-[#e9e7ef] text-sm font-medium rounded-[4px] transition-all flex items-center gap-1.5"
+                        class="px-4 py-2 border border-[#c6c5d3] hover:bg-[#e9e7ef] text-sm font-medium rounded-[4px] transition-all flex items-center justify-center gap-1.5 self-start sm:self-auto"
                     >
                         crates.io Team
                     </a>
                 </div>
 
-                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {CRATES.map((c) => (
                         <div
                             key={c.name}
@@ -139,9 +139,9 @@ export default component$(() => {
             </div>
 
             {/* ── Architecture & Philosophy ── */}
-            <div class="grid lg:grid-cols-12 gap-12 items-center mb-20 border-t border-[#c6c5d3] pt-20">
-                <div class="lg:col-span-6 space-y-6">
-                    <h2 class="font-['Syne',sans-serif] text-3xl font-bold text-[#1b1b21]">High-Performance Rust Architecture</h2>
+            <div class="grid grid-cols-12 gap-8 lg:gap-12 items-center mb-20 border-t border-[#c6c5d3] pt-20">
+                <div class="col-span-12 lg:col-span-6 space-y-6">
+                    <h2 class="font-['Syne',sans-serif] text-2xl sm:text-3xl font-bold text-[#1b1b21]">High-Performance Rust Architecture</h2>
                     <p class="text-sm text-[#454651] leading-relaxed">
                         Zenthra's core pipeline decouples system multi-window event loops from the main UI thread. Layout is computed on a dedicated thread using specialized coordinate buffers, passing binary draw commands straight to low-level OpenGL/Vulkan contexts.
                     </p>
@@ -161,15 +161,15 @@ export default component$(() => {
                 </div>
 
                 {/* Code Block */}
-                <div class="lg:col-span-6">
-                    <div class="bg-[#071025] rounded-[6px] overflow-hidden shadow-xl font-['JetBrains_Mono',monospace]">
+                <div class="col-span-12 lg:col-span-6">
+                    <div class="bg-[#071025] rounded-[6px] overflow-hidden shadow-xl font-['JetBrains_Mono',monospace] w-full">
                         <div class="flex items-center gap-1.5 px-4 py-3 border-b border-white/5">
                             <span class="w-2.5 h-2.5 rounded-full bg-[#ff6058]" />
                             <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
                             <span class="w-2.5 h-2.5 rounded-full bg-[#28ca41]" />
                             <span class="ml-3 text-[11px] text-[#9aa6e0]">examples/hello_zenthra.rs</span>
                         </div>
-                        <div class="p-5 text-[12px] leading-relaxed flex flex-col gap-0.5 text-white/90">
+                        <div class="p-5 text-[10px] sm:text-[12px] leading-relaxed flex flex-col gap-0.5 text-white/90 overflow-x-auto">
                             <div><span class="text-[#c792ea]">use </span><span class="text-[#61afef]">zenthra</span><span class="text-[#bfc9d9]">::prelude::*;</span></div>
                             <div class="h-2" />
                             <div><span class="text-[#c792ea]">fn </span><span class="text-[#61afef]">main</span><span class="text-[#bfc9d9]">() {"{"}</span></div>
@@ -191,12 +191,12 @@ export default component$(() => {
             </div>
 
             {/* ── Sub CTA Banner ── */}
-            <div class="bg-[#071025] rounded-[6px] p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+            <div class="bg-[#071025] rounded-[6px] p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
                 <div>
                     <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-white mb-2">Want to contribute?</h2>
                     <p class="text-[#9aa6e0] text-sm">We welcome code contributions, issue reports, and documentation improvements.</p>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
                     <a
                         href="https://github.com/kabirajpan/zenthra"
                         target="_blank"
