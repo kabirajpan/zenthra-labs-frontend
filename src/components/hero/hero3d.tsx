@@ -80,7 +80,7 @@ export const Hero3DScene = component$(() => {
           <span class="hpc-dot" style="background:#ff6058" />
           <span class="hpc-dot" style="background:#ffbd2e" />
           <span class="hpc-dot" style="background:#28ca41" />
-          <span class="hpc-fname">zenthra.config.rs</span>
+          <span class="hpc-fname">main.rs</span>
           <span class="hpc-caption">Live demo — Zenthra in action</span>
         </div>
 
@@ -91,44 +91,47 @@ export const Hero3DScene = component$(() => {
             <span class="hpc-plain"> </span>
             <span class="hpc-fn">zenthra</span>
             <span class="hpc-plain">::</span>
-            <span class="hpc-fn">ZenthraConfig</span>
+            <span class="hpc-fn">prelude</span>
+            <span class="hpc-plain">::*;</span>
           </div>
           <div class="hpc-line hpc-empty">&nbsp;</div>
           <div class="hpc-line">
-            <span class="hpc-kw">pub</span>
-            <span class="hpc-plain"> </span>
             <span class="hpc-kw">fn</span>
             <span class="hpc-plain"> </span>
-            <span class="hpc-fn">config</span>
-            <span class="hpc-plain">() -&gt; </span>
-            <span class="hpc-fn">ZenthraConfig</span>
-            <span class="hpc-plain">{"{"}</span>
+            <span class="hpc-fn">main</span>
+            <span class="hpc-plain">() {"{"}</span>
           </div>
           <div class="hpc-line hpc-indent">
-            <span class="hpc-fn">ZenthraConfig</span>
-            <span class="hpc-plain">{"{"}</span>
-          </div>
-          <div class="hpc-line hpc-indent2">
-            <span class="hpc-prop">runtime</span>
-            <span class="hpc-plain">: </span>
-            <span class="hpc-str">"zero"</span>
-            <span class="hpc-plain">,</span>
-          </div>
-          <div class="hpc-line hpc-indent2">
-            <span class="hpc-prop">target</span>
-            <span class="hpc-plain">: </span>
-            <span class="hpc-str">"native"</span>
-            <span class="hpc-plain">,</span>
-          </div>
-          <div class="hpc-line hpc-indent2">
-            <span class="hpc-prop">latency_ms</span>
-            <span class="hpc-plain">: </span>
-            <span class="hpc-num">4</span>
-            <span class="hpc-plain">, </span>
-            <span class="hpc-comment">// ms</span>
+            <span class="hpc-fn">App</span>
+            <span class="hpc-plain">::</span>
+            <span class="hpc-fn">new</span>
+            <span class="hpc-plain">().</span>
+            <span class="hpc-prop">title</span>
+            <span class="hpc-plain">(</span>
+            <span class="hpc-str">"Zenthra"</span>
+            <span class="hpc-plain">)</span>
           </div>
           <div class="hpc-line hpc-indent">
-            <span class="hpc-plain">{"}"}</span>
+            <span class="hpc-plain">.</span>
+            <span class="hpc-prop">with_ui</span>
+            <span class="hpc-plain">(|ui| {"{"}</span>
+          </div>
+          <div class="hpc-line hpc-indent3">
+            <span class="hpc-plain">ui.</span>
+            <span class="hpc-prop">text</span>
+            <span class="hpc-plain">(</span>
+            <span class="hpc-str">"Hello!"</span>
+            <span class="hpc-plain">).</span>
+            <span class="hpc-prop">show</span>
+            <span class="hpc-plain">();</span>
+          </div>
+          <div class="hpc-line hpc-indent2">
+            <span class="hpc-plain">{"}"})</span>
+          </div>
+          <div class="hpc-line hpc-indent">
+            <span class="hpc-plain">.</span>
+            <span class="hpc-prop">run</span>
+            <span class="hpc-plain">();</span>
           </div>
           <div class="hpc-line">
             <span class="hpc-plain">{"}"}</span>

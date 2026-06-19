@@ -114,6 +114,8 @@
 }
 .hpc-empty { height: 0.5em; }
 .hpc-indent { padding-left: 18px; }
+.hpc-indent2 { padding-left: 36px; }
+.hpc-indent3 { padding-left: 54px; }
 
 /* Syntax token colors */
 .hpc-kw      { color: #c792ea; font-weight: 600; }
