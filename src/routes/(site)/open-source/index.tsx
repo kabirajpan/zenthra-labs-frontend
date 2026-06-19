@@ -11,57 +11,57 @@ const CRATES: CrateInfo[] = [
     {
         name: "zenthra",
         desc: "The main umbrella crate coordinating themes, layout, platform backend, widgets, and animation.",
-        version: "0.1.0",
+        version: "0.1.1",
     },
     {
         name: "zenthra-widgets",
         desc: "Complete suite of ready-to-use controls (buttons, inputs, lists, sliders, dialogs).",
-        version: "0.1.0",
+        version: "0.1.1",
     },
     {
         name: "zenthra-platform",
         desc: "Coordinates multi-window handling, cursor tracking, and device event translation.",
-        version: "0.1.0",
+        version: "0.1.1",
     },
     {
         name: "zenthra-animation",
         desc: "High-fidelity spring physics, easing functions, and timeline transition managers.",
-        version: "0.1.0",
+        version: "0.1.1",
     },
     {
         name: "zenthra-theme",
         desc: "Adaptive palette provider, color style configurations, and contrast-based accessibility styles.",
-        version: "0.1.0",
+        version: "0.1.1",
     },
     {
         name: "zenthra-layout",
         desc: "Taffy-powered flexbox layout computing grids and tree coordinates.",
-        version: "0.1.0",
+        version: "0.1.1",
     },
     {
         name: "zenthra-text",
         desc: "Dynamic text layout, paragraph layout boxes, and multi-font glyph shaper.",
-        version: "0.1.0",
+        version: "0.1.1",
     },
     {
         name: "zenthra-render",
         desc: "Low-level GPU draw list compiler pipeline and platform OpenGL context binders.",
-        version: "0.1.0",
+        version: "0.1.1",
     },
     {
         name: "zenthra-input",
         desc: "Low-level mouse, keyboard, and touch event mapping and dispatchers.",
-        version: "0.1.0",
+        version: "0.1.1",
     },
     {
         name: "zenthra-core",
         desc: "Core main window loops, state threads, and cross-thread synchronization primitives.",
-        version: "0.1.0",
+        version: "0.1.1",
     },
     {
         name: "zenthra-state",
         desc: "Reactive state management primitives with deterministic component layout IDs.",
-        version: "0.1.0",
+        version: "0.1.1",
     },
 ];
 
@@ -125,7 +125,7 @@ export default component$(() => {
                                     crates.io →
                                 </a>
                                 <a
-                                    href={`https://github.com/kabirajpan/zenthra/tree/main/crates/${c.name}`}
+                                    href={`https://github.com/kabirajpan/zenthra-v2/tree/main/crates/${c.name}`}
                                     target="_blank"
                                     rel="noopener"
                                     class="text-[11px] font-['JetBrains_Mono',monospace] font-bold text-[#767683] hover:text-[#1b1b21] transition-colors flex items-center gap-1"
@@ -198,7 +198,7 @@ export default component$(() => {
                 </div>
                 <div class="flex flex-wrap gap-4 justify-center md:justify-start">
                     <a
-                        href="https://github.com/kabirajpan/zenthra"
+                        href="https://github.com/kabirajpan/zenthra-v2"
                         target="_blank"
                         rel="noopener"
                         class="py-2.5 px-6 bg-[#5c6bc0] hover:bg-[#4d5cb0] text-white font-medium rounded-[4px] text-sm transition-colors shadow-lg shadow-[#5c6bc0]/25"
@@ -215,11 +215,8 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "Open Source — Zenthra Labs",
+    title: "Open Source Registry — Zenthra Labs",
     meta: [
-        {
-            name: "description",
-            content: "Explore the open-source cargo crates and architecture behind the Zenthra high-performance immediate-mode UI framework.",
-        },
+        { name: "description", content: "Join Zenthra Labs in building high-performance, immediate-mode layout, styling, and graphics crates for Rust in public." },
     ],
 };

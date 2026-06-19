@@ -78,7 +78,7 @@ const BUILT_WITH = [
         type: "Desktop App",
         badge: "Example App",
         badgeClass: "bg-[#e9e7ef] text-[#454651]",
-        desc: "A native image viewer with file browser, zoom, rotation, and slideshow mode.",
+        desc: "A native desktop image viewer with file browser, zoom, rotation, and slideshow mode.",
         thumbnail: (
             <div class="w-full h-full bg-[#e9e7ef] flex items-center justify-center">
                 <img
@@ -118,10 +118,17 @@ export default component$(() => {
                                 A high-performance, Rust-based UI framework for building native desktop applications with zero-runtime overhead and 4ms input latency.
                             </p>
                             <div class="flex flex-wrap gap-3">
-                                <a href="https://github.com" target="_blank" rel="noopener"
+                                <a href="https://github.com/kabirajpan/zenthra-v2" target="_blank" rel="noopener"
                                     class="py-2 px-5 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] hover:brightness-110 transition-all text-sm flex items-center gap-2">
                                     <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
                                     View on GitHub
+                                </a>
+                                <a href="https://crates.io/crates/zenthra" target="_blank" rel="noopener"
+                                    class="py-2 px-5 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] hover:bg-[#e9e7ef] transition-all text-sm flex items-center gap-2">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                                    </svg>
+                                    crates.io
                                 </a>
                                 <a href="#docs"
                                     class="py-2 px-5 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] hover:bg-[#e9e7ef] transition-all text-sm">
@@ -271,10 +278,17 @@ export default component$(() => {
                         <p class="text-[#9aa6e0] text-sm">Open source. MIT licensed. No account required.</p>
                     </div>
                     <div class="flex flex-wrap gap-3 flex-shrink-0">
-                        <a href="https://github.com" target="_blank" rel="noopener"
+                        <a href="https://github.com/kabirajpan/zenthra-v2" target="_blank" rel="noopener"
                             class="py-2.5 px-6 bg-[#5c6bc0] text-white font-medium rounded-[4px] hover:brightness-110 transition-all text-sm flex items-center gap-2">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
                             GitHub
+                        </a>
+                        <a href="https://crates.io/crates/zenthra" target="_blank" rel="noopener"
+                            class="py-2.5 px-6 border border-white/20 text-white font-medium rounded-[4px] hover:bg-white/10 transition-all text-sm flex items-center gap-2">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                            </svg>
+                            crates.io
                         </a>
                         <a href="#docs"
                             class="py-2.5 px-6 border border-white/20 text-white font-medium rounded-[4px] hover:bg-white/10 transition-all text-sm">

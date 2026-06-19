@@ -115,7 +115,7 @@ export default component$(() => {
                 </div>
                 <div class="flex flex-wrap gap-4 justify-center md:justify-start">
                     <a
-                        href="https://github.com/kabirajpan/zenthra"
+                        href="https://github.com/kabirajpan/zenthra-v2"
                         target="_blank"
                         rel="noopener"
                         class="py-2.5 px-6 bg-[#5c6bc0] hover:bg-[#4d5cb0] text-white font-medium rounded-[4px] text-sm transition-colors shadow-lg shadow-[#5c6bc0]/25"

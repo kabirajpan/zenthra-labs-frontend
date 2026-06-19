@@ -100,16 +100,22 @@ export default component$(() => {
                                 <a href="/products" class="py-2.5 px-6 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] hover:brightness-110 transition-all text-sm shadow-md shadow-[#5c6bc0]/25">
                                     Explore Ecosystem
                                 </a>
-                                <a href="https://github.com/kabirajpan/zenthra" target="_blank" rel="noopener" class="py-2.5 px-6 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] hover:bg-[#e9e7ef] transition-all text-sm flex items-center gap-2">
+                                <a href="https://github.com/kabirajpan/zenthra-v2" target="_blank" rel="noopener" class="py-2.5 px-6 bg-white border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] hover:bg-[#f5f2fa] transition-all text-sm flex items-center gap-2 shadow-sm shadow-[#c6c5d3]/10">
                                     <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
                                     View GitHub
+                                </a>
+                                <a href="https://crates.io/crates/zenthra" target="_blank" rel="noopener" class="py-2.5 px-6 bg-white border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] hover:bg-[#f5f2fa] transition-all text-sm flex items-center gap-2 shadow-sm shadow-[#c6c5d3]/10">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                                    </svg>
+                                    crates.io
                                 </a>
                             </div>
                         </div>
 
                         {/* Interactive 3D Screen Visual */}
                         <div class="lg:col-span-5 w-full flex justify-center">
-                            <div class="w-full max-w-sm sm:max-w-md lg:max-w-lg h-[420px] sm:h-[440px] lg:h-auto lg:aspect-[4/3] relative">
+                            <div class="w-full max-w-sm sm:max-w-md lg:max-w-lg h-[390px] sm:h-[410px] lg:h-auto lg:aspect-[4/3] relative">
                                 <Hero3DScene />
                             </div>
                         </div>
@@ -170,12 +176,12 @@ export default component$(() => {
             {/* ── Featured Ecosystem ── */}
             <section class="border-b border-[#c6c5d3] bg-[#fbf8ff]">
                 <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-20">
-                    <div class="flex justify-between items-end mb-12">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start md:items-end gap-4 mb-12">
                         <div>
                             <span class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] block mb-2">Our Work</span>
                             <h2 class="font-['Syne',sans-serif] text-3xl font-bold text-[#1b1b21]">Flagship Projects</h2>
                         </div>
-                        <a href="/products" class="text-sm font-medium text-[#4352a5] hover:underline flex items-center gap-1">
+                        <a href="/products" class="text-sm font-medium text-[#4352a5] hover:underline flex items-center gap-1 self-start sm:self-auto">
                             View Catalog &rarr;
                         </a>
                     </div>
@@ -263,8 +269,14 @@ export default component$(() => {
                         <a href="/products/zenthra" class="py-2.5 px-6 bg-[#5c6bc0] text-white font-medium rounded-[4px] hover:brightness-110 transition-all text-sm">
                             Get Zenthra SDK
                         </a>
-                        <a href="https://github.com/kabirajpan/zenthra" target="_blank" rel="noopener" class="py-2.5 px-6 border border-white/20 text-white font-medium rounded-[4px] hover:bg-white/10 transition-all text-sm">
+                        <a href="https://github.com/kabirajpan/zenthra-v2" target="_blank" rel="noopener" class="py-2.5 px-6 border border-white/20 text-white font-medium rounded-[4px] hover:bg-white/10 transition-all text-sm">
                             GitHub Repository
+                        </a>
+                        <a href="https://crates.io/crates/zenthra" target="_blank" rel="noopener" class="py-2.5 px-6 border border-white/20 text-white font-medium rounded-[4px] hover:bg-white/10 transition-all text-sm flex items-center gap-2">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                            </svg>
+                            crates.io
                         </a>
                     </div>
                 </div>

@@ -43,12 +43,13 @@ export default component$(() => {
                         </div>
 
                         <div class="flex flex-wrap gap-3 pt-6">
-                            <span class="py-2.5 px-5 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all cursor-pointer">
-                                Download for Linux (AppImage)
-                            </span>
-                            <span class="py-2.5 px-5 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] text-sm hover:bg-[#e9e7ef] transition-all cursor-pointer">
-                                Download for Windows (.zip)
-                            </span>
+                            <a href="/products/zenthra/apps/zenthra-view/download" class="py-2.5 px-6 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] hover:brightness-110 transition-all text-sm shadow-md shadow-[#5c6bc0]/25">
+                                Download Application
+                            </a>
+                            <a href="https://github.com/kabirajpan/Zenthra-Viewer" target="_blank" rel="noopener" class="py-2.5 px-6 bg-white border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] hover:bg-[#f5f2fa] transition-all text-sm flex items-center gap-2 shadow-sm shadow-[#c6c5d3]/10">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
+                                GitHub Source
+                            </a>
                         </div>
                     </div>
 
@@ -81,7 +82,7 @@ export default component$(() => {
                                 Leverages Taffy layout engine and Cosmic Text libraries. Recalculates canvas bounding boxes on window resize in less than 1ms.
                             </p>
                         </div>
-                        <div class="bg-white border border-[#c6c5d3] p-6 rounded-[4px] hover:border-[#4352a5] transition-colors col-span-12 sm:col-span-2 lg:col-span-1">
+                        <div class="bg-white border border-[#c6c5d3] p-6 rounded-[4px] hover:border-[#4352a5] transition-colors col-span-1 sm:col-span-2 lg:col-span-1">
                             <h3 class="font-['Syne',sans-serif] font-bold text-base text-[#1b1b21] mb-2">GPU Texture Blitting</h3>
                             <p class="text-sm text-[#454651] leading-relaxed">
                                 Uploads image textures directly to GPU buffers via WGPU pipeline. Zooming, panning, and rotations are computed in vertex shaders, maintaining locked 60 FPS redraws.
@@ -265,7 +266,7 @@ export default component$(() => {
                         <p class="text-[#9aa6e0] text-sm">Zenthra View is open source. Study its implementation pattern on GitHub.</p>
                     </div>
                     <div class="flex gap-4">
-                        <a href="https://github.com/kabirajpan/zenthra" target="_blank" rel="noopener" class="py-2.5 px-6 bg-[#5c6bc0] hover:bg-[#4d5cb0] text-white font-medium rounded-[4px] text-sm transition-colors shadow-lg shadow-[#5c6bc0]/25">
+                        <a href="https://github.com/kabirajpan/Zenthra-Viewer" target="_blank" rel="noopener" class="py-2.5 px-6 bg-[#5c6bc0] hover:bg-[#4d5cb0] text-white font-medium rounded-[4px] text-sm transition-colors shadow-lg shadow-[#5c6bc0]/25">
                             Browse Code
                         </a>
                         <a href="/products" class="py-2.5 px-6 border border-white/20 text-white hover:bg-white/10 font-medium rounded-[4px] text-sm transition-colors">

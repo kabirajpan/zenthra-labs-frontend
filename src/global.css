@@ -61,10 +61,11 @@
 .hpc-scan {
   position: absolute;
   left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(to right, transparent, rgba(92,107,192,0.5), transparent);
+  height: 4px;
+  background: linear-gradient(to right, transparent, #82aaff 30%, #c792ea 70%, transparent);
+  box-shadow: 0 0 12px rgba(130, 170, 255, 0.8), 0 0 4px rgba(199, 146, 234, 0.8);
   pointer-events: none;
-  z-index: 2;
+  z-index: 10;
 }
 
 /* Editor top bar */
@@ -284,9 +285,3 @@
 .hero3d-stable { background: #e9e7ef; color: #454651; }
 .hero3d-beta   { background: #dee0ff; color: #2f3f92; }
 .hero3d-ea     { background: #ffdeac; color: #5f4100; }
-
-@media (max-width: 640px) {
-  .hpc-virtual-cursor {
-    display: none !important;
-  }
-}

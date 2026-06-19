@@ -14,6 +14,7 @@ export const Footer = component$(() => {
             <h4 class="font-bold text-[#1b1b21] mb-4 text-sm">Navigation</h4>
             <ul class="space-y-2 text-[#454651] text-sm">
               <li><a class="hover:text-[#4352a5] transition-colors" href="/products">Products</a></li>
+              <li><a class="hover:text-[#4352a5] transition-colors" href="/download">Download</a></li>
               <li><a class="hover:text-[#4352a5] transition-colors" href="/open-source">Open Source</a></li>
               <li><a class="hover:text-[#4352a5] transition-colors" href="/about">About</a></li>
               <li><a class="hover:text-[#4352a5] transition-colors" href="/blog">Blog</a></li>

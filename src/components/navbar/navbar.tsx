@@ -7,6 +7,7 @@ export const Navbar = component$(() => {
 
     const links = [
         { label: "Products", href: "/products" },
+        { label: "Download", href: "/download" },
         { label: "Open Source", href: "/open-source" },
         { label: "About", href: "/about" },
         { label: "Blog", href: "/blog" },
