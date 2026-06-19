@@ -171,5 +171,11 @@ export const head: DocumentHead = {
     title: "Download Center — Zenthra Labs",
     meta: [
         { name: "description", content: "Download center for Zenthra Labs applications. Get Zenthra View and explore upcoming ecosystem programs." },
+        { property: "og:title", content: "Download Center — Zenthra Labs" },
+        { property: "og:description", content: "Download center for Zenthra Labs applications. Get Zenthra View and explore upcoming ecosystem programs." },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: "Download Center — Zenthra Labs" },
+        { name: "twitter:description", content: "Download center for Zenthra Labs applications. Get Zenthra View and explore upcoming ecosystem programs." },
     ],
 };

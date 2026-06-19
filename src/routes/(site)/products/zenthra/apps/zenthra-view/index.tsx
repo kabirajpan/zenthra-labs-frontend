@@ -283,5 +283,11 @@ export const head: DocumentHead = {
     title: "Zenthra View — Native Image Viewer | Zenthra Labs",
     meta: [
         { name: "description", content: "Zenthra View is a native cross-platform desktop image viewer featuring virtualized filmstrips, directory browsers, and GPU-driven canvas." },
+        { property: "og:title", content: "Zenthra View — Native Image Viewer | Zenthra Labs" },
+        { property: "og:description", content: "Zenthra View is a native cross-platform desktop image viewer featuring virtualized filmstrips, directory browsers, and GPU-driven canvas." },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: "Zenthra View — Native Image Viewer | Zenthra Labs" },
+        { name: "twitter:description", content: "Zenthra View is a native cross-platform desktop image viewer featuring virtualized filmstrips, directory browsers, and GPU-driven canvas." },
     ],
 };

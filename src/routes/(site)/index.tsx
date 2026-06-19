@@ -289,5 +289,11 @@ export const head: DocumentHead = {
     title: "Zenthra Labs — High-Performance Native Systems & Frameworks",
     meta: [
         { name: "description", content: "Zenthra Labs builds low-latency native frameworks, GPU-accelerated graphic renderers, and modern developer tooling." },
+        { property: "og:title", content: "Zenthra Labs — High-Performance Native Systems & Frameworks" },
+        { property: "og:description", content: "Zenthra Labs builds low-latency native frameworks, GPU-accelerated graphic renderers, and modern developer tooling." },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: "Zenthra Labs — High-Performance Native Systems & Frameworks" },
+        { name: "twitter:description", content: "Zenthra Labs builds low-latency native frameworks, GPU-accelerated graphic renderers, and modern developer tooling." },
     ],
 };
