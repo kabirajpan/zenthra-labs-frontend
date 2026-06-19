@@ -70,7 +70,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
+  padding: 8px clamp(12px, 5vw, 14px);
   /* solid transparent background so no light band appears at the rim */
   background: transparent;
   border-bottom: none;
@@ -100,13 +100,13 @@
 
 /* Code block */
 .hpc-code {
-  padding: 18px 20px;
+  padding: clamp(10px, 4vw, 18px) clamp(12px, 5vw, 20px);
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 .hpc-line {
-  font-size: 12px;
+  font-size: clamp(9px, 2.8vw, 12px);
   line-height: 1.6;
   white-space: pre;
   opacity: 0;   /* animated in by anime.js */
@@ -129,15 +129,22 @@
 /* Metrics bar at the bottom */
 .hpc-metrics {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   background: #071025;
   border-top: none;
-  padding: 12px 14px;
-  gap: 12px;
+  padding: 10px 12px;
+  gap: 8px;
   border-radius: 10px; /* metrics gets its own radius */
   margin-top: 6px; /* gap between editor and metrics (reduced) */
   box-shadow: 0 8px 20px rgba(2,6,23,0.18);
   color: #cdd3de;
+}
+@media (min-width: 500px) {
+  .hpc-metrics {
+    grid-template-columns: repeat(4, 1fr);
+    padding: 12px 14px;
+    gap: 12px;
+  }
 }
 
 /* ensure any outer 3d card wrapper has no border */

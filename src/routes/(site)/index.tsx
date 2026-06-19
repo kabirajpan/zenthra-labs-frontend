@@ -78,13 +78,13 @@ export default component$(() => {
             {/* ── Hero Section ── */}
             <section class="relative border-b border-[#c6c5d3] overflow-hidden min-h-[calc(100vh-4rem)] flex items-center">
                 <HeroSquares />
-                <div class="max-w-7xl mx-auto px-12 py-16 relative z-10 w-full">
-                    <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16 relative z-10 w-full">
+                    <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                         <div class="lg:col-span-7 space-y-6">
                             <span class="inline-block px-3 py-1 bg-[#e3e1e9] text-[#4352a5] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
                                 // NATIVE SOFTWARE RESEARCH LABS
                             </span>
-                            <h1 class="font-['Syne',sans-serif] text-5xl lg:text-6xl font-bold text-[#1b1b21] leading-[1.1] tracking-tight">
+                            <h1 class="font-['Syne',sans-serif] text-3xl sm:text-5xl lg:text-6xl font-bold text-[#1b1b21] leading-[1.1] tracking-tight">
                                 Forging the next generation of native software.
                             </h1>
                             <p class="text-base lg:text-lg text-[#454651] leading-relaxed max-w-2xl">
@@ -103,7 +103,7 @@ export default component$(() => {
 
                         {/* Interactive 3D Screen Visual */}
                         <div class="lg:col-span-5 w-full flex justify-center">
-                            <div class="w-full max-w-md lg:max-w-lg aspect-[4/3] relative">
+                            <div class="w-full max-w-sm sm:max-w-md lg:max-w-lg aspect-[4/3] relative">
                                 <Hero3DScene />
                             </div>
                         </div>
@@ -113,7 +113,7 @@ export default component$(() => {
 
             {/* ── Philosophy Section ── */}
             <section class="border-b border-[#c6c5d3] bg-white">
-                <div class="max-w-7xl mx-auto px-12 py-20">
+                <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-20">
                     <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
                         <h2 class="font-['Syne',sans-serif] text-3xl font-bold text-[#1b1b21]">Our Engineering Philosophy</h2>
                         <p class="text-[#454651] text-sm">We believe that modern software has become bloated, slow, and overly reliant on network infrastructure. Zenthra Labs is a return to efficiency and craftsmanship.</p>
@@ -163,7 +163,7 @@ export default component$(() => {
 
             {/* ── Featured Ecosystem ── */}
             <section class="border-b border-[#c6c5d3] bg-[#fbf8ff]">
-                <div class="max-w-7xl mx-auto px-12 py-20">
+                <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-20">
                     <div class="flex justify-between items-end mb-12">
                         <div>
                             <span class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] block mb-2">Our Work</span>
@@ -247,8 +247,8 @@ export default component$(() => {
             </section>
 
             {/* ── Sub CTA Banner ── */}
-            <section class="max-w-7xl mx-auto px-12 py-16">
-                <div class="bg-[#071025] rounded-[6px] p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <section class="max-w-7xl mx-auto px-6 md:px-12 py-8 md:py-16">
+                <div class="bg-[#071025] rounded-[6px] p-6 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
                     <div>
                         <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-white mb-2">Build native experiences with us.</h2>
                         <p class="text-[#9aa6e0] text-sm">Join the open source development or read our framework documentation.</p>

@@ -80,7 +80,7 @@ const FutureLabsThumbnail = component$(() => (
 // ── Actions ───────────────────────────────────────────────────────────────────
 
 const ZenthraActions = component$(() => (
-    <div class="flex gap-3">
+    <div class="flex flex-wrap gap-2 sm:gap-3">
         <a href="/products/zenthra" class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
         <a href="https://github.com" target="_blank" rel="noopener" class="py-2 px-4 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] text-sm flex items-center gap-1.5 hover:bg-[#e9e7ef] transition-all">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
@@ -90,27 +90,27 @@ const ZenthraActions = component$(() => (
 ));
 
 const ZenthraViewActions = component$(() => (
-    <div class="flex gap-3">
+    <div class="flex flex-wrap gap-2 sm:gap-3">
         <a href="/products/zenthra/apps/zenthra-view" class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
         <a href="/download" class="py-2 px-4 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] text-sm hover:bg-[#e9e7ef] transition-all">Download</a>
     </div>
 ));
 
 const AfterMotionActions = component$(() => (
-    <div class="flex gap-3">
+    <div class="flex flex-wrap gap-2 sm:gap-3">
         <a href="/products/after-motion" class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
         <span class="py-2 px-4 bg-[#e9e7ef] text-[#767683] font-medium rounded-[4px] text-sm">App Stores Soon</span>
     </div>
 ));
 
 const DomoActions = component$(() => (
-    <div class="flex gap-3">
+    <div class="flex flex-wrap gap-2 sm:gap-3">
         <a href="/products/domo" class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
     </div>
 ));
 
 const FutureLabsActions = component$(() => (
-    <div class="flex gap-3">
+    <div class="flex flex-wrap gap-2 sm:gap-3">
         <span class="py-2 px-4 bg-[#e9e7ef] text-[#767683] font-medium rounded-[4px] text-sm cursor-default">Coming Soon</span>
     </div>
 ));
@@ -149,7 +149,7 @@ const ProductCard = component$<CardProps>(({
             </div>
             <div class="p-5 flex flex-col flex-grow">
                 <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] mb-2">{category}</p>
-                <div class="flex items-center gap-2 mb-2">
+                <div class="flex flex-wrap items-center gap-2 mb-2">
                     <h3 class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21]">{title}</h3>
                     {badge && <span class={`px-2 py-0.5 text-xs rounded-[4px] font-medium ${badgeClass}`}>{badge}</span>}
                 </div>
@@ -164,14 +164,14 @@ const ProductCard = component$<CardProps>(({
 
 export default component$(() => {
     return (
-        <section class="max-w-7xl mx-auto px-12 py-16">
+        <section class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
             <div class="mb-10">
                 <h1 class="font-['Syne',sans-serif] text-3xl font-bold text-[#1b1b21]">Products</h1>
                 <p class="text-[#454651] mt-2 text-sm">A portfolio of projects, demos, and future work.</p>
             </div>
 
             <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] mb-4">Frameworks &amp; Tools</p>
-            <div class="grid gap-6 md:grid-cols-3 mb-14">
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-14">
                 <ProductCard thumbnail={ZenthraThumbnail} title="Zenthra" badge="v1.2 Stable" category="UI Framework"
                     description="A high-performance, Rust-based UI framework for building complex user interfaces with zero-runtime overhead."
                     Actions={ZenthraActions} />
@@ -184,7 +184,7 @@ export default component$(() => {
             </div>
 
             <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] mb-4">Apps</p>
-            <div class="grid gap-6 md:grid-cols-3">
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <ProductCard thumbnail={AfterMotionThumbnail} title="After Motion" badge="Live" badgeVariant="green" category="Mobile Video Editor"
                     description="A production-ready mobile video editor built for fast, fluid, on-device editing. No subscriptions. No cloud required."
                     Actions={AfterMotionActions} />
