@@ -98,7 +98,7 @@ export default component$(() => {
         <>
             {/* ── Hero ── */}
             <section class="border-b border-[#c6c5d3]">
-                <div class="max-w-7xl mx-auto px-12 py-16">
+                <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
                     {/* Breadcrumb */}
                     <div class="flex items-center gap-2 mb-8 text-xs font-['JetBrains_Mono',monospace]">
                         <a href="/products" class="text-[#767683] hover:text-[#4352a5] transition-colors">Products</a>
@@ -106,15 +106,15 @@ export default component$(() => {
                         <span class="text-[#1b1b21]">Zenthra</span>
                     </div>
 
-                    <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
                         <div>
                             <span class="inline-block px-3 py-1 bg-[#e3e1e9] text-[#454651] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider mb-5 rounded-[4px]">
                                 UI Framework · v1.2 Stable
                             </span>
-                            <h1 class="font-['Syne',sans-serif] text-5xl font-bold text-[#1b1b21] mb-5 leading-tight tracking-tight">
+                            <h1 class="font-['Syne',sans-serif] text-3xl sm:text-5xl font-bold text-[#1b1b21] mb-5 leading-tight tracking-tight">
                                 Zenthra
                             </h1>
-                            <p class="text-lg text-[#454651] leading-relaxed mb-8 max-w-lg">
+                            <p class="text-base sm:text-lg text-[#454651] leading-relaxed mb-8 max-w-lg">
                                 A high-performance, Rust-based UI framework for building native desktop applications with zero-runtime overhead and 4ms input latency.
                             </p>
                             <div class="flex flex-wrap gap-3">
@@ -145,7 +145,7 @@ export default component$(() => {
                         </div>
 
                         {/* Stats */}
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {[
                                 { value: "4ms", label: "Input latency", sub: "measured on target hardware" },
                                 { value: "0", label: "Runtime deps", sub: "zero external dependencies" },
@@ -164,10 +164,10 @@ export default component$(() => {
             </section>
 
             {/* ── Code sample ── */}
-            <section class="bg-[#f5f2fa] border-b border-[#c6c5d3]">
-                <div class="max-w-7xl mx-auto px-12 py-16 grid md:grid-cols-2 gap-16 items-center">
+            <section class="bg-[#f5f2fa] border-b border-[#c6c5d3] overflow-hidden">
+                <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16 grid md:grid-cols-2 gap-8 md:gap-16 items-center">
                     <div>
-                        <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] mb-4">Simple by design.</h2>
+                        <h2 class="font-['Syne',sans-serif] text-xl sm:text-2xl font-bold text-[#1b1b21] mb-4">Simple by design.</h2>
                         <p class="text-[#454651] text-sm leading-relaxed mb-4">
                             Zenthra's API is intentionally minimal. You describe your interface as composable widgets — the framework handles the rest. No lifecycle hooks, no re-render cycles, no magic.
                         </p>
@@ -177,14 +177,14 @@ export default component$(() => {
                     </div>
 
                     {/* Dark code block */}
-                    <div class="bg-[#071025] rounded-[6px] overflow-hidden shadow-xl">
+                    <div class="bg-[#071025] rounded-[6px] overflow-hidden shadow-xl w-full">
                         <div class="flex items-center gap-1.5 px-4 py-3 border-b border-white/5">
                             <span class="w-2.5 h-2.5 rounded-full bg-[#ff6058]" />
                             <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
                             <span class="w-2.5 h-2.5 rounded-full bg-[#28ca41]" />
                             <span class="ml-3 text-[11px] text-[#9aa6e0] font-['JetBrains_Mono',monospace]">main.rs</span>
                         </div>
-                        <div class="p-5 font-['JetBrains_Mono',monospace] text-[12.5px] leading-relaxed flex flex-col gap-0.5">
+                        <div class="p-5 font-['JetBrains_Mono',monospace] text-[10px] sm:text-[12.5px] leading-relaxed flex flex-col gap-0.5 overflow-x-auto">
                             <div><span class="text-[#c792ea]">use </span><span class="text-[#61afef]">zenthra</span><span class="text-[#bfc9d9]">::prelude::*;</span></div>
                             <div class="h-2" />
                             <div><span class="text-[#c792ea]">fn </span><span class="text-[#61afef]">main</span><span class="text-[#bfc9d9]">() {"{"}</span></div>
@@ -207,10 +207,10 @@ export default component$(() => {
 
             {/* ── Features ── */}
             <section class="border-b border-[#c6c5d3]">
-                <div class="max-w-7xl mx-auto px-12 py-16">
-                    <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] mb-2">What makes it different.</h2>
+                <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
+                    <h2 class="font-['Syne',sans-serif] text-xl sm:text-2xl font-bold text-[#1b1b21] mb-2">What makes it different.</h2>
                     <p class="text-[#454651] text-sm mb-10">Zenthra is opinionated about the things that matter and silent about everything else.</p>
-                    <div class="grid md:grid-cols-3 gap-5">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                         {FEATURES.map((f) => (
                             <div key={f.title} class="bg-white border border-[#c6c5d3] rounded-[4px] p-5 hover:border-[#4352a5] transition-all">
                                 <div class="text-[#5c6bc0] mb-3">{f.icon}</div>
@@ -224,11 +224,11 @@ export default component$(() => {
 
             {/* ── Built with Zenthra ── */}
             <section class="border-b border-[#c6c5d3]">
-                <div class="max-w-7xl mx-auto px-12 py-16">
-                    <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] mb-2">Built with Zenthra.</h2>
+                <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
+                    <h2 class="font-['Syne',sans-serif] text-xl sm:text-2xl font-bold text-[#1b1b21] mb-2">Built with Zenthra.</h2>
                     <p class="text-[#454651] text-sm mb-10">Real apps shipping with the framework today.</p>
 
-                    <div class="grid md:grid-cols-3 gap-6">
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {BUILT_WITH.map((app) => (
                             <a key={app.name} href={app.href} class="block no-underline group">
                                 <div class="bg-white border border-[#c6c5d3] rounded-[4px] overflow-hidden flex flex-col h-full hover:border-[#4352a5] hover:-translate-y-1 transition-all duration-200">
@@ -237,7 +237,7 @@ export default component$(() => {
                                     </div>
                                     <div class="p-5 flex flex-col flex-grow">
                                         <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] mb-2">{app.type}</p>
-                                        <div class="flex items-center gap-2 mb-2">
+                                        <div class="flex flex-wrap items-center gap-2 mb-2">
                                             <h3 class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21]">{app.name}</h3>
                                             <span class={`px-2 py-0.5 text-xs rounded-[4px] font-medium ${app.badgeClass}`}>{app.badge}</span>
                                         </div>
@@ -264,8 +264,8 @@ export default component$(() => {
             </section>
 
             {/* ── Get started CTA ── */}
-            <section class="max-w-7xl mx-auto px-12 py-16">
-                <div class="bg-[#071025] rounded-[6px] p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <section class="max-w-7xl mx-auto px-6 md:px-12 py-8 md:py-16">
+                <div class="bg-[#071025] rounded-[6px] p-6 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
                     <div>
                         <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-white mb-2">Start building with Zenthra.</h2>
                         <p class="text-[#9aa6e0] text-sm">Open source. MIT licensed. No account required.</p>

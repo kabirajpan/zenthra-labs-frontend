@@ -10,7 +10,7 @@ export default component$(() => {
                 <div class="absolute top-[40%] -right-[10%] w-[50%] aspect-square rounded-full bg-indigo-900/40 blur-[120px]" />
             </div>
 
-            <div class="relative z-10 max-w-7xl mx-auto px-12 py-16">
+            <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
                 {/* ── Breadcrumbs ── */}
                 <div class="flex items-center gap-2 mb-8 text-xs font-['JetBrains_Mono',monospace]">
                     <a href="/products" class="text-violet-400 hover:text-violet-200 transition-colors">Products</a>
@@ -19,25 +19,25 @@ export default component$(() => {
                 </div>
 
                 {/* ── Hero ── */}
-                <div class="grid lg:grid-cols-12 gap-16 items-center mb-20">
-                    <div class="lg:col-span-7 space-y-6">
+                <div class="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center mb-20">
+                    <div class="col-span-12 lg:col-span-7 space-y-6">
                         <span class="inline-block px-3 py-1 bg-violet-900/40 border border-violet-700/50 text-violet-300 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
                             Mobile App · Live
                         </span>
-                        <h1 class="font-['Syne',sans-serif] text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight">
+                        <h1 class="font-['Syne',sans-serif] text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight">
                             After Motion
                         </h1>
-                        <p class="text-lg text-violet-200/80 leading-relaxed max-w-xl">
+                        <p class="text-base sm:text-lg text-violet-200/80 leading-relaxed max-w-xl">
                             A production-ready mobile video editor engineered for fast, fluid, on-device video composition. Edit multitrack videos at 60 FPS previews with zero telemetry and no subscription fees.
                         </p>
 
                         <div class="grid grid-cols-2 gap-4 max-w-md pt-4">
                             <div class="bg-white/5 border border-white/10 rounded-[4px] p-4">
-                                <div class="font-['Syne',sans-serif] text-xl font-bold text-violet-400">Zero Lag</div>
+                                <div class="font-['Syne',sans-serif] text-lg sm:text-xl font-bold text-violet-400">Zero Lag</div>
                                 <div class="text-xs text-violet-300/70">60 FPS preview updates</div>
                             </div>
                             <div class="bg-white/5 border border-white/10 rounded-[4px] p-4">
-                                <div class="font-['Syne',sans-serif] text-xl font-bold text-violet-400">100% Local</div>
+                                <div class="font-['Syne',sans-serif] text-lg sm:text-xl font-bold text-violet-400">100% Local</div>
                                 <div class="text-xs text-violet-300/70">On-device composition</div>
                             </div>
                         </div>
@@ -55,7 +55,7 @@ export default component$(() => {
                     </div>
 
                     {/* Timeline & Smartphone Mockup in CSS */}
-                    <div class="lg:col-span-5 flex justify-center">
+                    <div class="col-span-12 lg:col-span-5 flex justify-center">
                         <div class="relative w-72 h-[560px] bg-[#1a162b] border-[6px] border-[#373153] rounded-[36px] overflow-hidden shadow-2xl shadow-black/60 flex flex-col">
                             {/* Camera Notch */}
                             <div class="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-4 bg-black rounded-full z-20 flex items-center justify-between px-4">
@@ -127,8 +127,8 @@ export default component$(() => {
                 </div>
 
                 {/* ── Product Features Grid ── */}
-                <div class="border-t border-white/10 pt-20 mb-20">
-                    <h2 class="font-['Syne',sans-serif] text-3xl font-bold text-center text-white mb-12">Engineered for absolute performance.</h2>
+                <div class="border-t border-white/10 pt-12 md:pt-20 mb-20">
+                    <h2 class="font-['Syne',sans-serif] text-2xl sm:text-3xl font-bold text-center text-white mb-12">Engineered for absolute performance.</h2>
 
                     <div class="grid md:grid-cols-2 gap-8">
                         <div class="bg-white/5 border border-white/10 p-6 rounded-[4px] hover:border-violet-500 transition-colors">
@@ -159,7 +159,7 @@ export default component$(() => {
                 </div>
 
                 {/* ── Sub CTA Banner ── */}
-                <div class="bg-[#171326] border border-violet-800/40 rounded-[6px] p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+                <div class="bg-[#171326] border border-violet-800/40 rounded-[6px] p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
                     <div>
                         <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-white mb-2">Ready to edit?</h2>
                         <p class="text-violet-300 text-sm">Download After Motion free on your device today.</p>
