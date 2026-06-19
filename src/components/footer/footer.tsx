@@ -3,7 +3,7 @@ import { component$ } from "@builder.io/qwik";
 export const Footer = component$(() => {
   return (
     <footer class="w-full border-t border-[#c6c5d3] bg-[#fbf8ff]">
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center py-16 px-12 max-w-7xl mx-auto gap-10">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center py-16 px-6 md:px-12 max-w-7xl mx-auto gap-10">
         <div class="space-y-4">
           <a class="font-['Syne',sans-serif] text-xl font-bold text-[#4352a5] block" href="/">Zenthra Labs</a>
           <p class="text-[#454651] max-w-xs text-sm leading-relaxed">Forging the next generation of industrial-grade software infrastructure.</p>
@@ -24,7 +24,7 @@ export const Footer = component$(() => {
             <ul class="space-y-2 text-[#454651] text-sm">
               <li><a class="hover:text-[#4352a5] transition-colors" href="/legal/privacy">Privacy</a></li>
               <li><a class="hover:text-[#4352a5] transition-colors" href="/legal/terms">Terms</a></li>
-              <li><a class="hover:text-[#4352a5] transition-colors" href="#">Licenses</a></li>
+              <li><a class="hover:text-[#4352a5] transition-colors" href="/legal/licenses">Licenses</a></li>
             </ul>
           </div>
           <div class="col-span-2 md:col-span-1">

@@ -53,6 +53,8 @@
   box-shadow: 0 12px 30px rgba(2,6,23,0.28);
   border: none;
   outline: none;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Sweep scan line */
@@ -98,13 +100,28 @@
   opacity: 0.95;
 }
 
+@media (max-width: 480px) {
+  .hpc-caption {
+    display: none !important;
+  }
+}
+
 /* Code block */
 .hpc-code {
   padding: clamp(10px, 4vw, 18px) clamp(12px, 5vw, 20px);
   display: flex;
   flex-direction: column;
   gap: 4px;
+  overflow-x: auto;
+  overflow-y: auto;
+  flex: 1;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
 }
+.hpc-code::-webkit-scrollbar {
+  display: none; /* Safari & Chrome */
+}
+
 .hpc-line {
   font-size: clamp(9px, 2.8vw, 12px);
   line-height: 1.6;
@@ -138,7 +155,14 @@
   margin-top: 6px; /* gap between editor and metrics (reduced) */
   box-shadow: 0 8px 20px rgba(2,6,23,0.18);
   color: #cdd3de;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
 }
+
+.hpc-metrics.is-visible {
+  opacity: 1;
+}
+
 @media (min-width: 500px) {
   .hpc-metrics {
     grid-template-columns: repeat(4, 1fr);
@@ -260,3 +284,9 @@
 .hero3d-stable { background: #e9e7ef; color: #454651; }
 .hero3d-beta   { background: #dee0ff; color: #2f3f92; }
 .hero3d-ea     { background: #ffdeac; color: #5f4100; }
+
+@media (max-width: 640px) {
+  .hpc-virtual-cursor {
+    display: none !important;
+  }
+}

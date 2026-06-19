@@ -390,12 +390,10 @@ export const Hero3DScene = component$(() => {
 
             {/* Metrics bar — light */}
             <div 
-                class="hpc-metrics"
-                style={{
-                    opacity: isFinished.value ? 1 : 0,
-                    transform: isFinished.value ? "translateY(0)" : "translateY(6px)",
-                    transition: "opacity 0.4s ease-out, transform 0.4s ease-out"
-                }}
+                class={[
+                    "hpc-metrics",
+                    isFinished.value ? "is-visible" : ""
+                ].join(" ")}
             >
                 {/* Build */}
                 <div class="hpc-metric-block">

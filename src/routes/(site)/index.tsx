@@ -74,9 +74,15 @@ const DomoThumbnail = component$(() => (
 
 export default component$(() => {
     return (
-        <div class="relative">
+        <div class="relative bg-[#fbf8ff] text-[#1b1b21] min-h-screen overflow-hidden">
             {/* ── Hero Section ── */}
-            <section class="relative border-b border-[#c6c5d3] overflow-hidden min-h-[calc(100vh-4rem)] flex items-center">
+            <section class="relative min-h-[80vh] flex items-center pt-8 border-b border-[#c6c5d3]">
+                {/* Background Grid Elements */}
+                <div class="absolute inset-0 z-0 pointer-events-none">
+                    <div class="hero-grid-mesh" />
+                    <div class="hero-grid-fade" />
+                </div>
+
                 <HeroSquares />
                 <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16 relative z-10 w-full">
                     <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -103,7 +109,7 @@ export default component$(() => {
 
                         {/* Interactive 3D Screen Visual */}
                         <div class="lg:col-span-5 w-full flex justify-center">
-                            <div class="w-full max-w-sm sm:max-w-md lg:max-w-lg aspect-[4/3] relative">
+                            <div class="w-full max-w-sm sm:max-w-md lg:max-w-lg h-[420px] sm:h-[440px] lg:h-auto lg:aspect-[4/3] relative">
                                 <Hero3DScene />
                             </div>
                         </div>
