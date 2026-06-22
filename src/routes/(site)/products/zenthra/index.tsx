@@ -89,6 +89,23 @@ const BUILT_WITH = [
             </div>
         ),
     },
+    {
+        href: "/products/zenthra/apps/file-manager",
+        name: "ZenFile",
+        type: "Desktop App",
+        badge: "Example App",
+        badgeClass: "bg-[#e9e7ef] text-[#454651]",
+        desc: "A native, dependency-light file manager with instant directory listings and native filesystem access.",
+        thumbnail: (
+            <div class="w-full h-full bg-[#e9e7ef] flex items-center justify-center">
+                <img
+                    src="/assets/screenshots/zenfile/main-default-size-and-color.png"
+                    alt="ZenFile"
+                    class="w-full h-full object-cover"
+                />
+            </div>
+        ),
+    },
 ];
 
 // ── Page ─────────────────────────────────────────────────────────────────────
