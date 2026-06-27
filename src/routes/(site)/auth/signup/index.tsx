@@ -71,6 +71,7 @@ export default component$(() => {
         }
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handleGoogleSignup = $(async () => {
         isLoading.value = true;
         errorMessage.value = "";

@@ -24,7 +24,7 @@ export const Navbar = component$(() => {
                 const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
                 const decoded = JSON.parse(atob(base64));
                 userRole.value = decoded.role || "USER";
-            } catch (e) {
+            } catch {
                 isLoggedIn.value = false;
                 userRole.value = null;
             }

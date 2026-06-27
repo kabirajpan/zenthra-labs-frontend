@@ -58,7 +58,7 @@ export default component$(() => {
             const data = await res.json();
             user.value = data.user;
             isAuthenticating.value = false;
-        } catch (err) {
+        } catch {
             document.cookie = "zenthra_auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
             nav("/auth/signin");
         }

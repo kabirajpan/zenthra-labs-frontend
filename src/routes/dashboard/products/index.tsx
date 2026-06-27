@@ -121,14 +121,13 @@ export default component$(() => {
 
         clientDevice.value = `${browser} on ${os}`;
 
-        // Fetch IP
         try {
             const ipRes = await fetch("https://api.ipify.org?format=json");
             if (ipRes.ok) {
                 const ipData = await ipRes.json();
                 clientIp.value = ipData.ip;
             }
-        } catch (err) {
+        } catch {
             clientIp.value = "127.0.0.1";
         }
 
@@ -154,7 +153,7 @@ export default component$(() => {
                         userLoggedInProducts.value = data.user.loggedInProducts;
                     }
                 }
-            } catch (e) {
+            } catch {
                 // Ignore fallback
             }
         }

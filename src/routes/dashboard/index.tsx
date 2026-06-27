@@ -81,7 +81,7 @@ export default component$(() => {
                 clientIp.value = ipData.ip;
                 addLog(`NET: WAN public IP fetched - ${ipData.ip}`);
             }
-        } catch (err) {
+        } catch {
             clientIp.value = "Local Client";
             addLog("NET: Geolocation lookup bypassed (localhost/dev)");
         }
