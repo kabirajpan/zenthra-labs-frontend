@@ -96,6 +96,9 @@ export default component$(() => {
 
 
 
+    // Master-Detail selected state
+    const selectedProductId = useSignal<string | null>(null);
+
     // Client environment signals
     const clientIp = useSignal("Detecting...");
     const clientDevice = useSignal("Detecting...");
@@ -194,6 +197,12 @@ export default component$(() => {
             });
     });
 
+    const activeProduct = useComputed$(() => {
+        const activeId = selectedProductId.value || visibleProducts.value[0]?.id || null;
+        const found = visibleProducts.value.find(p => p.id === activeId) || null;
+        return found;
+    });
+
 
     return (
         <div class="space-y-8 transition-colors duration-200">
@@ -242,147 +251,182 @@ export default component$(() => {
                 </div>
             </div>
 
-            {/* Integrated Products Layout */}
-            <div class="w-full">
-                {visibleProducts.value.length === 0 ? (
-                    <div class="flex flex-col items-center justify-center p-8 border border-dashed border-[#c6c5d3] dark:border-white/[0.08] rounded-[4px] min-h-[220px] text-center bg-[#fbf8ff] dark:bg-[#0b0c11]/40">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-neutral-400 dark:text-[#64748b] mb-3">
-                            <circle cx="12" cy="12" r="10"/>
-                            <line x1="12" y1="8" x2="12" y2="12"/>
-                            <line x1="12" y1="16" x2="12.01" y2="16"/>
-                        </svg>
-                        <p class="text-xs font-semibold text-neutral-500 dark:text-[#94a3b8]">No Active Apps Found</p>
-                        <p class="text-[10px] text-neutral-400 dark:text-[#64748b] mt-1.5 max-w-[240px] leading-relaxed">
-                            You haven't signed in to any zenthralabs products/applications (such as After Motion) yet. Once you log in from the application client, it will appear here.
-                        </p>
-                    </div>
-                ) : currentViewMode.value === "list" ? (
-                    /* Unified List View (Full Width) */
-                    <div class="space-y-4 max-w-5xl">
-                        {visibleProducts.value.map((p) => (
-                            <div
-                                key={p.id}
-                                class="bg-[#fbf8ff] dark:bg-[#0b0c11]/80 border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] p-6 shadow-sm dark:shadow-xl flex flex-col md:flex-row gap-6 justify-between items-stretch transition-all"
-                            >
-                                {/* Left Side: App Icon and Info */}
-                                <div class="flex-grow flex flex-col justify-between min-w-0">
-                                    <div>
-                                        <div class="flex items-center gap-3 pb-3 border-b border-[#c6c5d3]/50 dark:border-white/[0.05]">
+            {/* Master-Detail Split Layout */}
+            <div class="flex flex-col md:flex-row gap-6 items-start w-full">
+                
+                {/* Left Panel: Compact Product List / Grid (60% width minus half gap) */}
+                <div class="w-full md:w-[calc(60%-12px)]">
+                    {visibleProducts.value.length === 0 ? (
+                        <div class="flex flex-col items-center justify-center p-8 border border-dashed border-[#c6c5d3] dark:border-white/[0.08] rounded-[4px] min-h-[220px] text-center bg-[#fbf8ff] dark:bg-[#0b0c11]/40">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-neutral-400 dark:text-[#64748b] mb-3">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                            <p class="text-xs font-semibold text-neutral-500 dark:text-[#94a3b8]">No Active Apps Found</p>
+                            <p class="text-[10px] text-neutral-400 dark:text-[#64748b] mt-1.5 max-w-[240px] leading-relaxed">
+                                You haven't signed in to any zenthralabs products/applications (such as After Motion) yet. Once you log in from the application client, it will appear here.
+                            </p>
+                        </div>
+                    ) : currentViewMode.value === "list" ? (
+                        /* Master-Detail List View */
+                        <div class="space-y-2">
+                            {visibleProducts.value.map((p) => {
+                                const isSelected = p.id === selectedProductId.value || (!selectedProductId.value && visibleProducts.value[0]?.id === p.id);
+                                return (
+                                    <div
+                                        key={p.id}
+                                        onClick$={() => selectedProductId.value = p.id}
+                                        class={[
+                                            "p-3 border rounded-[4px] flex items-center justify-between gap-3 cursor-pointer transition-all duration-150 select-none relative group",
+                                            isSelected
+                                                ? "bg-[#e9e7ef] border-[#4352a5] dark:bg-indigo-900/20 dark:border-indigo-500"
+                                                : "bg-[#fbf8ff] dark:bg-[#0b0c11]/80 border-[#c6c5d3] dark:border-[#1e2030] hover:border-[#4352a5]/50 hover:bg-neutral-50/50 dark:hover:bg-white/[0.01]"
+                                        ].join(" ")}
+                                    >
+                                        {/* Active indicator strip */}
+                                        {isSelected && (
+                                            <div class="absolute inset-y-0 left-0 w-[3px] bg-[#5c6bc0] dark:bg-indigo-500 rounded-l-[4px]" />
+                                        )}
+
+                                        <div class="flex items-center gap-3 min-w-0">
                                             <div
-                                                class="w-12 h-12 rounded-[4px] flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-sm"
+                                                class="w-10 h-10 rounded-[4px] flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-sm"
                                                 style={{ backgroundColor: p.badgeColor }}
                                             >
                                                 {p.iconLetter}
                                             </div>
                                             <div class="min-w-0">
-                                                <h3 class="font-['Syne',sans-serif] font-bold text-base text-[#1b1b21] dark:text-white leading-none truncate">
+                                                <h3 class="font-['Syne',sans-serif] font-bold text-[#1b1b21] dark:text-white text-sm truncate">
                                                     {p.name}
                                                 </h3>
-                                                <div class="mt-1.5">
-                                                    {p.status === "active" ? (
-                                                        <span class="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-[4px]">
-                                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                                            Active Session
-                                                        </span>
-                                                    ) : (
-                                                        <span class="inline-flex items-center gap-1 text-[9px] font-bold text-neutral-500 dark:text-[#64748b] bg-neutral-100 dark:bg-white/5 px-2 py-0.5 rounded-[4px]">
-                                                            Offline
-                                                        </span>
-                                                    )}
-                                                </div>
                                             </div>
                                         </div>
-                                        <div class="py-4">
-                                            <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
-                                                {p.description}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                {/* Right Side: Telemetry Specs */}
-                                <div class="w-full md:w-[320px] shrink-0 flex flex-col justify-center">
-                                    <div class="space-y-2.5 bg-white dark:bg-[#09090b]/50 border border-[#c6c5d3] dark:border-white/[0.04] rounded-[4px] p-4 text-[11px] font-sans">
-                                        <div class="flex justify-between items-center py-0.5">
-                                            <span class="text-neutral-400 dark:text-[#64748b] font-medium font-mono uppercase tracking-wider text-[8px]">Last Login</span>
-                                            <span class="text-[#1b1b21] dark:text-[#e2e8f0] font-mono font-semibold">{p.lastLogin}</span>
-                                        </div>
-                                        <div class="flex justify-between items-center py-0.5 border-t border-neutral-200 dark:border-white/[0.03] pt-2">
-                                            <span class="text-neutral-400 dark:text-[#64748b] font-medium font-mono uppercase tracking-wider text-[8px]">Device Type</span>
-                                            <span class="text-[#1b1b21] dark:text-[#e2e8f0] font-semibold truncate max-w-[180px]">{p.device}</span>
-                                        </div>
-                                        <div class="flex justify-between items-center py-0.5 border-t border-neutral-200 dark:border-white/[0.03] pt-2">
-                                            <span class="text-neutral-400 dark:text-[#64748b] font-medium font-mono uppercase tracking-wider text-[8px]">IP Address</span>
-                                            <span class="text-[#1b1b21] dark:text-[#e2e8f0] font-mono font-semibold">{p.ip}</span>
+                                        <div class="flex items-center gap-3 shrink-0">
+                                            {p.status === "active" ? (
+                                                <span class="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-[4px]">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                                    Active
+                                                </span>
+                                            ) : (
+                                                <span class="inline-flex items-center gap-1 text-[9px] font-bold text-neutral-500 dark:text-[#64748b] bg-neutral-100 dark:bg-white/5 px-2 py-0.5 rounded-[4px]">
+                                                    Offline
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    /* Unified Grid View (Responsive Columns) */
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl">
-                        {visibleProducts.value.map((p) => (
-                            <div
-                                key={p.id}
-                                class="bg-[#fbf8ff] dark:bg-[#0b0c11]/80 border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] p-6 shadow-sm dark:shadow-xl flex flex-col justify-between min-h-[340px] transition-all"
-                            >
-                                <div>
-                                    {/* Header */}
-                                    <div class="flex items-center gap-3 pb-4 border-b border-[#c6c5d3]/50 dark:border-white/[0.05]">
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        /* Launcher Grid View (2 Columns because of 60% container width) */
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {visibleProducts.value.map((p) => {
+                                const isSelected = p.id === selectedProductId.value || (!selectedProductId.value && visibleProducts.value[0]?.id === p.id);
+                                return (
+                                    <div
+                                        key={p.id}
+                                        onClick$={() => selectedProductId.value = p.id}
+                                        class={[
+                                            "bg-[#fbf8ff] dark:bg-[#0b0c11]/80 border rounded-[4px] p-3 flex items-center gap-3 cursor-pointer shadow-sm hover:-translate-y-[1px] transition-all duration-200 relative group",
+                                            isSelected
+                                                ? "border-[#4352a5] bg-[#e9e7ef] dark:bg-indigo-900/20 dark:border-indigo-500"
+                                                : "border-[#c6c5d3] dark:border-[#1e2030] hover:border-[#4352a5]/50"
+                                        ].join(" ")}
+                                    >
+                                        {/* Hover/Active accent line at bottom */}
+                                        <div class={[
+                                            "absolute inset-x-0 bottom-0 h-[2px] transition-colors",
+                                            isSelected ? "bg-[#5c6bc0]" : "bg-transparent group-hover:bg-[#5c6bc0]"
+                                        ].join(" ")} />
+
+                                        {/* Logo */}
                                         <div
-                                            class="w-12 h-12 rounded-[4px] flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-sm"
+                                            class="w-10 h-10 rounded-[4px] flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-sm"
                                             style={{ backgroundColor: p.badgeColor }}
                                         >
                                             {p.iconLetter}
                                         </div>
-                                        <div class="min-w-0">
-                                            <h3 class="font-['Syne',sans-serif] font-bold text-base text-[#1b1b21] dark:text-white leading-none truncate">
-                                                {p.name}
-                                            </h3>
-                                            <div class="mt-1.5">
-                                                {p.status === "active" ? (
-                                                    <span class="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-[4px]">
-                                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                                        Active Session
-                                                    </span>
-                                                ) : (
-                                                    <span class="inline-flex items-center gap-1 text-[9px] font-bold text-neutral-500 dark:text-[#64748b] bg-neutral-100 dark:bg-white/5 px-2 py-0.5 rounded-[4px]">
-                                                        Offline
-                                                    </span>
-                                                )}
+
+                                        {/* Text details */}
+                                        <div class="flex-grow min-w-0 pr-1">
+                                            <div class="flex items-center justify-between gap-3">
+                                                <h3 class="font-['Syne',sans-serif] font-bold text-[#1b1b21] dark:text-white text-sm truncate">
+                                                    {p.name}
+                                                </h3>
+                                                <span class={`w-1.5 h-1.5 rounded-full shrink-0 ${p.status === 'active' ? 'bg-emerald-500 animate-pulse' : 'bg-neutral-300 dark:bg-neutral-600'}`} />
                                             </div>
                                         </div>
                                     </div>
+                                );
+                            })}
+                        </div>
+                    )}
+                </div>
 
-                                    {/* Description */}
-                                    <div class="py-4">
-                                        <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
-                                            {p.description}
-                                        </p>
-                                    </div>
+                {/* Right Panel: Sticky Information Inspector Card (40% width minus half gap) */}
+                <div class="w-full md:w-[calc(40%-12px)] md:sticky md:top-6 shrink-0 bg-[#fbf8ff] dark:bg-[#0b0c11]/80 border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] p-6 shadow-sm dark:shadow-xl">
+                    {!activeProduct.value ? (
+                        <div class="flex flex-col items-center justify-center min-h-[300px] text-center py-10">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-neutral-400 dark:text-[#64748b] mb-3 animate-pulse">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            </svg>
+                            <p class="text-xs font-semibold text-neutral-500 dark:text-[#94a3b8]">No Product Selected</p>
+                            <p class="text-[10px] text-neutral-400 dark:text-[#64748b] mt-1.5 max-w-[200px] leading-relaxed">
+                                Select a product launcher on the left to view device telemetry and access tokens.
+                            </p>
+                        </div>
+                    ) : (
+                        <>
+                            <div class="flex items-center gap-3 pb-5 border-b border-[#c6c5d3]/50 dark:border-white/[0.05]">
+                                <div
+                                    class="w-12 h-12 rounded-[4px] flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-sm"
+                                    style={{ backgroundColor: activeProduct.value.badgeColor }}
+                                >
+                                    {activeProduct.value.iconLetter}
+                                </div>
+                                <div>
+                                    <h3 class="font-['Syne',sans-serif] font-bold text-base text-[#1b1b21] dark:text-white leading-none">
+                                        {activeProduct.value.name}
+                                    </h3>
+                                    <span class={[
+                                        "inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded-[4px] mt-2",
+                                        activeProduct.value.status === "active"
+                                            ? "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10"
+                                            : "text-neutral-500 dark:text-[#64748b] bg-neutral-100 dark:bg-white/5"
+                                    ].join(" ")}>
+                                        {activeProduct.value.status === "active" ? "Connected Session" : "Offline"}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="py-5 space-y-5">
+                                <div>
+                                    <h4 class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 dark:text-[#64748b] font-mono mb-2">Description</h4>
+                                    <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
+                                        {activeProduct.value.description}
+                                    </p>
                                 </div>
 
-                                {/* Telemetry Details */}
-                                <div class="space-y-2 bg-white dark:bg-[#09090b]/50 border border-[#c6c5d3] dark:border-white/[0.04] rounded-[4px] p-4 text-[11px] font-sans">
+                                <div class="space-y-3 bg-white dark:bg-[#09090b]/50 border border-[#c6c5d3] dark:border-white/[0.04] rounded-[4px] p-4 text-[11px] font-sans">
                                     <div class="flex justify-between items-center py-0.5">
                                         <span class="text-neutral-400 dark:text-[#64748b] font-medium font-mono uppercase tracking-wider text-[8px]">Last Login</span>
-                                        <span class="text-[#1b1b21] dark:text-[#e2e8f0] font-mono font-semibold">{p.lastLogin}</span>
+                                        <span class="text-[#1b1b21] dark:text-[#e2e8f0] font-mono font-semibold">{activeProduct.value.lastLogin}</span>
                                     </div>
                                     <div class="flex justify-between items-center py-0.5 border-t border-neutral-200 dark:border-white/[0.03] pt-2">
                                         <span class="text-neutral-400 dark:text-[#64748b] font-medium font-mono uppercase tracking-wider text-[8px]">Device Type</span>
-                                        <span class="text-[#1b1b21] dark:text-[#e2e8f0] font-semibold truncate max-w-[180px]">{p.device}</span>
+                                        <span class="text-[#1b1b21] dark:text-[#e2e8f0] font-semibold truncate max-w-[150px]">{activeProduct.value.device}</span>
                                     </div>
                                     <div class="flex justify-between items-center py-0.5 border-t border-neutral-200 dark:border-white/[0.03] pt-2">
                                         <span class="text-neutral-400 dark:text-[#64748b] font-medium font-mono uppercase tracking-wider text-[8px]">IP Address</span>
-                                        <span class="text-[#1b1b21] dark:text-[#e2e8f0] font-mono font-semibold">{p.ip}</span>
+                                        <span class="text-[#1b1b21] dark:text-[#e2e8f0] font-mono font-semibold">{activeProduct.value.ip}</span>
                                     </div>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                )}
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );
