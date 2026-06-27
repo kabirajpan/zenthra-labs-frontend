@@ -15,6 +15,20 @@
   5. Zenthra DB
   6. Zenthra Console
 
+  * each product will have its own product id
+  * each product will have its own api base url (can be same base url with product specific route)
+  * each product will have its own launch url
+  * each product will have its own icon
+  * each product will have its own description
+  * each product will have its own status (active/offline)
+  * each product will have its own last login
+  * each product will have its own device
+  * each product will have its own ip
+  * each product will have its own badge color
+  * each product will have its own icon letter
+
+  when user log in to any product it will be stored in database and user logged in products will be shown in dashboard, and if the user logged in and after that the user log out from the product then it will be removed from the database and user logged in products will not be shown in dashboard
+
 ---
 
 ## Project Structure Hello
