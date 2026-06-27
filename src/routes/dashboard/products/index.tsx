@@ -166,22 +166,42 @@ export default component$(() => {
             .filter(p => userLoggedInProducts.value.includes(p.id))
             .map(p => {
                 const status: "active" | "offline" = "active";
-                let deviceVal = p.device;
+                let deviceVal = "";
                 let ipVal = p.ip;
                 let loginVal = p.lastLogin;
                 
+                const dbDeviceLower = (dbDevice.value || "").toLowerCase();
+                
+                if (dbDeviceLower.includes("android") || dbDeviceLower.includes("aftermotion")) {
+                    deviceVal = "Android";
+                } else if (dbDeviceLower.includes("ios") || dbDeviceLower.includes("iphone") || dbDeviceLower.includes("ipad")) {
+                    deviceVal = "iOS";
+                } else if (dbDeviceLower.includes("linux") || dbDeviceLower.includes("ubuntu")) {
+                    deviceVal = "Linux";
+                } else if (dbDeviceLower.includes("windows") || dbDeviceLower.includes("win32") || dbDeviceLower.includes("win64")) {
+                    deviceVal = "Windows";
+                } else if (dbDeviceLower.includes("mac") || dbDeviceLower.includes("macintosh") || dbDeviceLower.includes("macos")) {
+                    deviceVal = "macOS";
+                } else {
+                    // Fallback defaults if no device info matched
+                    if (p.id === "after-motion") {
+                        deviceVal = "Android";
+                    } else if (p.id === "zenfile") {
+                        deviceVal = "Linux";
+                    } else {
+                        deviceVal = "Linux";
+                    }
+                }
+
                 if (p.id === "after-motion") {
-                    deviceVal = dbDevice.value || "Android Device";
                     ipVal = clientIp.value || "192.168.1.14";
                     const nowTime = new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
                     loginVal = `Today, ${nowTime}`;
                 } else if (p.id === "zenfile") {
-                    deviceVal = dbDevice.value || "Linux Desktop Client";
                     ipVal = clientIp.value || "192.168.1.15";
                     const nowTime = new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
                     loginVal = `Today, ${nowTime}`;
                 } else {
-                    deviceVal = dbDevice.value || p.device;
                     ipVal = clientIp.value || p.ip;
                     const nowTime = new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
                     loginVal = `Today, ${nowTime}`;
