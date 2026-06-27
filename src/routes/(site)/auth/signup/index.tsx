@@ -1,76 +1,229 @@
-import { component$ } from "@builder.io/qwik";
-import type { DocumentHead } from "@builder.io/qwik-city";
+import { API_BASE } from "~/lib/api";
+import { component$, useSignal, $ } from "@builder.io/qwik";
+import { DocumentHead, useNavigate } from "@builder.io/qwik-city";
 
 export default component$(() => {
+    const authType = useSignal<"email" | "phone">("email");
+    const firstName = useSignal("");
+    const lastName = useSignal("");
+    const email = useSignal("");
+    const phoneNumber = useSignal("");
+    const password = useSignal("");
+    const errorMessage = useSignal("");
+    const successMessage = useSignal("");
+    const isLoading = useSignal(false);
+    const nav = useNavigate();
+
+    const handleSignup = $(async () => {
+        if (!firstName.value || !lastName.value || !password.value) {
+            errorMessage.value = "First Name, Last Name, and Password are required.";
+            return;
+        }
+
+        const payload: Record<string, any> = {
+            firstName: firstName.value,
+            lastName: lastName.value,
+            password: password.value
+        };
+
+        if (authType.value === "email") {
+            if (!email.value) {
+                errorMessage.value = "Please provide an email address.";
+                return;
+            }
+            payload.email = email.value;
+        } else {
+            if (!phoneNumber.value) {
+                errorMessage.value = "Please provide a phone number.";
+                return;
+            }
+            payload.phoneNumber = phoneNumber.value;
+        }
+
+        isLoading.value = true;
+        errorMessage.value = "";
+        successMessage.value = "";
+
+        try {
+            const res = await fetch(`${API_BASE}/api/auth/signup`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await res.json();
+            if (!res.ok) {
+                throw new Error(data.error || "Registration failed");
+            }
+
+            successMessage.value = "Registration successful! Redirecting...";
+            document.cookie = `zenthra_auth_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+            
+            setTimeout(() => {
+                nav("/dashboard");
+            }, 1200);
+        } catch (err: any) {
+            errorMessage.value = err.message || "Something went wrong. Please try again.";
+        } finally {
+            isLoading.value = false;
+        }
+    });
+
+    const handleGoogleSignup = $(async () => {
+        isLoading.value = true;
+        errorMessage.value = "";
+        successMessage.value = "";
+
+        try {
+            const res = await fetch(`${API_BASE}/api/auth/google-login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    googleId: "google_test_109283",
+                    email: "google.tester@zenthralabs.dev",
+                    firstName: "Google",
+                    lastName: "Developer",
+                }),
+            });
+
+            const data = await res.json();
+            if (!res.ok) {
+                throw new Error(data.error || "Google registration failed");
+            }
+
+            successMessage.value = "Google account linked successfully! Redirecting...";
+            document.cookie = `zenthra_auth_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+            
+            setTimeout(() => {
+                nav("/dashboard");
+            }, 1200);
+        } catch (err: any) {
+            errorMessage.value = err.message || "Google sign-up failed. Please try again.";
+        } finally {
+            isLoading.value = false;
+        }
+    });
+
     return (
-        <section class="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24 flex items-center justify-center min-h-[calc(100vh-16rem)]">
-            <div class="w-full max-w-lg bg-white border border-[#c6c5d3] rounded-[6px] shadow-xl p-8 md:p-10 relative overflow-hidden">
+        <section class="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24 flex items-center justify-center min-h-[calc(100vh-16rem)] bg-[#f8fafc] dark:bg-[#07070b] transition-colors duration-200">
+            <div class="w-full max-w-lg bg-white dark:bg-[#0b0c11]/80 border border-neutral-200 dark:border-[#1e2030] rounded-xl shadow-xl p-8 md:p-10 relative overflow-hidden transition-all">
                 {/* Accent line */}
-                <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#5c6bc0] to-[#4352a5]" />
+                <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 to-indigo-700" />
 
                 <div class="text-center mb-8">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#d7f5df] text-[#1f6b3a] font-['JetBrains_Mono',monospace] text-xs font-bold uppercase tracking-wider rounded-full mb-4">
-                        <span class="w-1.5 h-1.5 rounded-full bg-[#28ca41] animate-pulse" />
-                        Portal Launching Soon
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider rounded-full mb-4">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        Portal Live
                     </span>
-                    <h1 class="font-['Syne',sans-serif] text-3xl font-bold text-[#1b1b21] mb-2">
+                    <h1 class="font-['Syne',sans-serif] text-3xl font-bold text-neutral-900 dark:text-white mb-2">
                         Get Started
                     </h1>
-                    <p class="text-sm text-[#454651] max-w-sm mx-auto">
-                        Create a Zenthra Developer Account to synchronize timelines, manage team variables, and monitor native app assets.
+                    <p class="text-sm text-neutral-500 dark:text-[#94a3b8] max-w-sm mx-auto">
+                        Create a Zenthra Developer Account to synchronize timelines, manage variables, and monitor telemetry.
                     </p>
                 </div>
 
-                {/* Under development notice box */}
-                <div class="bg-[#f5f2fa] border border-[#c6c5d3] rounded-[4px] p-6 mb-8 text-left space-y-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-[#5c6bc0]/10 flex items-center justify-center text-[#5c6bc0]">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
-                            </svg>
-                        </div>
-                        <h3 class="font-['Syne',sans-serif] font-bold text-[#1b1b21] text-sm">Under Active Development</h3>
+                {errorMessage.value && (
+                    <div class="bg-rose-500/10 border border-rose-500/20 rounded-lg p-4 mb-6 text-sm text-rose-600 dark:text-rose-400 flex items-center gap-2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0">
+                            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                        <span>{errorMessage.value}</span>
                     </div>
-                    <p class="text-xs text-[#454651] leading-relaxed">
-                        We are currently building our unified developer registry portal. Registration links and organization accounts will open in Q3 2026.
-                    </p>
-                    <div class="border-t border-[#c6c5d3] pt-4 space-y-2">
-                        <h4 class="text-xs font-bold text-[#1b1b21]">Upcoming portal features:</h4>
-                        <ul class="text-[11px] text-[#767683] space-y-1.5 pl-3 list-disc">
-                            <li>Shared workspace canvas syncing across developer teams.</li>
-                            <li>WGPU target cross-compilation pipeline triggers.</li>
-                            <li>Real-time application render-latency crash diagnostic reports.</li>
-                        </ul>
-                    </div>
-                </div>
+                )}
 
-                {/* Simulated registration form (disabled state) */}
-                <div class="space-y-4 mb-6 opacity-40 select-none pointer-events-none">
+                {successMessage.value && (
+                    <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4 mb-6 text-sm text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <span>{successMessage.value}</span>
+                    </div>
+                )}
+
+                {/* Registration Form */}
+                <form preventdefault:submit onSubmit$={handleSignup} class="space-y-4 mb-6">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-bold text-[#1b1b21] mb-1.5">First Name</label>
-                            <input type="text" placeholder="John" class="w-full border border-[#c6c5d3] rounded-[4px] p-2.5 text-sm outline-none bg-gray-50" disabled />
+                            <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">First Name</label>
+                            <input 
+                                type="text" 
+                                placeholder="John" 
+                                value={firstName.value}
+                                onInput$={(e) => firstName.value = (e.target as HTMLInputElement).value}
+                                class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                                disabled={isLoading.value}
+                                required
+                            />
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-[#1b1b21] mb-1.5">Last Name</label>
-                            <input type="text" placeholder="Doe" class="w-full border border-[#c6c5d3] rounded-[4px] p-2.5 text-sm outline-none bg-gray-50" disabled />
+                            <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">Last Name</label>
+                            <input 
+                                type="text" 
+                                placeholder="Doe" 
+                                value={lastName.value}
+                                onInput$={(e) => lastName.value = (e.target as HTMLInputElement).value}
+                                class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                                disabled={isLoading.value}
+                                required
+                            />
                         </div>
                     </div>
-                    <div>
-                        <label class="block text-xs font-bold text-[#1b1b21] mb-1.5">Email Address</label>
-                        <input type="email" placeholder="name@domain.com" class="w-full border border-[#c6c5d3] rounded-[4px] p-2.5 text-sm outline-none bg-gray-50" disabled />
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-[#1b1b21] mb-1.5">Password</label>
-                        <input type="password" placeholder="••••••••" class="w-full border border-[#c6c5d3] rounded-[4px] p-2.5 text-sm outline-none bg-gray-50" disabled />
-                    </div>
-                    <button class="w-full py-2.5 bg-[#c6c5d3] text-white font-medium rounded-[4px] text-sm cursor-not-allowed">Create Account</button>
-                </div>
 
-                <div class="text-center">
-                    <a href="/" class="text-xs text-[#5c6bc0] hover:text-[#4352a5] font-bold transition-colors">
-                        &larr; Back to Home
-                    </a>
+                    <div>
+                        <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">Email Address</label>
+                        <input 
+                            type="email" 
+                            placeholder="name@domain.com" 
+                            value={email.value}
+                            onInput$={(e) => email.value = (e.target as HTMLInputElement).value}
+                            class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                            disabled={isLoading.value}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">Password</label>
+                        <input 
+                            type="password" 
+                            placeholder="••••••••" 
+                            value={password.value}
+                            onInput$={(e) => password.value = (e.target as HTMLInputElement).value}
+                            class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                            disabled={isLoading.value}
+                            required
+                        />
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        class={[
+                            "w-full py-2.5 text-white font-medium rounded-lg text-sm transition-all duration-200 cursor-pointer",
+                            isLoading.value ? "bg-neutral-300 dark:bg-white/10 cursor-not-allowed text-neutral-500" : "bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98]"
+                        ].join(" ")}
+                        disabled={isLoading.value}
+                    >
+                        {isLoading.value ? "Creating Account..." : "Create Account"}
+                    </button>
+                </form>
+
+                <div class="text-center mt-6 space-y-2">
+                    <p class="text-xs text-neutral-500 dark:text-[#94a3b8]">
+                        Already have an account?{" "}
+                        <a href="/auth/signin" class="text-indigo-600 dark:text-indigo-400 hover:underline font-bold">
+                            Sign In
+                        </a>
+                    </p>
+                    <div>
+                        <a href="/" class="text-xs text-neutral-400 dark:text-[#64748b] hover:text-neutral-700 dark:hover:text-white font-bold transition-colors">
+                            &larr; Back to Home
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -80,6 +233,6 @@ export default component$(() => {
 export const head: DocumentHead = {
     title: "Get Started — Zenthra Developer Portal",
     meta: [
-        { name: "description", content: "Access your Zenthra Developer Workspace. Portal under development." },
+        { name: "description", content: "Access your Zenthra Developer Workspace." },
     ],
 };

@@ -1,9 +1,42 @@
-import { component$, useSignal } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$, $ } from "@builder.io/qwik";
 import { useLocation } from "@builder.io/qwik-city";
 
 export const Navbar = component$(() => {
     const loc = useLocation();
     const isMenuOpen = useSignal(false);
+    
+    // Auth status signals
+    const isLoggedIn = useSignal(false);
+    const userRole = useSignal<string | null>(null);
+
+    useVisibleTask$(() => {
+        const getCookie = (name: string) => {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop()?.split(";").shift();
+            return null;
+        };
+        const token = getCookie("zenthra_auth_token");
+        if (token) {
+            isLoggedIn.value = true;
+            try {
+                const base64Url = token.split(".")[1];
+                const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+                const decoded = JSON.parse(atob(base64));
+                userRole.value = decoded.role || "USER";
+            } catch (e) {
+                isLoggedIn.value = false;
+                userRole.value = null;
+            }
+        }
+    });
+
+    const handleSignOut = $(() => {
+        document.cookie = "zenthra_auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        isLoggedIn.value = false;
+        userRole.value = null;
+        window.location.href = "/";
+    });
 
     const links = [
         { label: "Products", href: "/products" },
@@ -53,18 +86,45 @@ export const Navbar = component$(() => {
 
                 {/* Desktop Call to Actions */}
                 <div class="hidden md:flex items-center gap-3">
-                    <a 
-                        href="/auth/signin" 
-                        class="px-4 py-1.5 text-[#454651] hover:bg-[#e9e7ef] hover:text-[#4352a5] transition-all duration-200 text-sm font-medium rounded-[4px]"
-                    >
-                        Sign In
-                    </a>
-                    <a 
-                        href="/auth/signup" 
-                        class="px-4 py-1.5 bg-[#5c6bc0] hover:bg-[#4352a5] text-[#f8f6ff] rounded-[4px] hover:scale-[1.03] active:scale-[0.97] transition-all duration-200 text-sm font-medium shadow-md shadow-[#5c6bc0]/15"
-                    >
-                        Get Started
-                    </a>
+                    {isLoggedIn.value ? (
+                        <>
+                            {userRole.value === "ADMIN" && (
+                                <a 
+                                    href="/admin" 
+                                    class="px-4 py-1.5 border border-[#ffb300] hover:bg-[#ffb300]/10 text-[#c78200] transition-all duration-200 text-sm font-medium rounded-[4px]"
+                                >
+                                    Admin Panel
+                                </a>
+                            )}
+                            <a 
+                                href="/dashboard" 
+                                class="px-4 py-1.5 text-[#454651] hover:bg-[#e9e7ef] hover:text-[#4352a5] transition-all duration-200 text-sm font-medium rounded-[4px]"
+                            >
+                                Dashboard
+                            </a>
+                            <button 
+                                onClick$={handleSignOut}
+                                class="px-4 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-[4px] hover:scale-[1.03] active:scale-[0.97] transition-all duration-200 text-sm font-medium cursor-pointer"
+                            >
+                                Sign Out
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <a 
+                                href="/auth/signin" 
+                                class="px-4 py-1.5 text-[#454651] hover:bg-[#e9e7ef] hover:text-[#4352a5] transition-all duration-200 text-sm font-medium rounded-[4px]"
+                            >
+                                Sign In
+                            </a>
+                            <a 
+                                href="/auth/signup" 
+                                class="px-4 py-1.5 bg-[#5c6bc0] hover:bg-[#4352a5] text-[#f8f6ff] rounded-[4px] hover:scale-[1.03] active:scale-[0.97] transition-all duration-200 text-sm font-medium shadow-md shadow-[#5c6bc0]/15"
+                            >
+                                Get Started
+                            </a>
+                        </>
+                    )}
                 </div>
 
                 {/* Mobile Menu Toggle Button */}
@@ -113,20 +173,49 @@ export const Navbar = component$(() => {
                         );
                     })}
                     <div class="flex flex-col gap-3 pt-3">
-                        <a 
-                            href="/auth/signin"
-                            onClick$={() => isMenuOpen.value = false}
-                            class="w-full text-center py-2.5 text-[#454651] bg-[#e9e7ef] hover:text-[#4352a5] transition-all rounded-[4px] text-sm font-semibold"
-                        >
-                            Sign In
-                        </a>
-                        <a 
-                            href="/auth/signup"
-                            onClick$={() => isMenuOpen.value = false}
-                            class="w-full text-center py-2.5 bg-[#5c6bc0] text-white hover:bg-[#4352a5] transition-all rounded-[4px] text-sm font-semibold shadow-md shadow-[#5c6bc0]/15"
-                        >
-                            Get Started
-                        </a>
+                        {isLoggedIn.value ? (
+                            <>
+                                {userRole.value === "ADMIN" && (
+                                    <a 
+                                        href="/admin" 
+                                        onClick$={() => isMenuOpen.value = false}
+                                        class="w-full text-center py-2.5 bg-amber-500 hover:bg-amber-600 text-white transition-all rounded-[4px] text-sm font-semibold"
+                                    >
+                                        Admin Panel
+                                    </a>
+                                )}
+                                <a 
+                                    href="/dashboard" 
+                                    onClick$={() => isMenuOpen.value = false}
+                                    class="w-full text-center py-2.5 text-[#454651] bg-[#e9e7ef] hover:text-[#4352a5] transition-all rounded-[4px] text-sm font-semibold"
+                                >
+                                    Dashboard
+                                </a>
+                                <button 
+                                    onClick$={() => { isMenuOpen.value = false; handleSignOut(); }}
+                                    class="w-full text-center py-2.5 bg-red-500 hover:bg-red-600 text-white transition-all rounded-[4px] text-sm font-semibold cursor-pointer"
+                                >
+                                    Sign Out
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <a 
+                                    href="/auth/signin"
+                                    onClick$={() => isMenuOpen.value = false}
+                                    class="w-full text-center py-2.5 text-[#454651] bg-[#e9e7ef] hover:text-[#4352a5] transition-all rounded-[4px] text-sm font-semibold"
+                                >
+                                    Sign In
+                                </a>
+                                <a 
+                                    href="/auth/signup"
+                                    onClick$={() => isMenuOpen.value = false}
+                                    class="w-full text-center py-2.5 bg-[#5c6bc0] text-white hover:bg-[#4352a5] transition-all rounded-[4px] text-sm font-semibold shadow-md shadow-[#5c6bc0]/15"
+                                >
+                                    Get Started
+                                </a>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

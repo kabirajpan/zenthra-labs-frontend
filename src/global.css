@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ─── Hero Section — Simple Square Grid Mesh ─────────────────────────────── */
 
 .hero-grid-mesh {
