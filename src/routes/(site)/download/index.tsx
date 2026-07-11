@@ -1,4 +1,4 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useSignal } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 
 interface ApplicationCard {
@@ -10,6 +10,7 @@ interface ApplicationCard {
     platforms: string[];
     link: string;
     icon: any;
+    category: "desktop" | "mobile" | "web";
 }
 
 const APPLICATIONS: ApplicationCard[] = [
@@ -28,6 +29,57 @@ const APPLICATIONS: ApplicationCard[] = [
                 <polyline points="21 15 16 10 5 21" />
             </svg>
         ),
+        category: "desktop",
+    },
+    {
+        id: "zenfile",
+        title: "ZenFile",
+        description: "A high-performance native file manager built with Zenthra. Instant loading directory virtual lists, beveled frosted layouts, and fully local filesystem actions.",
+        status: "active",
+        statusLabel: "v1.0.0 (Released)",
+        platforms: ["Linux", "macOS", "Windows"],
+        link: "/products/zenthra/apps/file-manager/download",
+        icon: (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+            </svg>
+        ),
+        category: "desktop",
+    },
+    {
+        id: "after-motion",
+        title: "After Motion",
+        description: "A professional-grade on-device mobile video editor. Edit multitrack timelines at 60 FPS previews with zero telemetry and no subscriptions.",
+        status: "active",
+        statusLabel: "v1.0.0 (Released)",
+        platforms: ["iOS", "Android"],
+        link: "/products/after-motion",
+        icon: (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M23 7l-7 5 7 5V7z" />
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+            </svg>
+        ),
+        category: "mobile",
+    },
+    {
+        id: "domo",
+        title: "Domo Dashboard",
+        description: "An experimental web dashboard showing real-time interactive canvas widgets, charts, and coordinate visualizer tools.",
+        status: "active",
+        statusLabel: "v1.0.0 (Live)",
+        platforms: ["Web Browser"],
+        link: "/products/domo",
+        icon: (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <line x1="9" y1="3" x2="9" y2="21" />
+                <line x1="15" y1="3" x2="15" y2="21" />
+                <line x1="3" y1="9" x2="21" y2="9" />
+                <line x1="3" y1="15" x2="21" y2="15" />
+            </svg>
+        ),
+        category: "web",
     },
     {
         id: "zenthra-editor",
@@ -42,6 +94,7 @@ const APPLICATIONS: ApplicationCard[] = [
                 <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
             </svg>
         ),
+        category: "desktop",
     },
     {
         id: "zenthra-player",
@@ -56,10 +109,17 @@ const APPLICATIONS: ApplicationCard[] = [
                 <polygon points="5 3 19 12 5 21 5 3" />
             </svg>
         ),
+        category: "desktop",
     },
 ];
 
 export default component$(() => {
+    const activeTab = useSignal<"all" | "desktop" | "mobile" | "web">("all");
+
+    const filteredApps = APPLICATIONS.filter(
+        (app) => activeTab.value === "all" || app.category === activeTab.value
+    );
+
     return (
         <section class="max-w-6xl mx-auto px-6 py-12 md:py-20">
             {/* Header */}
@@ -75,9 +135,39 @@ export default component$(() => {
                 </p>
             </div>
 
+            {/* Tab Selector */}
+            <div class="flex justify-center mb-12">
+                <div class="inline-flex p-1 bg-[#e9e7ef] border border-[#c6c5d3] rounded-[8px] gap-1">
+                    {[
+                        { id: "all", label: "All Apps" },
+                        { id: "desktop", label: "Desktop" },
+                        { id: "mobile", label: "Mobile App" },
+                        { id: "web", label: "Web" },
+                    ].map((tab) => {
+                        const isSelected = activeTab.value === tab.id;
+                        return (
+                            <button
+                                key={tab.id}
+                                onClick$={() => {
+                                    activeTab.value = tab.id as any;
+                                }}
+                                class={[
+                                    "px-4 py-1.5 rounded-[6px] text-xs font-semibold font-['Syne',sans-serif] transition-all",
+                                    isSelected
+                                        ? "bg-[#5c6bc0] text-white shadow-md"
+                                        : "text-[#767683] hover:text-[#1b1b21]",
+                                ].join(" ")}
+                            >
+                                {tab.label}
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+
             {/* Grid of Applications */}
             <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {APPLICATIONS.map((app) => {
+                {filteredApps.map((app) => {
                     const isActive = app.status === "active";
 
                     return (
@@ -93,12 +183,20 @@ export default component$(() => {
                             <div>
                                 {/* Icon & Header */}
                                 <div class="flex items-center gap-4 mb-6">
-                                    <div class={[
-                                        "p-3 rounded-[4px]",
-                                        isActive ? "bg-[#e9e7ef] text-[#4352a5]" : "bg-[#e2e2ec] text-[#767683]"
-                                    ].join(" ")}>
-                                        {app.icon}
-                                    </div>
+                                    {app.id === "after-motion" ? (
+                                        <img
+                                            src="/assets/screenshots/after-motion/logos/full.png"
+                                            alt="After Motion Logo"
+                                            class="w-12 h-12 rounded-[8px] object-cover shadow-sm"
+                                        />
+                                    ) : (
+                                        <div class={[
+                                            "p-3 rounded-[4px]",
+                                            isActive ? "bg-[#e9e7ef] text-[#4352a5]" : "bg-[#e2e2ec] text-[#767683]"
+                                        ].join(" ")}>
+                                            {app.icon}
+                                        </div>
+                                    )}
                                     <div>
                                         <h2 class="font-['Syne',sans-serif] text-xl font-bold text-[#1b1b21]">
                                             {app.title}

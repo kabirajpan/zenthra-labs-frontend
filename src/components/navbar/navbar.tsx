@@ -40,6 +40,7 @@ export const Navbar = component$(() => {
 
     const links = [
         { label: "Products", href: "/products" },
+        { label: "Docs", href: "/products/zenthra/docs/" },
         { label: "Download", href: "/download" },
         { label: "Open Source", href: "/open-source" },
         { label: "About", href: "/about" },

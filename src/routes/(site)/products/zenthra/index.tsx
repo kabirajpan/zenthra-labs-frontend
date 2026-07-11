@@ -1,4 +1,4 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 
 // ── Feature cards data ────────────────────────────────────────────────────────
@@ -108,9 +108,41 @@ const BUILT_WITH = [
     },
 ];
 
+const SLIDES = [
+    {
+        src: "/assets/slider/zenthra_view.jpeg",
+        title: "Zenthra View",
+        desc: "A native image viewer built using Zenthra's dual-pass frosted glass textures and GPU paint canvas."
+    },
+    {
+        src: "/assets/slider/zenfile.png",
+        title: "ZenFile Manager",
+        desc: "High performance desktop explorer demonstrating layout hierarchy alignment boxes."
+    },
+    {
+        src: "/assets/slider/zenthra_viewer_04.jpeg",
+        title: "Interactive Canvas Operations",
+        desc: "Immediate mode context menus and hardware render canvas zooming options."
+    },
+    {
+        src: "/assets/slider/zenthra_viewer_05.png",
+        title: "Native Font Rendering",
+        desc: "Pixel-perfect text layout formatting using GPU atlas systems and cosmic-text fallbacks."
+    }
+];
+
 // ── Page ─────────────────────────────────────────────────────────────────────
 
 export default component$(() => {
+    const activeSlide = useSignal(0);
+
+    useVisibleTask$(({ cleanup }) => {
+        const interval = setInterval(() => {
+            activeSlide.value = (activeSlide.value + 1) % SLIDES.length;
+        }, 4000);
+        cleanup(() => clearInterval(interval));
+    });
+
     return (
         <>
             {/* ── Hero ── */}
@@ -147,7 +179,7 @@ export default component$(() => {
                                     </svg>
                                     crates.io
                                 </a>
-                                <a href="#docs"
+                                <a href="/products/zenthra/docs/"
                                     class="py-2 px-5 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] hover:bg-[#e9e7ef] transition-all text-sm">
                                     Read the Docs
                                 </a>
@@ -183,6 +215,91 @@ export default component$(() => {
                                 </div>
                             ))}
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ── Showcase Image Slider ── */}
+            <section class="border-b border-[#c6c5d3] bg-[#fbf8ff]">
+                <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
+                    <div class="text-center max-w-2xl mx-auto mb-10">
+                        <h2 class="font-['Syne',sans-serif] text-2xl sm:text-3xl font-bold text-[#1b1b21] mb-3">
+                            Visual Showcase
+                        </h2>
+                        <p class="text-sm text-[#454651]">
+                            Explore screenshots of high-performance applications built entirely on Zenthra's native GPU-accelerated graphics stack.
+                        </p>
+                    </div>
+
+                    {/* Image Slider Wrapper */}
+                    <div class="relative bg-white border border-[#c6c5d3] rounded-[4px] shadow-sm overflow-hidden group">
+                        {/* Slide Display Area */}
+                        <div class="relative w-full aspect-[16/10] md:aspect-[16/9] bg-[#0f1115] flex items-center justify-center">
+                            {SLIDES.map((slide, index) => (
+                                <div
+                                    key={slide.title}
+                                    class={`absolute inset-0 w-full h-full flex items-center justify-center transition-all duration-700 ease-in-out ${index === activeSlide.value
+                                        ? "translate-x-0 opacity-100 pointer-events-auto"
+                                        : index < activeSlide.value
+                                            ? "-translate-x-full opacity-0 pointer-events-none"
+                                            : "translate-x-full opacity-0 pointer-events-none"
+                                        }`}
+                                >
+                                    <img
+                                        src={slide.src}
+                                        alt={slide.title}
+                                        class="max-w-full max-h-full object-contain select-none"
+                                    />
+
+                                    {/* Bottom Captions Overlay */}
+                                    <div class="absolute bottom-0 inset-x-0 bg-[#071025]/50 backdrop-blur-[4px] text-white p-5 border-t border-white/10 transition-opacity duration-300">
+                                        <h3 class="font-['Syne',sans-serif] font-bold text-base text-white mb-1">
+                                            {slide.title}
+                                        </h3>
+                                        <p class="text-xs text-[#dcdfe7] leading-relaxed max-w-2xl">
+                                            {slide.desc}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Navigation Arrows */}
+                        <button
+                            onClick$={() => {
+                                activeSlide.value = (activeSlide.value - 1 + SLIDES.length) % SLIDES.length;
+                            }}
+                            class="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 border border-[#c6c5d3] flex items-center justify-center hover:bg-[#5c6bc0] hover:text-white hover:border-[#5c6bc0] transition-all text-[#1b1b21] font-bold focus:outline-none z-10 opacity-0 group-hover:opacity-100"
+                            aria-label="Previous Slide"
+                        >
+                            &larr;
+                        </button>
+                        <button
+                            onClick$={() => {
+                                activeSlide.value = (activeSlide.value + 1) % SLIDES.length;
+                            }}
+                            class="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 border border-[#c6c5d3] flex items-center justify-center hover:bg-[#5c6bc0] hover:text-white hover:border-[#5c6bc0] transition-all text-[#1b1b21] font-bold focus:outline-none z-10 opacity-0 group-hover:opacity-100"
+                            aria-label="Next Slide"
+                        >
+                            &rarr;
+                        </button>
+                    </div>
+
+                    {/* Indicator Dots */}
+                    <div class="flex justify-center items-center gap-2 mt-6">
+                        {SLIDES.map((_, index) => (
+                            <button
+                                key={index}
+                                onClick$={() => {
+                                    activeSlide.value = index;
+                                }}
+                                class={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === activeSlide.value
+                                    ? "bg-[#5c6bc0] w-6"
+                                    : "bg-[#c6c5d3] hover:bg-[#767683]"
+                                    }`}
+                                aria-label={`Go to slide ${index + 1}`}
+                            />
+                        ))}
                     </div>
                 </div>
             </section>
@@ -254,7 +371,7 @@ export default component$(() => {
 
                     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {BUILT_WITH.map((app) => (
-                            <a key={app.name} href={app.href} class="block no-underline group">
+                            <div key={app.name} class="block group">
                                 <div class="bg-white border border-[#c6c5d3] rounded-[4px] overflow-hidden flex flex-col h-full hover:border-[#4352a5] hover:-translate-y-1 transition-all duration-200">
                                     <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] bg-[#f5f2fa]">
                                         {app.thumbnail}
@@ -266,14 +383,17 @@ export default component$(() => {
                                             <span class={`px-2 py-0.5 text-xs rounded-[4px] font-medium ${app.badgeClass}`}>{app.badge}</span>
                                         </div>
                                         <p class="text-[#454651] text-sm leading-relaxed flex-grow">{app.desc}</p>
-                                        <div class="mt-4">
-                                            <span class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm inline-block group-hover:brightness-110 transition-all">
+                                        <div class="mt-4 flex flex-wrap gap-2">
+                                            <a href={app.href} class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm inline-block hover:brightness-110 transition-all">
                                                 View Details
-                                            </span>
+                                            </a>
+                                            <a href={`${app.href}/download`} class="py-2 px-4 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] text-sm inline-block hover:bg-[#e9e7ef] transition-all">
+                                                Download
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                            </a>
+                            </div>
                         ))}
 
                         {/* Placeholder — more coming */}
@@ -307,7 +427,7 @@ export default component$(() => {
                             </svg>
                             crates.io
                         </a>
-                        <a href="#docs"
+                        <a href="/products/zenthra/docs/"
                             class="py-2.5 px-6 border border-white/20 text-white font-medium rounded-[4px] hover:bg-white/10 transition-all text-sm">
                             Documentation
                         </a>

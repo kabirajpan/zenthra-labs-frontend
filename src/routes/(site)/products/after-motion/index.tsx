@@ -1,7 +1,49 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 
+const SLIDES = [
+    {
+        src: "/assets/screenshots/after-motion/editing-screen.png",
+        title: "Video Editor Canvas",
+        desc: "Advanced multi-track timeline composition at 60 FPS."
+    },
+    {
+        src: "/assets/screenshots/after-motion/Main-first-screen-project-create.png",
+        title: "Project Creation",
+        desc: "Start new editing canvases with custom resolutions."
+    },
+    {
+        src: "/assets/screenshots/after-motion/effect-controls.png",
+        title: "Visual Effects Controls",
+        desc: "Precision modifiers for hardware accelerated blits."
+    },
+    {
+        src: "/assets/screenshots/after-motion/audio-tool.png",
+        title: "Audio Mixer Canvas",
+        desc: "Multi-channel audio timeline with snaps and waveforms."
+    },
+    {
+        src: "/assets/screenshots/after-motion/caption-generator.png",
+        title: "Subtitles Generator",
+        desc: "On-device AI subtitle transcriber and alignment."
+    },
+    {
+        src: "/assets/screenshots/after-motion/text-fonts-options.png",
+        title: "Rich Fonts Overlay",
+        desc: "Cosmic-text powered bidirectional text styling."
+    }
+];
+
 export default component$(() => {
+    const activeSlide = useSignal(0);
+
+    useVisibleTask$(({ cleanup }) => {
+        const interval = setInterval(() => {
+            activeSlide.value = (activeSlide.value + 1) % SLIDES.length;
+        }, 4000);
+        cleanup(() => clearInterval(interval));
+    });
+
     return (
         <div class="relative bg-[#0b0813] text-[#e2dff0] min-h-screen">
             {/* Custom Glowing Background */}
@@ -19,13 +61,17 @@ export default component$(() => {
                 </div>
 
                 {/* ── Hero ── */}
-                <div class="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center mb-20">
+                <div class="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start mb-20">
                     <div class="col-span-12 lg:col-span-7 space-y-6">
                         <span class="inline-block px-3 py-1 bg-violet-900/40 border border-violet-700/50 text-violet-300 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
                             Mobile App · Live
                         </span>
-                        <h1 class="font-['Syne',sans-serif] text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight">
-                            After Motion
+                        <h1 class="font-['Syne',sans-serif]">
+                            <img
+                                src="/assets/screenshots/after-motion/logos/full.png"
+                                alt="After Motion"
+                                class="h-16 sm:h-20 w-auto object-contain rounded-[14px]"
+                            />
                         </h1>
                         <p class="text-base sm:text-lg text-violet-200/80 leading-relaxed max-w-xl">
                             A production-ready mobile video editor engineered for fast, fluid, on-device video composition. Edit multitrack videos at 60 FPS previews with zero telemetry and no subscription fees.
@@ -54,74 +100,83 @@ export default component$(() => {
                         </div>
                     </div>
 
-                    {/* Timeline & Smartphone Mockup in CSS */}
-                    <div class="col-span-12 lg:col-span-5 flex justify-center">
-                        <div class="relative w-72 h-[560px] bg-[#1a162b] border-[6px] border-[#373153] rounded-[36px] overflow-hidden shadow-2xl shadow-black/60 flex flex-col">
-                            {/* Camera Notch */}
-                            <div class="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-4 bg-black rounded-full z-20 flex items-center justify-between px-4">
-                                <span class="w-1.5 h-1.5 rounded-full bg-blue-900" />
-                                <span class="w-2.5 h-1 rounded-full bg-gray-900" />
-                            </div>
-
-                            {/* App Interface Mockup */}
-                            <div class="flex-grow flex flex-col relative z-10 pt-10">
-                                {/* Monitor Panel */}
-                                <div class="h-[200px] bg-black relative flex items-center justify-center">
-                                    <div class="absolute inset-0 bg-cover bg-center opacity-60" style="background-image: url('/assets/screenshots/zenthra_viewer/01.png');" />
-                                    {/* Playhead Center */}
-                                    <div class="relative w-12 h-12 rounded-full bg-violet-600/80 flex items-center justify-center border border-violet-400">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z" /></svg>
-                                    </div>
-                                    <div class="absolute bottom-2 right-2 px-2 py-0.5 bg-black/60 text-[10px] rounded text-white font-mono">00:04.12</div>
-                                </div>
-
-                                {/* Controls */}
-                                <div class="p-3 flex justify-between items-center border-b border-white/5 bg-[#171326]">
-                                    <span class="text-[10px] text-violet-300 font-mono">1080p · 60fps</span>
-                                    <div class="flex gap-2">
-                                        <button class="p-1 rounded bg-white/5 hover:bg-white/10 text-xs"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg></button>
-                                        <button class="p-1 rounded bg-white/5 hover:bg-white/10 text-xs"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 5v14h-3V5h3zm-6 0v14h-3V5h3z"/></svg></button>
-                                        <button class="p-1 rounded bg-white/5 hover:bg-white/10 text-xs"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg></button>
-                                    </div>
-                                </div>
-
-                                {/* Timeline Editor Area */}
-                                <div class="flex-grow bg-[#110d21] p-3 flex flex-col gap-2 overflow-hidden">
-                                    <div class="flex justify-between items-center text-[9px] text-violet-400 font-mono">
-                                        <span>Tracks</span>
-                                        <span>00:00 - 00:15</span>
-                                    </div>
-
-                                    {/* Track 1: Text Layer */}
-                                    <div class="h-6 bg-[#2c1d49] border border-violet-500/30 rounded px-2 flex items-center justify-between text-[9px]">
-                                        <span class="text-violet-200">💬 Text Layer</span>
-                                        <span class="w-16 h-1.5 bg-violet-400 rounded-sm" />
-                                    </div>
-
-                                    {/* Track 2: Video Layer */}
-                                    <div class="h-8 bg-[#1f285c] border border-indigo-500/30 rounded px-2 flex items-center justify-between text-[9px] relative overflow-hidden">
-                                        <div class="absolute inset-y-0 left-4 right-10 bg-indigo-400/20" />
-                                        <span class="z-10 text-indigo-200">🎬 clip_01.mp4</span>
-                                        <span class="z-10 text-[8px] text-indigo-300">6.2s</span>
-                                    </div>
-
-                                    {/* Track 3: Audio Layer */}
-                                    <div class="h-8 bg-[#1b4332] border border-emerald-500/30 rounded px-2 flex items-center justify-between text-[9px] relative overflow-hidden">
-                                        {/* Waveform lines */}
-                                        <div class="absolute bottom-0 left-0 right-0 h-4 flex items-end gap-0.5 px-2 opacity-30">
-                                            {[3, 8, 4, 9, 6, 12, 7, 5, 9, 4, 8, 6, 10, 5, 7, 9, 4, 6, 8, 3, 5, 8, 4, 9].map((h, i) => (
-                                                <div key={i} class="flex-1 rounded-sm bg-emerald-400" style={`height: ${h * 1}px`} />
-                                            ))}
+                    {/* Timeline & Landscape Slider Mockup */}
+                    <div class="col-span-12 lg:col-span-5 flex flex-col items-center lg:-mt-10">
+                        <div class="relative group/phone pb-4 px-16">
+                            {/* Portrait Image Frame */}
+                            <div class="relative w-72 aspect-[9/16] bg-[#110d21] border border-white/10 rounded-[12px] shadow-2xl overflow-hidden flex flex-col">
+                                {/* Slides Container */}
+                                <div class="relative flex-grow w-full h-full">
+                                    {SLIDES.map((slide, index) => (
+                                        <div
+                                            key={slide.title}
+                                            class={`absolute inset-0 w-full h-full flex flex-col transition-all duration-700 ease-in-out ${index === activeSlide.value
+                                                ? "translate-x-0 opacity-100 pointer-events-auto"
+                                                : index < activeSlide.value
+                                                    ? "-translate-x-full opacity-0 pointer-events-none"
+                                                    : "translate-x-full opacity-0 pointer-events-none"
+                                                }`}
+                                        >
+                                            <img
+                                                src={slide.src}
+                                                alt={slide.title}
+                                                class="w-full h-full object-cover select-none"
+                                            />
                                         </div>
-                                        <span class="z-10 text-emerald-200">🎵 background_beat.wav</span>
-                                    </div>
-
-                                    {/* Vertical Playhead Line */}
-                                    <div class="absolute top-[240px] bottom-0 left-[40%] w-[1.5px] bg-[#ff4a75] z-15 shadow-glow">
-                                        <div class="absolute -top-1 -left-1 w-2.5 h-2.5 rounded-full bg-[#ff4a75]" />
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
+
+                            {/* Navigation Arrows */}
+                            <button
+                                onClick$={() => {
+                                    activeSlide.value = (activeSlide.value - 1 + SLIDES.length) % SLIDES.length;
+                                }}
+                                class="absolute left-0 top-1/2 -translate-y-1/2 p-2 text-violet-400 opacity-10 hover:opacity-100 hover:text-white transition-all duration-300 focus:outline-none z-20"
+                                aria-label="Previous Slide"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-8 h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                </svg>
+                            </button>
+                            <button
+                                onClick$={() => {
+                                    activeSlide.value = (activeSlide.value + 1) % SLIDES.length;
+                                }}
+                                class="absolute right-0 top-1/2 -translate-y-1/2 p-2 text-violet-400 opacity-10 hover:opacity-100 hover:text-white transition-all duration-300 focus:outline-none z-20"
+                                aria-label="Next Slide"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-8 h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        {/* Indicator Dots */}
+                        <div class="flex items-center gap-1.5 mt-4 z-20">
+                            {SLIDES.map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick$={() => {
+                                        activeSlide.value = index;
+                                    }}
+                                    class={`w-2 h-2 rounded-full transition-all duration-300 ${index === activeSlide.value
+                                        ? "bg-violet-400 w-5"
+                                        : "bg-white/30 hover:bg-white"
+                                        }`}
+                                    aria-label={`Go to slide ${index + 1}`}
+                                />
+                            ))}
+                        </div>
+
+                        {/* Active Slide Description */}
+                        <div class="mt-6 text-center max-w-[320px] min-h-[76px] flex flex-col justify-start">
+                            <h3 class="font-['Syne',sans-serif] font-bold text-sm text-white mb-1">
+                                {SLIDES[activeSlide.value].title}
+                            </h3>
+                            <p class="text-xs text-violet-300/80 leading-relaxed">
+                                {SLIDES[activeSlide.value].desc}
+                            </p>
                         </div>
                     </div>
                 </div>

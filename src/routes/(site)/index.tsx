@@ -1,4 +1,4 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import Hero3DScene from "../../components/hero/hero3d";
 import HeroSquares from "../../components/background/hero-squares";
@@ -42,23 +42,27 @@ const ZenthraViewThumbnail = component$(() => (
     </div>
 ));
 
+const ZenFileThumbnail = component$(() => (
+    <div class="w-full h-full bg-[#e9e7ef] flex items-center justify-center">
+        <img
+            src="/assets/screenshots/zenfile/main-default-size-and-color.png"
+            alt="ZenFile"
+            class="w-full h-full object-cover"
+        />
+    </div>
+));
+
 const AfterMotionThumbnail = component$(() => (
-    <div class="w-full h-full relative overflow-hidden flex items-center justify-center"
-        style="background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);">
-        <div class="absolute inset-0 opacity-10"
-            style="background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 2px, transparent 2px, transparent 48px);" />
-        <div class="relative flex flex-col items-center gap-3">
-            <div class="w-14 h-14 rounded-full flex items-center justify-center"
-                style="background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.25);">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z" /></svg>
-            </div>
-            <span class="text-white text-xs font-['DM_Sans',sans-serif] font-medium tracking-wide opacity-80">After Motion</span>
-        </div>
-        <div class="absolute bottom-0 left-0 right-0 h-8 flex items-end gap-0.5 px-4 pb-2 opacity-30">
-            {[3, 5, 8, 4, 9, 6, 11, 7, 5, 9, 4, 8, 6, 10, 5, 7, 9, 4, 6, 8].map((h, i) => (
-                <div key={i} class="flex-1 rounded-sm bg-white" style={`height: ${h * 2}px`} />
-            ))}
-        </div>
+    <div class="w-full h-full bg-[#0b0813] relative overflow-hidden flex items-center justify-center py-2">
+        <div 
+            class="absolute inset-0 bg-cover bg-center blur-md opacity-20 scale-110"
+            style="background-image: url('/assets/screenshots/after-motion/editing-screen.png');"
+        />
+        <img
+            src="/assets/screenshots/after-motion/editing-screen.png"
+            alt="After Motion"
+            class="h-full w-auto object-contain relative z-10 rounded-[4px] shadow-xl"
+        />
     </div>
 ));
 
@@ -70,9 +74,41 @@ const DomoThumbnail = component$(() => (
     </div>
 ));
 
+const SLIDES = [
+    {
+        src: "/assets/slider/zenthra_view.jpeg",
+        title: "Zenthra View",
+        desc: "A native image viewer built using Zenthra's dual-pass frosted glass textures and GPU paint canvas."
+    },
+    {
+        src: "/assets/slider/zenfile.png",
+        title: "ZenFile Manager",
+        desc: "High performance desktop explorer demonstrating layout hierarchy alignment boxes."
+    },
+    {
+        src: "/assets/slider/zenthra_viewer_04.jpeg",
+        title: "Interactive Canvas Operations",
+        desc: "Immediate mode context menus and hardware render canvas zooming options."
+    },
+    {
+        src: "/assets/slider/zenthra_viewer_05.png",
+        title: "Native Font Rendering",
+        desc: "Pixel-perfect text layout formatting using GPU atlas systems and cosmic-text fallbacks."
+    }
+];
+
 // ── Page ─────────────────────────────────────────────────────────────────────
 
 export default component$(() => {
+    const activeSlide = useSignal(0);
+
+    useVisibleTask$(({ cleanup }) => {
+        const interval = setInterval(() => {
+            activeSlide.value = (activeSlide.value + 1) % SLIDES.length;
+        }, 4000);
+        cleanup(() => clearInterval(interval));
+    });
+
     return (
         <div class="relative bg-[#fbf8ff] text-[#1b1b21] min-h-screen overflow-hidden">
             {/* ── Hero Section ── */}
@@ -173,6 +209,93 @@ export default component$(() => {
                 </div>
             </section>
 
+            {/* ── Showcase Image Slider ── */}
+            <section class="border-b border-[#c6c5d3] bg-[#fbf8ff]">
+                <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
+                    <div class="text-center max-w-2xl mx-auto mb-10">
+                        <h2 class="font-['Syne',sans-serif] text-2xl sm:text-3xl font-bold text-[#1b1b21] mb-3">
+                            Showcase Gallery
+                        </h2>
+                        <p class="text-sm text-[#454651]">
+                            Take a look at low-latency desktop application interfaces engineered directly on our systems.
+                        </p>
+                    </div>
+
+                    {/* Image Slider Wrapper */}
+                    <div class="relative bg-white border border-[#c6c5d3] rounded-[4px] shadow-sm overflow-hidden group">
+                        {/* Slide Display Area */}
+                        <div class="relative w-full aspect-[16/10] md:aspect-[16/9] bg-[#0f1115] flex items-center justify-center">
+                            {SLIDES.map((slide, index) => (
+                                <div
+                                    key={slide.title}
+                                    class={`absolute inset-0 w-full h-full flex items-center justify-center transition-all duration-700 ease-in-out ${
+                                        index === activeSlide.value
+                                            ? "translate-x-0 opacity-100 pointer-events-auto"
+                                            : index < activeSlide.value
+                                                ? "-translate-x-full opacity-0 pointer-events-none"
+                                                : "translate-x-full opacity-0 pointer-events-none"
+                                    }`}
+                                >
+                                    <img
+                                        src={slide.src}
+                                        alt={slide.title}
+                                        class="max-w-full max-h-full object-contain select-none"
+                                    />
+                                    
+                                    {/* Bottom Captions Overlay */}
+                                    <div class="absolute bottom-0 inset-x-0 bg-[#071025]/50 backdrop-blur-sm text-white p-5 border-t border-white/10 transition-opacity duration-300">
+                                        <h3 class="font-['Syne',sans-serif] font-bold text-base text-white mb-1">
+                                            {slide.title}
+                                        </h3>
+                                        <p class="text-xs text-[#dcdfe7] leading-relaxed max-w-2xl">
+                                            {slide.desc}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Navigation Arrows */}
+                        <button
+                            onClick$={() => {
+                                activeSlide.value = (activeSlide.value - 1 + SLIDES.length) % SLIDES.length;
+                            }}
+                            class="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 border border-[#c6c5d3] flex items-center justify-center hover:bg-[#5c6bc0] hover:text-white hover:border-[#5c6bc0] transition-all text-[#1b1b21] font-bold focus:outline-none z-10 opacity-0 group-hover:opacity-100"
+                            aria-label="Previous Slide"
+                        >
+                            &larr;
+                        </button>
+                        <button
+                            onClick$={() => {
+                                activeSlide.value = (activeSlide.value + 1) % SLIDES.length;
+                            }}
+                            class="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 border border-[#c6c5d3] flex items-center justify-center hover:bg-[#5c6bc0] hover:text-white hover:border-[#5c6bc0] transition-all text-[#1b1b21] font-bold focus:outline-none z-10 opacity-0 group-hover:opacity-100"
+                            aria-label="Next Slide"
+                        >
+                            &rarr;
+                        </button>
+                    </div>
+
+                    {/* Indicator Dots */}
+                    <div class="flex justify-center items-center gap-2 mt-6">
+                        {SLIDES.map((_, index) => (
+                            <button
+                                key={index}
+                                onClick$={() => {
+                                    activeSlide.value = index;
+                                }}
+                                class={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                                    index === activeSlide.value
+                                        ? "bg-[#5c6bc0] w-6"
+                                        : "bg-[#c6c5d3] hover:bg-[#767683]"
+                                }`}
+                                aria-label={`Go to slide ${index + 1}`}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* ── Featured Ecosystem ── */}
             <section class="border-b border-[#c6c5d3] bg-[#fbf8ff]">
                 <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-20">
@@ -186,7 +309,7 @@ export default component$(() => {
                         </a>
                     </div>
 
-                    <div class="grid md:grid-cols-2 gap-8">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {/* Zenthra */}
                         <div class="bg-white border border-[#c6c5d3] rounded-[4px] overflow-hidden flex flex-col hover:border-[#4352a5] hover:-translate-y-1 transition-all duration-200">
                             <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] bg-[#f5f2fa]">
@@ -211,7 +334,13 @@ export default component$(() => {
                             </div>
                             <div class="p-6 flex flex-col flex-grow">
                                 <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] mb-2">Mobile Video Editor</p>
-                                <h3 class="font-['Syne',sans-serif] text-lg font-bold text-[#1b1b21] mb-2">After Motion</h3>
+                                <h3 class="font-['Syne',sans-serif] mb-2">
+                                    <img
+                                        src="/assets/screenshots/after-motion/logos/full.png"
+                                        alt="After Motion"
+                                        class="h-7 w-auto object-contain rounded-[4px]"
+                                    />
+                                </h3>
                                 <p class="text-[#454651] text-sm leading-relaxed flex-grow">A professional-grade on-device video composition app built for creators. Non-destructive timeline editing, precise cutting, and premium audio-video alignment without cloud rendering delays.</p>
                                 <div class="mt-6">
                                     <a href="/products/after-motion" class="inline-block py-2 px-5 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">
@@ -230,9 +359,32 @@ export default component$(() => {
                                 <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] mb-2">Desktop Application</p>
                                 <h3 class="font-['Syne',sans-serif] text-lg font-bold text-[#1b1b21] mb-2">Zenthra View</h3>
                                 <p class="text-[#454651] text-sm leading-relaxed flex-grow">A native, cross-platform image viewer constructed using the Zenthra UI framework. Smooth canvas zooming, directory trees, slideshow settings, and a high-performance filmstrip.</p>
-                                <div class="mt-6">
+                                <div class="mt-6 flex flex-wrap gap-2">
                                     <a href="/products/zenthra/apps/zenthra-view" class="inline-block py-2 px-5 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">
                                         View Details
+                                    </a>
+                                    <a href="/products/zenthra/apps/zenthra-view/download" class="inline-block py-2 px-5 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] text-sm hover:bg-[#e9e7ef] transition-all">
+                                        Download
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* ZenFile */}
+                        <div class="bg-white border border-[#c6c5d3] rounded-[4px] overflow-hidden flex flex-col hover:border-[#4352a5] hover:-translate-y-1 transition-all duration-200">
+                            <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] bg-[#f5f2fa]">
+                                <ZenFileThumbnail />
+                            </div>
+                            <div class="p-6 flex flex-col flex-grow">
+                                <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] mb-2">Desktop Application</p>
+                                <h3 class="font-['Syne',sans-serif] text-lg font-bold text-[#1b1b21] mb-2">ZenFile</h3>
+                                <p class="text-[#454651] text-sm leading-relaxed flex-grow">A high-performance native file manager built with Zenthra. Instant loading directory virtual lists, beveled frosted layouts, and fully local filesystem actions.</p>
+                                <div class="mt-6 flex flex-wrap gap-2">
+                                    <a href="/products/zenthra/apps/file-manager" class="inline-block py-2 px-5 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">
+                                        View Details
+                                    </a>
+                                    <a href="/products/zenthra/apps/file-manager/download" class="inline-block py-2 px-5 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] text-sm hover:bg-[#e9e7ef] transition-all">
+                                        Download
                                     </a>
                                 </div>
                             </div>
@@ -253,6 +405,14 @@ export default component$(() => {
                                     </a>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* Placeholder — more coming */}
+                        <div class="bg-[#fbf8ff] border border-dashed border-[#c6c5d3] rounded-[4px] flex flex-col items-center justify-center p-10 gap-3 opacity-60 min-h-[300px]">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c6c5d3" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10" /><path d="M12 8v8M8 12h8" />
+                            </svg>
+                            <p class="text-xs font-['JetBrains_Mono',monospace] text-[#c6c5d3] tracking-widest text-center">More flagship apps<br />coming soon</p>
                         </div>
                     </div>
                 </div>

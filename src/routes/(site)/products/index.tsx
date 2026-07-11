@@ -41,22 +41,26 @@ const ZenthraViewThumbnail = component$(() => (
 ));
 
 const AfterMotionThumbnail = component$(() => (
-    <div class="w-full h-full relative overflow-hidden flex items-center justify-center"
-        style="background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);">
-        <div class="absolute inset-0 opacity-10"
-            style="background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 2px, transparent 2px, transparent 48px);" />
-        <div class="relative flex flex-col items-center gap-3">
-            <div class="w-14 h-14 rounded-full flex items-center justify-center"
-                style="background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.25);">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z" /></svg>
-            </div>
-            <span class="text-white text-xs font-['DM_Sans',sans-serif] font-medium tracking-wide opacity-80">After Motion</span>
-        </div>
-        <div class="absolute bottom-0 left-0 right-0 h-8 flex items-end gap-0.5 px-4 pb-2 opacity-30">
-            {[3, 5, 8, 4, 9, 6, 11, 7, 5, 9, 4, 8, 6, 10, 5, 7, 9, 4, 6, 8].map((h, i) => (
-                <div key={i} class="flex-1 rounded-sm bg-white" style={`height: ${h * 2}px`} />
-            ))}
-        </div>
+    <div class="w-full h-full bg-[#0b0813] relative overflow-hidden flex items-center justify-center py-2">
+        <div 
+            class="absolute inset-0 bg-cover bg-center blur-md opacity-20 scale-110"
+            style="background-image: url('/assets/screenshots/after-motion/editing-screen.png');"
+        />
+        <img
+            src="/assets/screenshots/after-motion/editing-screen.png"
+            alt="After Motion"
+            class="h-full w-auto object-contain relative z-10 rounded-[4px] shadow-xl"
+        />
+    </div>
+));
+
+const ZenFileThumbnail = component$(() => (
+    <div class="w-full h-full bg-[#f5f2fa] flex items-center justify-center">
+        <img
+            src="/assets/screenshots/zenfile/main-default-size-and-color.png"
+            alt="ZenFile"
+            class="w-full h-full object-cover"
+        />
     </div>
 ));
 
@@ -109,6 +113,12 @@ const AfterMotionActions = component$(() => (
     </div>
 ));
 
+const ZenFileActions = component$(() => (
+    <div class="flex flex-wrap gap-2 sm:gap-3">
+        <a href="/products/zenthra/apps/file-manager/download" class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">Download</a>
+    </div>
+));
+
 const DomoActions = component$(() => (
     <div class="flex flex-wrap gap-2 sm:gap-3">
         <a href="/products/domo" class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
@@ -156,7 +166,15 @@ const ProductCard = component$<CardProps>(({
             <div class="p-5 flex flex-col flex-grow">
                 <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] mb-2">{category}</p>
                 <div class="flex flex-wrap items-center gap-2 mb-2">
-                    <h3 class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21]">{title}</h3>
+                    {title === "After Motion" ? (
+                        <img
+                            src="/assets/screenshots/after-motion/logos/full.png"
+                            alt="After Motion"
+                            class="h-6 w-auto object-contain rounded-[4px]"
+                        />
+                    ) : (
+                        <h3 class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21]">{title}</h3>
+                    )}
                     {badge && <span class={`px-2 py-0.5 text-xs rounded-[4px] font-medium ${badgeClass}`}>{badge}</span>}
                 </div>
                 <p class="text-[#454651] text-sm leading-relaxed flex-grow">{description}</p>
@@ -194,6 +212,9 @@ export default component$(() => {
                 <ProductCard thumbnail={AfterMotionThumbnail} title="After Motion" badge="Live" badgeVariant="green" category="Mobile Video Editor"
                     description="A production-ready mobile video editor built for fast, fluid, on-device editing. No subscriptions. No cloud required."
                     Actions={AfterMotionActions} />
+                <ProductCard thumbnail={ZenFileThumbnail} title="ZenFile" badge="v1.0" badgeVariant="green" category="Desktop File Manager"
+                    description="A high-performance native file manager built with Zenthra. Instant loading directory virtual lists, beveled frosted layouts, and fully local filesystem actions."
+                    Actions={ZenFileActions} />
                 <ProductCard thumbnail={DomoThumbnail} title="Domo" badge="Demo" category="Interactive Demo"
                     description="A small demo exploring interactive data visualizations and live previews."
                     Actions={DomoActions} />
