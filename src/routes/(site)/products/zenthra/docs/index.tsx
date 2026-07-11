@@ -1,4 +1,4 @@
-import { component$, useSignal, $, useTask$ } from "@builder.io/qwik";
+import { component$, useSignal, $, useTask$, PropFunction } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 
 interface TreeNode {
@@ -15,8 +15,8 @@ export const TreeNodeView = component$<{
     level: number;
     activeDoc: { value: string };
     expandedPaths: { value: Record<string, boolean> };
-    onToggle: (path: string) => void;
-    onSelectFile: (fileId: string) => void;
+    onToggle: PropFunction<(path: string) => void>;
+    onSelectFile: PropFunction<(fileId: string) => void>;
 }>(({ node, level, activeDoc, expandedPaths, onToggle, onSelectFile }) => {
     const isFolder = node.type === "folder";
     const isExpanded = expandedPaths.value[node.path] || false;
@@ -26,11 +26,11 @@ export const TreeNodeView = component$<{
         <div class="w-full flex flex-col">
             {/* Node item row */}
             <button
-                onClick$={() => {
+                onClick$={async () => {
                     if (isFolder) {
-                        onToggle(node.path);
+                        await onToggle(node.path);
                     } else if (node.fileId) {
-                        onSelectFile(node.fileId);
+                        await onSelectFile(node.fileId);
                     }
                 }}
                 style={{ paddingLeft: `${level * 12 + 6}px` }}
