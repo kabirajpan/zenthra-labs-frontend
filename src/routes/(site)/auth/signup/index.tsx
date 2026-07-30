@@ -14,30 +14,48 @@ export default component$(() => {
     const isLoading = useSignal(false);
     const nav = useNavigate();
 
+    const isVerifying = useSignal(false);
+    const verificationCode = useSignal("");
+
     const handleSignup = $(async () => {
-        if (!firstName.value || !lastName.value || !password.value) {
+        const cleanEmail = email.value.trim().toLowerCase();
+        const cleanFirstName = firstName.value.trim();
+        const cleanLastName = lastName.value.trim();
+        const cleanPassword = password.value.trim();
+
+        if (!cleanFirstName || !cleanLastName || !cleanPassword) {
             errorMessage.value = "First Name, Last Name, and Password are required.";
             return;
         }
 
+        if (cleanPassword.length < 8) {
+            errorMessage.value = "Password must be at least 8 characters long.";
+            return;
+        }
+
         const payload: Record<string, any> = {
-            firstName: firstName.value,
-            lastName: lastName.value,
-            password: password.value
+            firstName: cleanFirstName,
+            lastName: cleanLastName,
+            password: cleanPassword
         };
 
         if (authType.value === "email") {
-            if (!email.value) {
+            if (!cleanEmail) {
                 errorMessage.value = "Please provide an email address.";
                 return;
             }
-            payload.email = email.value;
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(cleanEmail)) {
+                errorMessage.value = "Invalid email format (e.g. name@domain.com). Please check for typos.";
+                return;
+            }
+            payload.email = cleanEmail;
         } else {
-            if (!phoneNumber.value) {
+            if (!phoneNumber.value.trim()) {
                 errorMessage.value = "Please provide a phone number.";
                 return;
             }
-            payload.phoneNumber = phoneNumber.value;
+            payload.phoneNumber = phoneNumber.value.trim();
         }
 
         isLoading.value = true;
@@ -58,14 +76,57 @@ export default component$(() => {
                 throw new Error(data.error || "Registration failed");
             }
 
-            successMessage.value = "Registration successful! Redirecting...";
             document.cookie = `zenthra_auth_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
             
+            if (data.verificationToken) {
+                isVerifying.value = true;
+                successMessage.value = `Account created! Please enter verification code: ${data.verificationToken}`;
+            } else {
+                successMessage.value = "Registration successful! Redirecting...";
+                setTimeout(() => {
+                    nav("/dashboard");
+                }, 1200);
+            }
+        } catch (err: any) {
+            errorMessage.value = err.message || "Something went wrong. Please try again.";
+        } finally {
+            isLoading.value = false;
+        }
+    });
+
+    const handleVerify = $(async () => {
+        if (!verificationCode.value.trim()) {
+            errorMessage.value = "Please enter the verification code.";
+            return;
+        }
+
+        isLoading.value = true;
+        errorMessage.value = "";
+        successMessage.value = "";
+
+        try {
+            const res = await fetch(`${API_BASE}/api/auth/verify-email`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email.value.trim().toLowerCase(),
+                    code: verificationCode.value.trim(),
+                }),
+            });
+
+            const data = await res.json();
+            if (!res.ok) {
+                throw new Error(data.error || "Verification failed");
+            }
+
+            successMessage.value = "Email verified successfully! Redirecting to workspace...";
             setTimeout(() => {
                 nav("/dashboard");
             }, 1200);
         } catch (err: any) {
-            errorMessage.value = err.message || "Something went wrong. Please try again.";
+            errorMessage.value = err.message || "Verification failed. Please check the code and try again.";
         } finally {
             isLoading.value = false;
         }
@@ -146,72 +207,100 @@ export default component$(() => {
                     </div>
                 )}
 
-                {/* Registration Form */}
-                <form preventdefault:submit onSubmit$={handleSignup} class="space-y-4 mb-6">
-                    <div class="grid grid-cols-2 gap-4">
+                {/* Registration or Verification Form */}
+                {isVerifying.value ? (
+                    <form preventdefault:submit onSubmit$={handleVerify} class="space-y-4 mb-6">
                         <div>
-                            <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">First Name</label>
+                            <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">6-Digit Verification Code</label>
                             <input 
                                 type="text" 
-                                placeholder="John" 
-                                value={firstName.value}
-                                onInput$={(e) => firstName.value = (e.target as HTMLInputElement).value}
+                                placeholder="123456" 
+                                value={verificationCode.value}
+                                onInput$={(e) => verificationCode.value = (e.target as HTMLInputElement).value}
+                                class="w-full text-center tracking-widest font-mono text-lg border border-neutral-200 dark:border-[#1e2030] rounded-lg p-3 outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                                disabled={isLoading.value}
+                                maxLength={6}
+                                required
+                            />
+                        </div>
+                        <button 
+                            type="submit" 
+                            class={[
+                                "w-full py-2.5 text-white font-medium rounded-lg text-sm transition-all duration-200 cursor-pointer",
+                                isLoading.value ? "bg-neutral-300 dark:bg-white/10 cursor-not-allowed text-neutral-500" : "bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98]"
+                            ].join(" ")}
+                            disabled={isLoading.value}
+                        >
+                            {isLoading.value ? "Verifying..." : "Verify Email & Continue"}
+                        </button>
+                    </form>
+                ) : (
+                    <form preventdefault:submit onSubmit$={handleSignup} class="space-y-4 mb-6">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">First Name</label>
+                                <input 
+                                    type="text" 
+                                    placeholder="John" 
+                                    value={firstName.value}
+                                    onInput$={(e) => firstName.value = (e.target as HTMLInputElement).value}
+                                    class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                                    disabled={isLoading.value}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">Last Name</label>
+                                <input 
+                                    type="text" 
+                                    placeholder="Doe" 
+                                    value={lastName.value}
+                                    onInput$={(e) => lastName.value = (e.target as HTMLInputElement).value}
+                                    class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                                    disabled={isLoading.value}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">Email Address</label>
+                            <input 
+                                type="email" 
+                                placeholder="name@domain.com" 
+                                value={email.value}
+                                onInput$={(e) => email.value = (e.target as HTMLInputElement).value}
                                 class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
                                 disabled={isLoading.value}
                                 required
                             />
                         </div>
+
                         <div>
-                            <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">Last Name</label>
+                            <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">Password</label>
                             <input 
-                                type="text" 
-                                placeholder="Doe" 
-                                value={lastName.value}
-                                onInput$={(e) => lastName.value = (e.target as HTMLInputElement).value}
+                                type="password" 
+                                placeholder="••••••••" 
+                                value={password.value}
+                                onInput$={(e) => password.value = (e.target as HTMLInputElement).value}
                                 class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
                                 disabled={isLoading.value}
                                 required
                             />
                         </div>
-                    </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">Email Address</label>
-                        <input 
-                            type="email" 
-                            placeholder="name@domain.com" 
-                            value={email.value}
-                            onInput$={(e) => email.value = (e.target as HTMLInputElement).value}
-                            class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                        <button 
+                            type="submit" 
+                            class={[
+                                "w-full py-2.5 text-white font-medium rounded-lg text-sm transition-all duration-200 cursor-pointer",
+                                isLoading.value ? "bg-neutral-300 dark:bg-white/10 cursor-not-allowed text-neutral-500" : "bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98]"
+                            ].join(" ")}
                             disabled={isLoading.value}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">Password</label>
-                        <input 
-                            type="password" 
-                            placeholder="••••••••" 
-                            value={password.value}
-                            onInput$={(e) => password.value = (e.target as HTMLInputElement).value}
-                            class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
-                            disabled={isLoading.value}
-                            required
-                        />
-                    </div>
-
-                    <button 
-                        type="submit" 
-                        class={[
-                            "w-full py-2.5 text-white font-medium rounded-lg text-sm transition-all duration-200 cursor-pointer",
-                            isLoading.value ? "bg-neutral-300 dark:bg-white/10 cursor-not-allowed text-neutral-500" : "bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98]"
-                        ].join(" ")}
-                        disabled={isLoading.value}
-                    >
-                        {isLoading.value ? "Creating Account..." : "Create Account"}
-                    </button>
-                </form>
+                        >
+                            {isLoading.value ? "Creating Account..." : "Create Account"}
+                        </button>
+                    </form>
+                )}
 
                 <div class="text-center mt-6 space-y-2">
                     <p class="text-xs text-neutral-500 dark:text-[#94a3b8]">

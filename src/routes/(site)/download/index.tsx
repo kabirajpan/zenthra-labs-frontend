@@ -51,9 +51,9 @@ const APPLICATIONS: ApplicationCard[] = [
         title: "After Motion",
         description: "A professional-grade on-device mobile video editor. Edit multitrack timelines at 60 FPS previews with zero telemetry and no subscriptions.",
         status: "active",
-        statusLabel: "v1.0.0 (Released)",
-        platforms: ["iOS", "Android"],
-        link: "/products/after-motion",
+        statusLabel: "v1.0.0 (Google Play)",
+        platforms: ["Android"],
+        link: "https://play.google.com/store/apps/details?id=com.aftermotion.app",
         icon: (
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M23 7l-7 5 7 5V7z" />
@@ -235,12 +235,31 @@ export default component$(() => {
 
                             {/* Download Action */}
                             {isActive ? (
-                                <a
-                                    href={app.link}
-                                    class="py-2.5 px-4 bg-[#5c6bc0] hover:bg-[#4d5cb0] text-white text-sm font-semibold rounded-[4px] text-center transition-all shadow-md shadow-[#5c6bc0]/15"
-                                >
-                                    Get Started
-                                </a>
+                                app.id === "after-motion" ? (
+                                    <a
+                                        href={app.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="py-2.5 px-4 bg-[#12131a] hover:bg-[#1b1c26] text-white text-sm font-semibold rounded-[6px] text-center transition-all shadow-md border border-[#2a2a38] flex items-center justify-center gap-2"
+                                    >
+                                        <svg width="18" height="18" viewBox="0 0 24 24" class="shrink-0">
+                                            <path fill="#EA4335" d="M3.6 2.2C3.2 2.6 3 3.2 3 4v16c0 .8.2 1.4.6 1.8l.1.1 9-9v-.2L3.7 2.1l-.1.1z"/>
+                                            <path fill="#FBBC04" d="M15.7 15.9l-3-3v-.2l3-3 .1.1 3.5 2c1 .6 1 1.5 0 2.1l-3.6 2z"/>
+                                            <path fill="#4285F4" d="M12.7 12.7L3.6 21.8c.4.4.9.4 1.5.1l10.6-6-3-3.2z"/>
+                                            <path fill="#34A853" d="M12.7 11.3l3-3L5.1 2.3c-.6-.3-1.1-.3-1.5.1l9.1 8.9z"/>
+                                        </svg>
+                                        <span>Get on Google Play</span>
+                                    </a>
+                                ) : (
+                                    <a
+                                        href={app.link}
+                                        target={app.link.startsWith("http") ? "_blank" : undefined}
+                                        rel={app.link.startsWith("http") ? "noopener noreferrer" : undefined}
+                                        class="py-2.5 px-4 bg-[#5c6bc0] hover:bg-[#4d5cb0] text-white text-sm font-semibold rounded-[4px] text-center transition-all shadow-md shadow-[#5c6bc0]/15"
+                                    >
+                                        {app.link.startsWith("http") ? "Get on Google Play" : "Get Started"}
+                                    </a>
+                                )
                             ) : (
                                 <button
                                     disabled

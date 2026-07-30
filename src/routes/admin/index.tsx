@@ -1,6 +1,5 @@
 import { API_BASE } from "~/lib/api";
 import { component$, useSignal, useVisibleTask$, $, useTask$ } from "@builder.io/qwik";
-import { DocumentHead } from "@builder.io/qwik-city";
 
 interface User {
     id: string;
@@ -10,25 +9,24 @@ interface User {
     lastName: string;
     role: "USER" | "ADMIN";
     createdAt: string;
+    lastDevice?: string | null;
+    loggedInProducts?: string[];
 }
 
 interface Stats {
     totalUsers: number;
     adminCount: number;
     userCount: number;
-    telemetry: {
-        activeBuilds: number;
-        avgLatencyMs: number;
-        platformUptime: string;
-        cpuLoad: string;
-        memoryUsed: string;
-    };
+    afterMotionCount: number;
+    webAppCount: number;
 }
 
 export default component$(() => {
     const users = useSignal<User[]>([]);
     const stats = useSignal<Stats | null>(null);
     const searchQuery = useSignal("");
+    const roleFilter = useSignal<"ALL" | "ADMIN" | "USER">("ALL");
+    
     const errorMsg = useSignal("");
     const actionMsg = useSignal("");
     const isActionLoading = useSignal(false);
@@ -45,13 +43,13 @@ export default component$(() => {
         if (!token) return;
 
         try {
-            const url = `/api/admin/users?search=${encodeURIComponent(searchQuery.value)}`;
+            const url = `${API_BASE}/api/admin/users?search=${encodeURIComponent(searchQuery.value)}`;
             const res = await fetch(url, {
                 headers: { "Authorization": `Bearer ${token}` }
             });
-            if (!res.ok) throw new Error("Could not fetch user directory");
+            if (!res.ok) throw new Error("Could not fetch users");
             const data = await res.json();
-            users.value = data.users;
+            users.value = data.users || [];
         } catch (e: any) {
             errorMsg.value = e.message;
         }
@@ -65,7 +63,7 @@ export default component$(() => {
             const res = await fetch(`${API_BASE}/api/admin/stats`, {
                 headers: { "Authorization": `Bearer ${token}` }
             });
-            if (!res.ok) throw new Error("Could not fetch platform stats");
+            if (!res.ok) throw new Error("Could not fetch stats");
             const data = await res.json();
             stats.value = data.stats;
         } catch (e: any) {
@@ -80,7 +78,6 @@ export default component$(() => {
 
     useTask$(({ track }) => {
         track(() => searchQuery.value);
-        
         const isBrowser = typeof window !== "undefined";
         if (isBrowser) {
             fetchUsers();
@@ -97,7 +94,7 @@ export default component$(() => {
         errorMsg.value = "";
 
         try {
-            const res = await fetch(`/api/admin/users/${user.id}/role`, {
+            const res = await fetch(`${API_BASE}/api/admin/users/${user.id}/role`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -107,11 +104,9 @@ export default component$(() => {
             });
 
             const data = await res.json();
-            if (!res.ok) {
-                throw new Error(data.error || "Failed to update role");
-            }
+            if (!res.ok) throw new Error(data.error || "Failed to update role");
 
-            actionMsg.value = `Successfully updated role for ${user.email} to ${newRole}`;
+            actionMsg.value = `Updated role for ${user.firstName}`;
             await fetchUsers();
             await fetchStats();
         } catch (err: any) {
@@ -122,9 +117,7 @@ export default component$(() => {
     });
 
     const handleDeleteUser = $(async (userId: string, email: string) => {
-        if (!confirm(`Are you absolutely sure you want to delete account ${email}? This cannot be undone.`)) {
-            return;
-        }
+        if (!confirm(`Delete user ${email}?`)) return;
 
         const token = await getCookie("zenthra_auth_token");
         if (!token) return;
@@ -134,19 +127,15 @@ export default component$(() => {
         errorMsg.value = "";
 
         try {
-            const res = await fetch(`/api/admin/users/${userId}`, {
+            const res = await fetch(`${API_BASE}/api/admin/users/${userId}`, {
                 method: "DELETE",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+                headers: { "Authorization": `Bearer ${token}` }
             });
 
             const data = await res.json();
-            if (!res.ok) {
-                throw new Error(data.error || "Failed to delete user");
-            }
+            if (!res.ok) throw new Error(data.error || "Failed to delete user");
 
-            actionMsg.value = `Successfully deleted account ${email}`;
+            actionMsg.value = `Deleted ${email}`;
             await fetchUsers();
             await fetchStats();
         } catch (err: any) {
@@ -156,159 +145,145 @@ export default component$(() => {
         }
     });
 
+    const filteredUsers = users.value.filter(u => {
+        if (roleFilter.value !== "ALL" && u.role !== roleFilter.value) return false;
+        return true;
+    });
+
     return (
-        <div class="space-y-8 transition-colors duration-200">
-            {/* Top Header Title */}
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#c6c5d3] dark:border-[#1e2030] pb-6">
-                <div>
-                    <h1 class="font-['Syne',sans-serif] text-3xl font-bold text-[#1b1b21] dark:text-white tracking-tight">
-                        User Directory & Control
-                    </h1>
-                    <p class="text-sm text-[#454651] dark:text-[#94a3b8] mt-1">
-                        System configuration database. Audit accounts, elevate access, or terminate active keys.
-                    </p>
-                </div>
+        <div class="space-y-6">
+            {/* Header */}
+            <div>
+                <h1 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] dark:text-white tracking-tight">
+                    User Directory
+                </h1>
+                <p class="text-xs text-[#767683] dark:text-[#94a3b8] mt-1 font-['DM_Sans',sans-serif]">
+                    Manage accounts, assigned roles, and connected applications.
+                </p>
             </div>
 
             {/* Notifications */}
             {errorMsg.value && (
-                <div class="bg-rose-500/10 border border-rose-500/20 rounded-[4px] p-4 text-sm text-rose-600 dark:text-rose-400 flex items-center gap-2.5">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0">
-                        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-                    </svg>
-                    <span>{errorMsg.value}</span>
+                <div class="p-3 text-xs bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 rounded-[4px]">
+                    {errorMsg.value}
                 </div>
             )}
-
             {actionMsg.value && (
-                <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-[4px] p-4 text-sm text-emerald-600 dark:text-emerald-400 flex items-center gap-2.5">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-                    </svg>
-                    <span>{actionMsg.value}</span>
+                <div class="p-3 text-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 rounded-[4px]">
+                    {actionMsg.value}
                 </div>
             )}
 
-            {/* Platform Stats Grid */}
+            {/* Minimal Indicators */}
             {stats.value && (
-                <div class="grid grid-cols-2 lg:grid-cols-5 gap-6">
-                    <div class="bg-[#fbf8ff] dark:bg-[#0b0c11]/80 border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] p-5 shadow-sm dark:shadow-xl">
-                        <p class="text-[10px] font-bold text-[#767683] uppercase tracking-wider font-sans">Total Accounts</p>
-                        <h4 class="text-2xl font-extrabold text-[#1b1b21] dark:text-white font-sans mt-2">
-                            {stats.value.totalUsers}
-                        </h4>
+                <div class="grid grid-cols-3 gap-4 font-['JetBrains_Mono',monospace]">
+                    <div class="p-4 bg-[#f4f2f8] dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px]">
+                        <span class="text-[10px] text-[#767683] dark:text-[#94a3b8] uppercase block">Total Users</span>
+                        <span class="text-xl font-bold text-[#1b1b21] dark:text-white mt-1 block">{stats.value.totalUsers}</span>
                     </div>
-                    <div class="bg-[#fbf8ff] dark:bg-[#0b0c11]/80 border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] p-5 shadow-sm dark:shadow-xl">
-                        <p class="text-[10px] font-bold text-[#767683] uppercase tracking-wider font-sans">Administrators</p>
-                        <h4 class="text-2xl font-extrabold text-amber-600 dark:text-amber-500 font-sans mt-2">
-                            {stats.value.adminCount}
-                        </h4>
+
+                    <div class="p-4 bg-[#f4f2f8] dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px]">
+                        <span class="text-[10px] text-[#767683] dark:text-[#94a3b8] uppercase block">After Motion</span>
+                        <span class="text-xl font-bold text-[#1b1b21] dark:text-white mt-1 block">{stats.value.afterMotionCount || 0}</span>
                     </div>
-                    <div class="bg-[#fbf8ff] dark:bg-[#0b0c11]/80 border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] p-5 shadow-sm dark:shadow-xl">
-                        <p class="text-[10px] font-bold text-[#767683] uppercase tracking-wider font-sans">Developers</p>
-                        <h4 class="text-2xl font-extrabold text-[#4352a5] dark:text-indigo-400 font-sans mt-2">
-                            {stats.value.userCount}
-                        </h4>
-                    </div>
-                    <div class="bg-[#fbf8ff] dark:bg-[#0b0c11]/80 border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] p-5 shadow-sm dark:shadow-xl">
-                        <p class="text-[10px] font-bold text-[#767683] uppercase tracking-wider font-sans">CPU Core Load</p>
-                        <h4 class="text-2xl font-extrabold text-[#1b1b21] dark:text-white font-sans mt-2">
-                            {stats.value.telemetry.cpuLoad}
-                        </h4>
-                    </div>
-                    <div class="bg-[#fbf8ff] dark:bg-[#0b0c11]/80 border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] p-5 shadow-sm dark:shadow-xl">
-                        <p class="text-[10px] font-bold text-[#767683] uppercase tracking-wider font-sans">API Latency</p>
-                        <h4 class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 font-sans mt-2">
-                            {stats.value.telemetry.avgLatencyMs}ms
-                        </h4>
+
+                    <div class="p-4 bg-[#f4f2f8] dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px]">
+                        <span class="text-[10px] text-[#767683] dark:text-[#94a3b8] uppercase block">Admins</span>
+                        <span class="text-xl font-bold text-[#1b1b21] dark:text-white mt-1 block">{stats.value.adminCount}</span>
                     </div>
                 </div>
             )}
 
-            {/* Users Directory Table card */}
-            <div class="bg-white dark:bg-[#0b0c11]/80 border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] shadow-sm dark:shadow-xl overflow-hidden">
-                <div class="p-6 border-b border-[#c6c5d3] dark:border-[#1e2030] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <h3 class="font-['Syne',sans-serif] font-bold text-[#1b1b21] dark:text-white text-base">Registered Developer Directory</h3>
-                    {/* Search Field */}
-                    <div class="w-full sm:max-w-xs relative">
-                        <input
-                            type="text"
-                            placeholder="Search email or name..."
-                            value={searchQuery.value}
-                            onInput$={(e) => searchQuery.value = (e.target as HTMLInputElement).value}
-                            class="w-full pl-9 pr-4 py-2 border border-[#c6c5d3] focus:border-[#4352a5]/50 rounded-[4px] text-xs outline-none bg-[#fbf8ff] text-neutral-900 placeholder-neutral-400 dark:border-[#1e2030] dark:bg-black/30 dark:text-white dark:placeholder-[#64748b] transition-all"
-                        />
-                        <svg class="absolute left-3 top-2.5 text-neutral-400 dark:text-[#64748b]" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                        </svg>
-                    </div>
-                </div>
+            {/* Search & Filter Bar */}
+            <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
+                <input
+                    type="text"
+                    placeholder="Search users..."
+                    value={searchQuery.value}
+                    onInput$={(e) => (searchQuery.value = (e.target as HTMLInputElement).value)}
+                    class="w-full sm:w-64 px-3 py-2 text-xs bg-[#f4f2f8] dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] text-[#1b1b21] dark:text-white placeholder-[#767683] focus:outline-none focus:border-[#1b1b21] dark:focus:border-white font-['DM_Sans',sans-serif]"
+                />
 
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <select
+                        value={roleFilter.value}
+                        onChange$={(e) => (roleFilter.value = (e.target as HTMLSelectElement).value as any)}
+                        class="px-3 py-2 text-xs bg-[#f4f2f8] dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] text-[#1b1b21] dark:text-white focus:outline-none font-['DM_Sans',sans-serif]"
+                    >
+                        <option value="ALL">All Roles</option>
+                        <option value="ADMIN">Admins Only</option>
+                        <option value="USER">Users Only</option>
+                    </select>
+                </div>
+            </div>
+
+            {/* Clean Table */}
+            <div class="border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] overflow-hidden bg-white dark:bg-[#0b0c11]">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                    <table class="w-full text-left text-xs font-['DM_Sans',sans-serif]">
                         <thead>
-                            <tr class="bg-neutral-50 dark:bg-black/20 border-b border-[#c6c5d3] dark:border-[#1e2030] text-xs font-bold text-[#767683] dark:text-[#94a3b8]">
-                                <th class="p-4">Developer Profile</th>
-                                <th class="p-4">Contact Info</th>
-                                <th class="p-4">Clearance Level</th>
-                                <th class="p-4">Created On</th>
-                                <th class="p-4 text-right">Administrative Options</th>
+                            <tr class="bg-[#f4f2f8] dark:bg-[#12131b] border-b border-[#c6c5d3] dark:border-[#1e2030] text-[#767683] dark:text-[#94a3b8] font-mono text-[11px]">
+                                <th class="p-3">User</th>
+                                <th class="p-3">Email / Phone</th>
+                                <th class="p-3">App</th>
+                                <th class="p-3">Role</th>
+                                <th class="p-3 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-neutral-100 dark:divide-[#1e2030] text-sm text-[#1b1b21] dark:text-[#e2e8f0]">
-                            {users.value.length === 0 ? (
+                        <tbody class="divide-y divide-[#c6c5d3]/50 dark:divide-[#1e2030]">
+                            {filteredUsers.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} class="p-8 text-center text-xs text-neutral-400 dark:text-[#64748b] font-mono">
-                                        No registered accounts match search filter criteria.
+                                    <td colSpan={5} class="p-6 text-center text-[#767683] dark:text-[#94a3b8]">
+                                        No users found.
                                     </td>
                                 </tr>
                             ) : (
-                                users.value.map((u) => (
-                                    <tr key={u.id} class="hover:bg-neutral-50/50 dark:hover:bg-white/[0.01] transition-colors duration-150">
-                                        <td class="p-4 font-semibold text-[#1b1b21] dark:text-white">
-                                            {u.firstName} {u.lastName}
-                                        </td>
-                                        <td class="p-4 text-xs font-mono text-[#767683] dark:text-[#94a3b8]">
-                                            {u.email || u.phoneNumber || "No contact info"}
-                                        </td>
-                                        <td class="p-4">
-                                            {u.role === "ADMIN" ? (
-                                                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-500/10 dark:text-amber-500 dark:border-amber-500/20 text-[10px] font-bold rounded-[4px]">
-                                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_6px_#f59e0b]" />
-                                                    ADMIN
+                                filteredUsers.map((user) => {
+                                    const products = user.loggedInProducts || [];
+                                    return (
+                                        <tr key={user.id} class="hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                                            <td class="p-3 font-semibold text-[#1b1b21] dark:text-white">
+                                                {user.firstName} {user.lastName}
+                                            </td>
+
+                                            <td class="p-3 text-[#767683] dark:text-[#94a3b8] font-['JetBrains_Mono',monospace]">
+                                                {user.email || user.phoneNumber || "-"}
+                                            </td>
+
+                                            <td class="p-3 font-['JetBrains_Mono',monospace] text-[11px]">
+                                                {products.includes("after-motion") ? (
+                                                    <span class="text-purple-600 dark:text-purple-400 font-bold">After Motion</span>
+                                                ) : (
+                                                    <span class="text-[#767683]">Web</span>
+                                                )}
+                                            </td>
+
+                                            <td class="p-3 font-['JetBrains_Mono',monospace] text-[10px]">
+                                                <span class={user.role === "ADMIN" ? "font-bold text-[#1b1b21] dark:text-white" : "text-[#767683]"}>
+                                                    {user.role}
                                                 </span>
-                                            ) : (
-                                                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 bg-[#e3e1e9] text-[#4352a5] border border-[#c6c5d3] dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-500/20 text-[10px] font-bold rounded-[4px]">
-                                                    <span class="w-1.5 h-1.5 rounded-full bg-[#5c6bc0] shadow-[0_0_6px_#6366f1]" />
-                                                    USER
-                                                </span>
-                                            )}
-                                        </td>
-                                        <td class="p-4 text-xs text-[#767683] dark:text-[#94a3b8]">
-                                            {new Date(u.createdAt).toLocaleDateString(undefined, {
-                                                year: "numeric",
-                                                month: "short",
-                                                day: "numeric"
-                                             })}
-                                        </td>
-                                        <td class="p-4 text-right space-x-2">
-                                            <button
-                                                onClick$={async () => await handleRoleToggle(u)}
-                                                disabled={isActionLoading.value}
-                                                class="px-3 py-1.5 text-xs font-semibold bg-white hover:bg-[#f5f2fa] text-[#1b1b21] border border-[#c6c5d3] dark:bg-white/5 dark:hover:bg-white/10 dark:text-white dark:border-white/10 rounded-[4px] transition-all duration-150 cursor-pointer disabled:opacity-50"
-                                            >
-                                                Toggle Role
-                                            </button>
-                                            <button
-                                                onClick$={async () => await handleDeleteUser(u.id, u.email || "No Email")}
-                                                disabled={isActionLoading.value}
-                                                class="px-3 py-1.5 text-xs font-semibold bg-[#fbf8ff] hover:bg-[#f5f2fa] text-[#1b1b21] border border-[#c6c5d3] dark:bg-rose-500/10 dark:hover:bg-rose-500/20 dark:text-rose-400 dark:border-rose-500/20 rounded-[4px] transition-all duration-150 cursor-pointer disabled:opacity-50"
-                                            >
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))
+                                            </td>
+
+                                            <td class="p-3 text-right space-x-2">
+                                                <button
+                                                    onClick$={() => handleRoleToggle(user)}
+                                                    disabled={isActionLoading.value}
+                                                    class="px-2.5 py-1 text-[11px] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[2px] hover:bg-[#1b1b21] hover:text-white dark:hover:bg-white dark:hover:text-[#1b1b21] transition-colors"
+                                                >
+                                                    {user.role === "ADMIN" ? "Make User" : "Make Admin"}
+                                                </button>
+
+                                                <button
+                                                    onClick$={() => handleDeleteUser(user.id, user.email || user.firstName)}
+                                                    disabled={isActionLoading.value}
+                                                    class="px-2.5 py-1 text-[11px] text-rose-600 dark:text-rose-400 hover:underline"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })
                             )}
                         </tbody>
                     </table>
@@ -317,10 +292,3 @@ export default component$(() => {
         </div>
     );
 });
-
-export const head: DocumentHead = {
-    title: "Admin Panel — Zenthra Control",
-    meta: [
-        { name: "description", content: "Platform administration and user accounts management." },
-    ],
-};

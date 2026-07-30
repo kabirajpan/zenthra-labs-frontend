@@ -13,15 +13,21 @@ export default component$(() => {
     const nav = useNavigate();
 
     const handleLogin = $(async () => {
-        const payload = authType.value === "email"
-            ? { email: email.value, password: password.value }
-            : { phoneNumber: phoneNumber.value, password: password.value };
+        const cleanEmail = email.value.trim().toLowerCase();
+        const cleanPhone = phoneNumber.value.trim();
 
-        if (authType.value === "email" && !email.value) {
-            errorMessage.value = "Please enter your email address.";
-            return;
+        if (authType.value === "email") {
+            if (!cleanEmail) {
+                errorMessage.value = "Please enter your email address.";
+                return;
+            }
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(cleanEmail)) {
+                errorMessage.value = "Invalid email format. Please check for typos.";
+                return;
+            }
         }
-        if (authType.value === "phone" && !phoneNumber.value) {
+        if (authType.value === "phone" && !cleanPhone) {
             errorMessage.value = "Please enter your phone number.";
             return;
         }
@@ -29,6 +35,10 @@ export default component$(() => {
             errorMessage.value = "Please enter your password.";
             return;
         }
+
+        const payload = authType.value === "email"
+            ? { email: cleanEmail, password: password.value }
+            : { phoneNumber: cleanPhone, password: password.value };
 
         isLoading.value = true;
         errorMessage.value = "";

@@ -109,7 +109,20 @@ const ZenthraViewActions = component$(() => (
 const AfterMotionActions = component$(() => (
     <div class="flex flex-wrap gap-2 sm:gap-3">
         <a href="/products/after-motion" class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
-        <span class="py-2 px-4 bg-[#e9e7ef] text-[#767683] font-medium rounded-[4px] text-sm">App Stores Soon</span>
+        <a 
+            href="https://play.google.com/store/apps/details?id=com.aftermotion.app" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="py-2 px-3.5 bg-[#12131a] text-white font-medium rounded-[4px] text-sm hover:bg-[#1b1c26] transition-all flex items-center gap-1.5 shadow-sm"
+        >
+            <svg width="16" height="16" viewBox="0 0 24 24" class="shrink-0">
+                <path fill="#EA4335" d="M3.6 2.2C3.2 2.6 3 3.2 3 4v16c0 .8.2 1.4.6 1.8l.1.1 9-9v-.2L3.7 2.1l-.1.1z"/>
+                <path fill="#FBBC04" d="M15.7 15.9l-3-3v-.2l3-3 .1.1 3.5 2c1 .6 1 1.5 0 2.1l-3.6 2z"/>
+                <path fill="#4285F4" d="M12.7 12.7L3.6 21.8c.4.4.9.4 1.5.1l10.6-6-3-3.2z"/>
+                <path fill="#34A853" d="M12.7 11.3l3-3L5.1 2.3c-.6-.3-1.1-.3-1.5.1l9.1 8.9z"/>
+            </svg>
+            <span>Google Play</span>
+        </a>
     </div>
 ));
 
