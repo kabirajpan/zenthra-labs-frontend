@@ -225,6 +225,8 @@ export default component$(() => {
                             <tr class="bg-[#f4f2f8] dark:bg-[#12131b] border-b border-[#c6c5d3] dark:border-[#1e2030] text-[#767683] dark:text-[#94a3b8] font-mono text-[11px]">
                                 <th class="p-3">User</th>
                                 <th class="p-3">Email / Phone</th>
+                                <th class="p-3">Registered Date</th>
+                                <th class="p-3">Time</th>
                                 <th class="p-3">App</th>
                                 <th class="p-3">Role</th>
                                 <th class="p-3 text-right">Actions</th>
@@ -233,13 +235,15 @@ export default component$(() => {
                         <tbody class="divide-y divide-[#c6c5d3]/50 dark:divide-[#1e2030]">
                             {filteredUsers.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} class="p-6 text-center text-[#767683] dark:text-[#94a3b8]">
+                                    <td colSpan={7} class="p-6 text-center text-[#767683] dark:text-[#94a3b8]">
                                         No users found.
                                     </td>
                                 </tr>
                             ) : (
                                 filteredUsers.map((user) => {
                                     const products = user.loggedInProducts || [];
+                                    const createdDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "-";
+                                    const createdTime = user.createdAt ? new Date(user.createdAt).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true }) : "-";
                                     return (
                                         <tr key={user.id} class="hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                                             <td class="p-3 font-semibold text-[#1b1b21] dark:text-white">
@@ -248,6 +252,14 @@ export default component$(() => {
 
                                             <td class="p-3 text-[#767683] dark:text-[#94a3b8] font-['JetBrains_Mono',monospace]">
                                                 {user.email || user.phoneNumber || "-"}
+                                            </td>
+
+                                            <td class="p-3 text-[#767683] dark:text-[#94a3b8] font-['JetBrains_Mono',monospace]">
+                                                {createdDate}
+                                            </td>
+
+                                            <td class="p-3 text-[#767683] dark:text-[#94a3b8] font-['JetBrains_Mono',monospace]">
+                                                {createdTime}
                                             </td>
 
                                             <td class="p-3 font-['JetBrains_Mono',monospace] text-[11px]">
