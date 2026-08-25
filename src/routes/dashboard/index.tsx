@@ -62,9 +62,11 @@ export default component$(() => {
                     userName.value = data.user.firstName;
                     userEmail.value = data.user.email || data.user.phoneNumber || "N/A";
                     userRole.value = data.user.role;
-                    userJoined.value = new Date(data.user.createdAt).toLocaleDateString(undefined, {
-                        year: "numeric", month: "short", day: "numeric"
-                    });
+                    const createdStr = data.user.createdAt;
+                    const utcStr = createdStr ? (createdStr.endsWith("Z") || createdStr.includes("+") ? createdStr : `${createdStr}Z`) : null;
+                    userJoined.value = utcStr ? new Date(utcStr).toLocaleDateString("en-US", {
+                        year: "numeric", month: "short", day: "numeric", timeZone: "Asia/Kolkata"
+                    }) : "N/A";
                     addLog(`AUTH: Clearance elev: ${data.user.role} [${data.user.firstName} ${data.user.lastName}]`);
                     addLog(`METRIC: Render node API latency resolved: ${latency} ms`);
                 }
