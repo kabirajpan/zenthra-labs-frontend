@@ -49,7 +49,9 @@ export default component$(() => {
             try {
                 user.value = JSON.parse(cachedUser);
                 isAuthenticating.value = false;
-            } catch (e) {}
+            } catch {
+                // Ignore invalid cache JSON
+            }
         }
 
         try {
