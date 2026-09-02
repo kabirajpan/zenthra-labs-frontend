@@ -111,7 +111,11 @@ export default component$(() => {
                             document.cookie = `zenthra_auth_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
                             
                             setTimeout(() => {
-                                nav("/dashboard");
+                                if (data.user?.role === "ADMIN") {
+                                    nav("/admin");
+                                } else {
+                                    nav("/dashboard");
+                                }
                             }, 1000);
                         } catch (err: any) {
                             errorMessage.value = err.message || "Google sign-in error. Please try again.";
