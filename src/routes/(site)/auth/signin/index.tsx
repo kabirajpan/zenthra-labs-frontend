@@ -75,41 +75,57 @@ export default component$(() => {
         }
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const GOOGLE_CLIENT_ID = import.meta.env.PUBLIC_GOOGLE_CLIENT_ID || "512164843791-q6ivi4qlcsspupcfrouudrgau78siovd.apps.googleusercontent.com";
+
     const handleGoogleLogin = $(async () => {
         isLoading.value = true;
         errorMessage.value = "";
         successMessage.value = "";
 
         try {
-            // Send request to backend google-login endpoint
-            const res = await fetch(`${API_BASE}/api/auth/google-login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    googleId: "google_test_109283",
-                    email: "google.tester@zenthralabs.dev",
-                    firstName: "Google",
-                    lastName: "Developer",
-                }),
-            });
+            if (typeof window !== "undefined" && (window as any).google?.accounts?.id) {
+                (window as any).google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: async (response: any) => {
+                        try {
+                            const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                            const res = await fetch(`${API_BASE}/api/auth/google`, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    googleId: payload.sub,
+                                    email: payload.email,
+                                    firstName: payload.given_name || payload.name || "User",
+                                    lastName: payload.family_name || "",
+                                }),
+                            });
 
-            const data = await res.json();
-            if (!res.ok) {
-                throw new Error(data.error || "Google login failed");
+                            const data = await res.json();
+                            if (!res.ok) {
+                                throw new Error(data.error || "Google authentication failed");
+                            }
+
+                            successMessage.value = "Google authentication successful! Redirecting...";
+                            document.cookie = `zenthra_auth_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+                            
+                            setTimeout(() => {
+                                nav("/dashboard");
+                            }, 1000);
+                        } catch (err: any) {
+                            errorMessage.value = err.message || "Google sign-in error. Please try again.";
+                        } finally {
+                            isLoading.value = false;
+                        }
+                    }
+                });
+                (window as any).google.accounts.id.prompt();
+            } else {
+                throw new Error("Google Sign-In is initializing. Please try again in a moment.");
             }
-
-            successMessage.value = "Google authentication successful! Redirecting...";
-            document.cookie = `zenthra_auth_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
-            
-            setTimeout(() => {
-                nav("/dashboard");
-            }, 1000);
         } catch (err: any) {
             errorMessage.value = err.message || "Google sign-in failed. Please try again.";
-        } finally {
             isLoading.value = false;
         }
     });
@@ -194,6 +210,32 @@ export default component$(() => {
                     </button>
                 </form>
 
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-neutral-200 dark:border-[#1e2030]" />
+                    </div>
+                    <div class="relative flex justify-center text-xs uppercase">
+                        <span class="bg-white dark:bg-[#0b0c11] px-2 text-neutral-400 font-mono text-[10px] tracking-wider">
+                            OR CONTINUE WITH
+                        </span>
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    onClick$={handleGoogleLogin}
+                    disabled={isLoading.value}
+                    class="w-full py-2.5 px-4 bg-neutral-50 hover:bg-neutral-100 dark:bg-black/30 dark:hover:bg-white/5 border border-neutral-200 dark:border-[#1e2030] rounded-lg text-xs font-semibold text-neutral-800 dark:text-white flex items-center justify-center gap-2.5 transition-all cursor-pointer mb-6"
+                >
+                    <svg class="w-4 h-4" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.27v3.15C3.25 21.3 7.31 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.27C.46 8.2.0 10.04.0 12s.46 3.8 1.27 5.42l4.01-3.15z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.7 1.27 6.58l4.01 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    </svg>
+                    <span>Sign in with Google</span>
+                </button>
+
                 <div class="text-center mt-6 space-y-2">
                     <p class="text-xs text-neutral-500 dark:text-[#94a3b8]">
                         Don't have an account?{" "}
@@ -217,4 +259,11 @@ export const head: DocumentHead = {
     meta: [
         { name: "description", content: "Access your Zenthra Developer Workspace." },
     ],
+    scripts: [
+        {
+            src: "https://accounts.google.com/gsi/client",
+            async: true,
+            defer: true,
+        }
+    ]
 };
