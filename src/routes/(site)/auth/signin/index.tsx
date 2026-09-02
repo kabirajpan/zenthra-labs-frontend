@@ -261,9 +261,11 @@ export const head: DocumentHead = {
     ],
     scripts: [
         {
-            src: "https://accounts.google.com/gsi/client",
-            async: true,
-            defer: true,
+            props: {
+                src: "https://accounts.google.com/gsi/client",
+                async: true,
+                defer: true,
+            }
         }
     ]
 };

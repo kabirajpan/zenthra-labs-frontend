@@ -189,6 +189,7 @@ export default component$(() => {
 
     return (
         <section class="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24 flex items-center justify-center min-h-[calc(100vh-16rem)] bg-[#f8fafc] dark:bg-[#07070b] transition-colors duration-200">
+            <script src="https://accounts.google.com/gsi/client" async defer />
             <div class="w-full max-w-lg bg-white dark:bg-[#0b0c11]/80 border border-neutral-200 dark:border-[#1e2030] rounded-xl shadow-xl p-8 md:p-10 relative overflow-hidden transition-all">
                 {/* Accent line */}
                 <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 to-indigo-700" />
@@ -252,7 +253,8 @@ export default component$(() => {
                         </button>
                     </form>
                 ) : (
-                    <form preventdefault:submit onSubmit$={handleSignup} class="space-y-4 mb-6">
+                    <>
+                        <form preventdefault:submit onSubmit$={handleSignup} class="space-y-4 mb-6">
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">First Name</label>
@@ -304,6 +306,8 @@ export default component$(() => {
                                 disabled={isLoading.value}
                                 required
                             />
+                        </div>
+
                         <button 
                             type="submit" 
                             class={[
@@ -341,6 +345,7 @@ export default component$(() => {
                         </svg>
                         <span>Sign in with Google</span>
                     </button>
+                    </>
                 )}
 
                 <div class="text-center mt-6 space-y-2">
@@ -368,9 +373,11 @@ export const head: DocumentHead = {
     ],
     scripts: [
         {
-            src: "https://accounts.google.com/gsi/client",
-            async: true,
-            defer: true,
+            props: {
+                src: "https://accounts.google.com/gsi/client",
+                async: true,
+                defer: true,
+            }
         }
     ]
 };
