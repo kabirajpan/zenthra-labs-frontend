@@ -140,7 +140,59 @@ export default component$(() => {
         successMessage.value = "";
 
         try {
-            if (typeof window !== "undefined" && (window as any).google?.accounts?.id) {
+            if (typeof window !== "undefined" && (window as any).google?.accounts?.oauth2) {
+                const client = (window as any).google.accounts.oauth2.initTokenClient({
+                    client_id: GOOGLE_CLIENT_ID,
+                    scope: "email profile openid",
+                    callback: async (tokenResponse: any) => {
+                        if (tokenResponse.error) {
+                            errorMessage.value = "Google sign-in was canceled or closed.";
+                            isLoading.value = false;
+                            return;
+                        }
+                        try {
+                            const userRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+                                headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+                            });
+                            const userInfo = await userRes.json();
+
+                            const res = await fetch(`${API_BASE}/api/auth/google`, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    googleId: userInfo.sub,
+                                    email: userInfo.email,
+                                    firstName: userInfo.given_name || userInfo.name || "User",
+                                    lastName: userInfo.family_name || "",
+                                }),
+                            });
+
+                            const data = await res.json();
+                            if (!res.ok) {
+                                throw new Error(data.error || "Google registration failed");
+                            }
+
+                            successMessage.value = "Google account linked successfully! Redirecting...";
+                            document.cookie = `zenthra_auth_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+                            
+                            setTimeout(() => {
+                                if (data.user?.role === "ADMIN") {
+                                    nav("/admin");
+                                } else {
+                                    nav("/dashboard");
+                                }
+                            }, 1000);
+                        } catch (err: any) {
+                            errorMessage.value = err.message || "Google sign-up error. Please try again.";
+                        } finally {
+                            isLoading.value = false;
+                        }
+                    }
+                });
+                client.requestAccessToken();
+            } else if (typeof window !== "undefined" && (window as any).google?.accounts?.id) {
                 (window as any).google.accounts.id.initialize({
                     client_id: GOOGLE_CLIENT_ID,
                     callback: async (response: any) => {
