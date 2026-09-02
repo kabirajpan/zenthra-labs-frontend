@@ -119,14 +119,15 @@ export default component$(() => {
 
                             successMessage.value = "Google authentication successful! Redirecting...";
                             document.cookie = `zenthra_auth_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+                            if (typeof window !== "undefined" && data.user) {
+                                localStorage.setItem("zenthra_user", JSON.stringify(data.user));
+                            }
                             
-                            setTimeout(() => {
-                                if (data.user?.role === "ADMIN") {
-                                    nav("/admin");
-                                } else {
-                                    nav("/dashboard");
-                                }
-                            }, 1000);
+                            if (data.user?.role === "ADMIN") {
+                                nav("/admin");
+                            } else {
+                                nav("/dashboard");
+                            }
                         } catch (err: any) {
                             errorMessage.value = err.message || "Google sign-in error. Please try again.";
                         } finally {

@@ -44,6 +44,14 @@ export default component$(() => {
             return;
         }
 
+        const cachedUser = localStorage.getItem("zenthra_user");
+        if (cachedUser) {
+            try {
+                user.value = JSON.parse(cachedUser);
+                isAuthenticating.value = false;
+            } catch (e) {}
+        }
+
         try {
             const res = await fetch(`${API_BASE}/api/auth/me`, {
                 headers: {
@@ -57,9 +65,11 @@ export default component$(() => {
 
             const data = await res.json();
             user.value = data.user;
+            localStorage.setItem("zenthra_user", JSON.stringify(data.user));
             isAuthenticating.value = false;
         } catch {
             document.cookie = "zenthra_auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            localStorage.removeItem("zenthra_user");
             nav("/auth/signin");
         }
     });
@@ -307,7 +317,7 @@ export default component$(() => {
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
                                             </svg>
-                                            Exit Workspace
+                                            Log Out
                                         </button>
                                     </div>
                                 </>
