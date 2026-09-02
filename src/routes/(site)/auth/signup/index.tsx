@@ -1,5 +1,5 @@
 import { API_BASE } from "~/lib/api";
-import { component$, useSignal, $ } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$, $ } from "@builder.io/qwik";
 import { DocumentHead, useNavigate } from "@builder.io/qwik-city";
 
 export default component$(() => {
@@ -168,8 +168,12 @@ export default component$(() => {
                             document.cookie = `zenthra_auth_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
                             
                             setTimeout(() => {
-                                nav("/dashboard");
-                            }, 1200);
+                                if (data.user?.role === "ADMIN") {
+                                    nav("/admin");
+                                } else {
+                                    nav("/dashboard");
+                                }
+                            }, 1000);
                         } catch (err: any) {
                             errorMessage.value = err.message || "Google sign-up error. Please try again.";
                         } finally {
@@ -187,18 +191,75 @@ export default component$(() => {
         }
     });
 
+    useVisibleTask$(() => {
+        const initGoogle = () => {
+            if (typeof window !== "undefined" && (window as any).google?.accounts?.id) {
+                (window as any).google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: async (response: any) => {
+                        isLoading.value = true;
+                        errorMessage.value = "";
+                        successMessage.value = "";
+                        try {
+                            const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                            const res = await fetch(`${API_BASE}/api/auth/google`, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    googleId: payload.sub,
+                                    email: payload.email,
+                                    firstName: payload.given_name || payload.name || "User",
+                                    lastName: payload.family_name || "",
+                                }),
+                            });
+
+                            const data = await res.json();
+                            if (!res.ok) {
+                                throw new Error(data.error || "Google registration failed");
+                            }
+
+                            successMessage.value = "Google account linked successfully! Redirecting...";
+                            document.cookie = `zenthra_auth_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+                            
+                            setTimeout(() => {
+                                if (data.user?.role === "ADMIN") {
+                                    nav("/admin");
+                                } else {
+                                    nav("/dashboard");
+                                }
+                            }, 1000);
+                        } catch (err: any) {
+                            errorMessage.value = err.message || "Google sign-up error. Please try again.";
+                        } finally {
+                            isLoading.value = false;
+                        }
+                    }
+                });
+
+                const btnContainer = document.getElementById("google-signup-btn-container");
+                if (btnContainer) {
+                    btnContainer.innerHTML = "";
+                    (window as any).google.accounts.id.renderButton(btnContainer, {
+                        theme: "outline",
+                        size: "large",
+                        width: "100%",
+                        text: "continue_with"
+                    });
+                }
+            } else {
+                setTimeout(initGoogle, 300);
+            }
+        };
+        initGoogle();
+    });
+
     return (
         <section class="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24 flex items-center justify-center min-h-[calc(100vh-16rem)] bg-[#f8fafc] dark:bg-[#07070b] transition-colors duration-200">
             <script src="https://accounts.google.com/gsi/client" async defer />
             <div class="w-full max-w-lg bg-white dark:bg-[#0b0c11]/80 border border-neutral-200 dark:border-[#1e2030] rounded-xl shadow-xl p-8 md:p-10 relative overflow-hidden transition-all">
-                {/* Accent line */}
-                <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 to-indigo-700" />
-
                 <div class="text-center mb-8">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider rounded-full mb-4">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        Portal Live
-                    </span>
                     <h1 class="font-['Syne',sans-serif] text-3xl font-bold text-neutral-900 dark:text-white mb-2">
                         Get Started
                     </h1>
