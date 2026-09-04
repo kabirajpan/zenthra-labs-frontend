@@ -7,7 +7,7 @@ export const Footer = component$(() => {
         <div class="space-y-4">
           <a class="font-['Syne',sans-serif] text-xl font-bold text-[#4352a5] block" href="/">Zenthra Labs</a>
           <p class="text-[#454651] max-w-xs text-sm leading-relaxed">Forging the next generation of industrial-grade software infrastructure.</p>
-          <p class="text-xs text-[#767683] pt-4">Made with ❤️ in India 🇮🇳 <br/> © 2026 Zenthra Labs.</p>
+          <p class="text-xs text-[#767683] pt-4">© 2026 Zenthra Labs.</p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-10 w-full md:w-auto">
           <div>

@@ -53,7 +53,7 @@ export default component$(() => {
                 <div>
                     <h2 class="font-['Syne',sans-serif] text-xl font-bold text-[#1b1b21] mb-3">5. Governing Law</h2>
                     <p>
-                        These terms are governed by and construed in accordance with the laws of India. Any disputes arising from these conditions shall be resolved within local courts located in West Bengal, India.
+                        These terms are governed by and construed in accordance with applicable laws, without regard to conflict of law principles.
                     </p>
                 </div>
             </div>
