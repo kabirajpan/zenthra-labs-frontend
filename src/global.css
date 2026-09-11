@@ -17,13 +17,11 @@
 .hero-grid-fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    transparent 70%,
-    rgba(251, 248, 255, 0.5) 85%,
-    rgba(251, 248, 255, 0.7) 100%
-  );
+  background: linear-gradient(to right,
+      transparent 0%,
+      transparent 70%,
+      rgba(251, 248, 255, 0.5) 85%,
+      rgba(251, 248, 255, 0.7) 100%);
 }
 
 /* ─── Hero Performance Code Panel ───────────────────────────────────────── */
@@ -51,8 +49,9 @@
   background: #071025;
   color: #cdd3de;
   overflow: hidden;
-  border-radius: 10px; /* editor gets its own radius */
-  box-shadow: 0 12px 30px rgba(2,6,23,0.28);
+  border-radius: 10px;
+  /* editor gets its own radius */
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.28);
   border: none;
   outline: none;
   display: flex;
@@ -62,7 +61,8 @@
 /* Sweep scan line */
 .hpc-scan {
   position: absolute;
-  left: 0; right: 0;
+  left: 0;
+  right: 0;
   height: 4px;
   background: linear-gradient(to right, transparent, #82aaff 30%, #c792ea 70%, transparent);
   box-shadow: 0 0 12px rgba(130, 170, 255, 0.8), 0 0 4px rgba(199, 146, 234, 0.8);
@@ -81,11 +81,14 @@
   border-bottom: none;
   backdrop-filter: none;
 }
+
 .hpc-dot {
-  width: 9px; height: 9px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   display: inline-block;
 }
+
 .hpc-fname {
   font-size: 11px;
   color: #9aa6e0;
@@ -118,33 +121,72 @@
   overflow-x: auto;
   overflow-y: auto;
   flex: 1;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */
 }
+
 .hpc-code::-webkit-scrollbar {
-  display: none; /* Safari & Chrome */
+  display: none;
+  /* Safari & Chrome */
 }
 
 .hpc-line {
   font-size: clamp(9px, 2.8vw, 12px);
   line-height: 1.6;
   white-space: pre;
-  opacity: 0;   /* animated in by anime.js */
+  opacity: 0;
+  /* animated in by anime.js */
   font-feature-settings: "liga" 1;
 }
-.hpc-empty { height: 0.5em; }
-.hpc-indent { padding-left: 18px; }
-.hpc-indent2 { padding-left: 36px; }
-.hpc-indent3 { padding-left: 54px; }
+
+.hpc-empty {
+  height: 0.5em;
+}
+
+.hpc-indent {
+  padding-left: 18px;
+}
+
+.hpc-indent2 {
+  padding-left: 36px;
+}
+
+.hpc-indent3 {
+  padding-left: 54px;
+}
 
 /* Syntax token colors */
-.hpc-kw      { color: #c792ea; font-weight: 600; }
-.hpc-fn      { color: #61afef; }
-.hpc-str     { color: #98c379; }
-.hpc-prop    { color: #e5c07b; }
-.hpc-num     { color: #d19a66; }
-.hpc-plain   { color: #bfc9d9; }
-.hpc-comment { color: #6a7b8a; font-style: italic; }
+.hpc-kw {
+  color: #c792ea;
+  font-weight: 600;
+}
+
+.hpc-fn {
+  color: #61afef;
+}
+
+.hpc-str {
+  color: #98c379;
+}
+
+.hpc-prop {
+  color: #e5c07b;
+}
+
+.hpc-num {
+  color: #d19a66;
+}
+
+.hpc-plain {
+  color: #bfc9d9;
+}
+
+.hpc-comment {
+  color: #6a7b8a;
+  font-style: italic;
+}
 
 /* Metrics bar at the bottom */
 .hpc-metrics {
@@ -154,9 +196,11 @@
   border-top: none;
   padding: 10px 12px;
   gap: 8px;
-  border-radius: 10px; /* metrics gets its own radius */
-  margin-top: 6px; /* gap between editor and metrics (reduced) */
-  box-shadow: 0 8px 20px rgba(2,6,23,0.18);
+  border-radius: 10px;
+  /* metrics gets its own radius */
+  margin-top: 6px;
+  /* gap between editor and metrics (reduced) */
+  box-shadow: 0 8px 20px rgba(2, 6, 23, 0.18);
   color: #cdd3de;
   opacity: 0;
   transition: opacity 0.4s ease-out;
@@ -179,11 +223,13 @@
   border: none !important;
   outline: none !important;
 }
+
 .hpc-metric-block {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
+
 .hpc-metric-label {
   font-size: 10px;
   color: #9aa6e0;
@@ -192,14 +238,23 @@
   align-items: center;
   gap: 8px;
 }
-.hpc-icon { display: inline-block; color: #9aa6e0; stroke: currentColor; }
+
+.hpc-icon {
+  display: inline-block;
+  color: #9aa6e0;
+  stroke: currentColor;
+}
+
 .hpc-metric-value {
   font-size: 13px;
   font-weight: 700;
   color: #e6edf9;
   letter-spacing: -0.01em;
 }
-.hpc-green { color: #7ee787; }
+
+.hpc-green {
+  color: #7ee787;
+}
 
 /* Build progress bar track */
 .hpc-bar-track {
@@ -208,6 +263,7 @@
   border-radius: 2px;
   overflow: hidden;
 }
+
 .hpc-bar-fill {
   height: 100%;
   background: linear-gradient(to right, #5c6bc0, #82aaff);
@@ -231,7 +287,7 @@
   /* remove border to visually match the rounded terminal panel */
   border: none;
   border-radius: 8px;
-  box-shadow: 0 18px 40px rgba(2,6,23,0.16);
+  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.16);
   overflow: hidden;
   will-change: transform;
 }
@@ -246,12 +302,14 @@
   /* remove bottom border for consistent rounded card */
   border-bottom: none;
 }
+
 .hero3d-dot {
   display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 50%;
 }
+
 .hero3d-bar-title {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
@@ -261,29 +319,141 @@
 }
 
 /* Card body */
-.hero3d-body  { padding: 10px 12px; display: flex; flex-direction: column; gap: 5px; }
-.hero3d-mono  { font-family: 'JetBrains Mono', monospace; }
+.hero3d-body {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.hero3d-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
 
 /* Terminal lines */
-.hero3d-tline { font-size: 9.5px; color: #454651; line-height: 1.5; white-space: nowrap; }
-.hero3d-ps    { color: #5c6bc0; font-weight: 700; margin-right: 5px; }
-.hero3d-ok    { color: #28a745; }
+.hero3d-tline {
+  font-size: 9.5px;
+  color: #454651;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.hero3d-ps {
+  color: #5c6bc0;
+  font-weight: 700;
+  margin-right: 5px;
+}
+
+.hero3d-ok {
+  color: #28a745;
+}
 
 /* Cursor blink */
-.hero3d-cursor { display: inline-block; color: #5c6bc0; animation: hero3dBlink 1s step-end infinite; }
-@keyframes hero3dBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+.hero3d-cursor {
+  display: inline-block;
+  color: #5c6bc0;
+  animation: hero3dBlink 1s step-end infinite;
+}
+
+@keyframes hero3dBlink {
+
+  0%,
+  100% {
+    opacity: 1
+  }
+
+  50% {
+    opacity: 0
+  }
+}
 
 /* Server status rows */
-.hero3d-srow  { display: flex; align-items: center; gap: 5px; font-size: 9px; color: #1b1b21; }
-.hero3d-live  { color: #28a745; font-size: 8px; }
-.hero3d-ms    { margin-left: auto; color: #5c6bc0; font-weight: 600; font-size: 9px; }
-.hero3d-uptime { font-size: 8px; color: #767683; margin-top: 4px; padding-top: 6px; border-top: 1px solid #e3e1e9; }
+.hero3d-srow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  color: #1b1b21;
+}
+
+.hero3d-live {
+  color: #28a745;
+  font-size: 8px;
+}
+
+.hero3d-ms {
+  margin-left: auto;
+  color: #5c6bc0;
+  font-weight: 600;
+  font-size: 9px;
+}
+
+.hero3d-uptime {
+  font-size: 8px;
+  color: #767683;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px solid #e3e1e9;
+}
 
 /* Product rows */
-.hero3d-prow  { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; border-bottom: none; }
-.hero3d-prow:last-child { border-bottom: none; }
-.hero3d-pname { font-size: 11px; font-weight: 600; color: #1b1b21; font-family: 'Syne', sans-serif; }
-.hero3d-badge { font-size: 8px; font-weight: 600; padding: 2px 6px; border-radius: 3px; }
-.hero3d-stable { background: #e9e7ef; color: #454651; }
-.hero3d-beta   { background: #dee0ff; color: #2f3f92; }
-.hero3d-ea     { background: #ffdeac; color: #5f4100; }
+.hero3d-prow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: none;
+}
+
+.hero3d-prow:last-child {
+  border-bottom: none;
+}
+
+.hero3d-pname {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1b1b21;
+  font-family: 'Syne', sans-serif;
+}
+
+.hero3d-badge {
+  font-size: 8px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.hero3d-stable {
+  background: #e9e7ef;
+  color: #454651;
+}
+
+.hero3d-beta {
+  background: #dee0ff;
+  color: #2f3f92;
+}
+
+.hero3d-ea {
+  background: #ffdeac;
+  color: #5f4100;
+}
+
+/* ─── Documentation Locked Sidebar & Content Scrollbar ────────────────────────── */
+.docs-sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #c6c5d3 transparent;
+}
+.docs-sidebar-scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.docs-sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.docs-sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: #c6c5d3;
+  border-radius: 4px;
+}
+.docs-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #767683;
+}
