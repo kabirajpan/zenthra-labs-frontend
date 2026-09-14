@@ -58,7 +58,7 @@ export default component$(() => {
                     url.searchParams.set("doc", savedDoc);
                     window.history.replaceState(null, "", url.toString());
                 }
-            } catch {}
+            } catch { /* localStorage not available */ }
         } else {
             autoExpandPathForFile(urlDoc);
         }
@@ -94,7 +94,7 @@ export default component$(() => {
             window.history.replaceState(null, "", url.toString());
             try {
                 localStorage.setItem("zenthra_active_doc", fileId);
-            } catch {}
+            } catch { /* localStorage not available */ }
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
     });

@@ -22,7 +22,7 @@ function highlightRust(code: string): string {
 
     // Unified regex for Rust syntax
     const tokenRegex =
-        /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)|("(?:\\.|[^"\\])*")|(#!?\[[^\]]*\])|(\b(?:fn|pub|use|struct|enum|impl|let|mut|if|else|match|for|while|loop|return|break|continue|move|const|static|type|trait|as|where|in|ref|async|await)\b)|(\b(?:true|false|None|Some|Ok|Err)\b)|(\b(?:u8|u16|u32|u64|usize|i8|i16|i32|i64|isize|f32|f64|bool|char|str|String|Option|Result|Self|self|Ui|App|AppState|Color|Signal|Computed|Effect|ArcSignal|BorderAlignment|Align|FontWeight|CursorIcon|RenderMode|ImageSource|Wrap|TextWrap|DrawCommand|Id|RectDraw|TextDraw|BlurDraw|FloatingWindowBuilder|MenuItemBuilder|Response|BackdropUniforms|Duration)\b)|(\b\d+(?:\.\d+)?(?:f32|f64|u32|u64|usize|i32|i64)?\b)|(\b[a-z_][a-z0-9_]*!)|(\.[a-z_][a-z0-9_]*(?=\s*[\(<]))|(\bfn\s+([a-z_][a-z0-9_]*))/g;
+        /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)|("(?:\\.|[^"\\])*")|(#!?\[[^\]]*\])|(\b(?:fn|pub|use|struct|enum|impl|let|mut|if|else|match|for|while|loop|return|break|continue|move|const|static|type|trait|as|where|in|ref|async|await)\b)|(\b(?:true|false|None|Some|Ok|Err)\b)|(\b(?:u8|u16|u32|u64|usize|i8|i16|i32|i64|isize|f32|f64|bool|char|str|String|Option|Result|Self|self|Ui|App|AppState|Color|Signal|Computed|Effect|ArcSignal|BorderAlignment|Align|FontWeight|CursorIcon|RenderMode|ImageSource|Wrap|TextWrap|DrawCommand|Id|RectDraw|TextDraw|BlurDraw|FloatingWindowBuilder|MenuItemBuilder|Response|BackdropUniforms|Duration)\b)|(\b\d+(?:\.\d+)?(?:f32|f64|u32|u64|usize|i32|i64)?\b)|(\b[a-z_][a-z0-9_]*!)|(\.[a-z_][a-z0-9_]*(?=\s*[(<]))|(\bfn\s+([a-z_][a-z0-9_]*))/g;
 
     let match: RegExpExecArray | null;
     while ((match = tokenRegex.exec(code)) !== null) {
@@ -124,7 +124,7 @@ export const CodeBlock = component$<CodeBlockProps>(({ code, language = "rust", 
                     copied.value = false;
                 }, 2000);
             }
-        } catch {}
+        } catch { /* clipboard not available */ }
     });
 
     const displayFilename = filename || (language === "rust" ? "example.rs" : language === "toml" ? "Cargo.toml" : undefined);
