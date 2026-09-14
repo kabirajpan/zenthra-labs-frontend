@@ -18,7 +18,7 @@ export default component$(() => {
                 <div>
                     <h2 class="font-['Syne',sans-serif] text-xl font-bold text-[#1b1b21] mb-3">1. Information We Collect</h2>
                     <p class="mb-3">
-                        Zenthra Labs is committed to a local-first development model. Because our frameworks and apps (such as the Zenthra framework and Zenthra View) run entirely on your local hardware, they do not collect, store, or transmit your personal data, layout configurations, or codebase structures.
+                        ZenthraLabs is committed to a local-first development model. Because our frameworks and apps (such as the Zenthra framework and Zenthra View) run entirely on your local hardware, they do not collect, store, or transmit your personal data, layout configurations, or codebase structures.
                     </p>
                     <p>
                         We only receive minimal data when you interact with our public web portals, download releases, or submit issue logs directly to our community channels.
@@ -63,8 +63,8 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "Privacy Policy — Zenthra Labs",
+    title: "Privacy Policy — ZenthraLabs",
     meta: [
-        { name: "description", content: "Privacy Policy and user data protection details from Zenthra Labs." },
+        { name: "description", content: "Privacy Policy and user data protection details from ZenthraLabs." },
     ],
 };

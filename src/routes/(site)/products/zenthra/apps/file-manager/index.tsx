@@ -340,14 +340,14 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "ZenFile — Native Desktop File Manager | Zenthra Labs",
+    title: "ZenFile — Native Desktop File Manager | ZenthraLabs",
     meta: [
         { name: "description", content: "ZenFile is a native, cross-platform desktop file manager built with the Zenthra UI framework, featuring instant directory listings and native filesystem access." },
-        { property: "og:title", content: "ZenFile — Native Desktop File Manager | Zenthra Labs" },
+        { property: "og:title", content: "ZenFile — Native Desktop File Manager | ZenthraLabs" },
         { property: "og:description", content: "ZenFile is a native, cross-platform desktop file manager built with the Zenthra UI framework, featuring instant directory listings and native filesystem access." },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: "ZenFile — Native Desktop File Manager | Zenthra Labs" },
+        { name: "twitter:title", content: "ZenFile — Native Desktop File Manager | ZenthraLabs" },
         { name: "twitter:description", content: "ZenFile is a native, cross-platform desktop file manager built with the Zenthra UI framework, featuring instant directory listings and native filesystem access." },
     ],
 };

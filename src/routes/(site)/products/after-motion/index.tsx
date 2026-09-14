@@ -295,7 +295,7 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "After Motion — Mobile Video Editor | Zenthra Labs",
+    title: "After Motion — Mobile Video Editor | ZenthraLabs",
     meta: [
         { name: "description", content: "After Motion is a native, high-performance, subscription-free mobile video editor with precise multitrack composition." },
     ],

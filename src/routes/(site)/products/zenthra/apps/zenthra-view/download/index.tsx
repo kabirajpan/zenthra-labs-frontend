@@ -226,14 +226,14 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "Download Zenthra View — Zenthra Labs",
+    title: "Download Zenthra View — ZenthraLabs",
     meta: [
         { name: "description", content: "Download Zenthra View, the lightning fast native desktop image viewer for macOS, Windows, and Linux." },
-        { property: "og:title", content: "Download Zenthra View — Zenthra Labs" },
+        { property: "og:title", content: "Download Zenthra View — ZenthraLabs" },
         { property: "og:description", content: "Download Zenthra View, the lightning fast native desktop image viewer for macOS, Windows, and Linux." },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: "Download Zenthra View — Zenthra Labs" },
+        { name: "twitter:title", content: "Download Zenthra View — ZenthraLabs" },
         { name: "twitter:description", content: "Download Zenthra View, the lightning fast native desktop image viewer for macOS, Windows, and Linux." },
     ],
 };

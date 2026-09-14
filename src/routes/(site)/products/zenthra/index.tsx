@@ -453,7 +453,7 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "Zenthra — High-Performance Rust UI Framework | Zenthra Labs",
+    title: "Zenthra — High-Performance Rust UI Framework | ZenthraLabs",
     meta: [
         { name: "description", content: "Zenthra is a Rust-based UI framework for building native desktop applications with zero-runtime overhead and 4ms input latency." },
     ],

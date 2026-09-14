@@ -55,7 +55,7 @@ export const Navbar = component$(() => {
                         class="text-xl font-bold text-[#4352a5] font-['Syne',sans-serif]" 
                         href="/"
                     >
-                        Zenthra Labs
+                        ZenthraLabs
                     </a>
                     
                     {/* Desktop Navigation Links */}

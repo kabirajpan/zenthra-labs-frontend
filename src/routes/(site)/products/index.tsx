@@ -237,6 +237,6 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "Products — Zenthra Labs",
-    meta: [{ name: "description", content: "Products, demos, and experimental projects from Zenthra Labs." }],
+    title: "Products — ZenthraLabs",
+    meta: [{ name: "description", content: "Products, demos, and experimental projects from ZenthraLabs." }],
 };

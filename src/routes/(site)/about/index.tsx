@@ -7,13 +7,13 @@ export default component$(() => {
             {/* ── Hero ── */}
             <div class="mb-16 border-b border-[#c6c5d3] pb-12">
                 <span class="inline-block px-3 py-1 bg-[#e9e7ef] text-[#4352a5] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px] mb-4">
-                    Zenthra Labs · Our Story
+                    ZenthraLabs · Our Story
                 </span>
                 <h1 class="font-['Syne',sans-serif] text-3xl lg:text-5xl font-bold text-[#1b1b21] leading-tight mb-4">
                     Rebuilding desktop &amp; mobile computing from the metal up.
                 </h1>
                 <p class="text-[#454651] text-base leading-relaxed max-w-3xl">
-                    Zenthra Labs was founded in 2024 with a simple belief: modern user interfaces shouldn't require gigabytes of runtime framework overhead. We build GPU-accelerated graphics stacks and low-latency native developer tools for the next generation of computing.
+                    ZenthraLabs was founded in 2024 with a simple belief: modern user interfaces shouldn't require gigabytes of runtime framework overhead. We build GPU-accelerated graphics stacks and low-latency native developer tools for the next generation of computing.
                 </p>
             </div>
 
@@ -135,11 +135,11 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "About — Zenthra Labs",
+    title: "About — ZenthraLabs",
     meta: [
         {
             name: "description",
-            content: "Learn about the mission, values, and milestone history of Zenthra Labs in building high-performance native systems.",
+            content: "Learn about the mission, values, and milestone history of ZenthraLabs in building high-performance native systems.",
         },
     ],
 };

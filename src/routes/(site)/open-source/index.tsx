@@ -71,7 +71,7 @@ export default component$(() => {
             {/* ── Hero ── */}
             <div class="mb-16 border-b border-[#c6c5d3] pb-12">
                 <span class="inline-block px-3 py-1 bg-[#e9e7ef] text-[#4352a5] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px] mb-4">
-                    Zenthra Labs · Open Source
+                    ZenthraLabs · Open Source
                 </span>
                 <h1 class="font-['Syne',sans-serif] text-3xl lg:text-5xl font-bold text-[#1b1b21] leading-tight mb-4">
                     Building in public. Building for speed.
@@ -86,7 +86,7 @@ export default component$(() => {
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                     <div>
                         <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] mb-2">Core Registry Packages</h2>
-                        <p class="text-xs text-[#767683]">Individual cargo crates published and maintained by Zenthra Labs.</p>
+                        <p class="text-xs text-[#767683]">Individual cargo crates published and maintained by ZenthraLabs.</p>
                     </div>
                     <a
                         href="https://crates.io/teams/github:kabirajpan:zenthra-publishers"
@@ -215,8 +215,8 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "Open Source Registry — Zenthra Labs",
+    title: "Open Source Registry — ZenthraLabs",
     meta: [
-        { name: "description", content: "Join Zenthra Labs in building high-performance, immediate-mode layout, styling, and graphics crates for Rust in public." },
+        { name: "description", content: "Join ZenthraLabs in building high-performance, immediate-mode layout, styling, and graphics crates for Rust in public." },
     ],
 };

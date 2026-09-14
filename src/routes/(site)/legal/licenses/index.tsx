@@ -70,7 +70,7 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "Open Source Licenses — Zenthra Labs",
+    title: "Open Source Licenses — ZenthraLabs",
     meta: [
         { name: "description", content: "Open source licensing terms for Zenthra crates and community applications." },
     ],

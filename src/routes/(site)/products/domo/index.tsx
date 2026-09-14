@@ -17,6 +17,6 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "Domo — Demo App | Zenthra Labs",
+    title: "Domo — Demo App | ZenthraLabs",
     meta: [{ name: "description", content: "Domo demo: interactive visualizations and live previews." }],
 };

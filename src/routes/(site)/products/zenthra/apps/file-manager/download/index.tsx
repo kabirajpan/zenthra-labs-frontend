@@ -219,14 +219,14 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "Download ZenFile — Zenthra Labs",
+    title: "Download ZenFile — ZenthraLabs",
     meta: [
         { name: "description", content: "Download ZenFile, the native cross-platform Zenthra desktop file manager for macOS, Windows, and Linux." },
-        { property: "og:title", content: "Download ZenFile — Zenthra Labs" },
+        { property: "og:title", content: "Download ZenFile — ZenthraLabs" },
         { property: "og:description", content: "Download ZenFile, the native cross-platform Zenthra desktop file manager for macOS, Windows, and Linux." },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: "Download ZenFile — Zenthra Labs" },
+        { name: "twitter:title", content: "Download ZenFile — ZenthraLabs" },
         { name: "twitter:description", content: "Download ZenFile, the native cross-platform Zenthra desktop file manager for macOS, Windows, and Linux." },
     ],
 };

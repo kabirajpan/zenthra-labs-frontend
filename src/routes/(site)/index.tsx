@@ -164,7 +164,7 @@ export default component$(() => {
                 <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-20">
                     <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
                         <h2 class="font-['Syne',sans-serif] text-3xl font-bold text-[#1b1b21]">Our Engineering Philosophy</h2>
-                        <p class="text-[#454651] text-sm">We believe that modern software has become bloated, slow, and overly reliant on network infrastructure. Zenthra Labs is a return to efficiency and craftsmanship.</p>
+                        <p class="text-[#454651] text-sm">We believe that modern software has become bloated, slow, and overly reliant on network infrastructure. ZenthraLabs is a return to efficiency and craftsmanship.</p>
                     </div>
 
                     <div class="grid md:grid-cols-3 gap-8">
@@ -460,14 +460,14 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "Zenthra Labs — High-Performance Native Systems & Frameworks",
+    title: "ZenthraLabs — High-Performance Native Systems & Frameworks",
     meta: [
-        { name: "description", content: "Zenthra Labs builds low-latency native frameworks, GPU-accelerated graphic renderers, and modern developer tooling." },
-        { property: "og:title", content: "Zenthra Labs — High-Performance Native Systems & Frameworks" },
-        { property: "og:description", content: "Zenthra Labs builds low-latency native frameworks, GPU-accelerated graphic renderers, and modern developer tooling." },
+        { name: "description", content: "ZenthraLabs builds low-latency native frameworks, GPU-accelerated graphic renderers, and modern developer tooling." },
+        { property: "og:title", content: "ZenthraLabs — High-Performance Native Systems & Frameworks" },
+        { property: "og:description", content: "ZenthraLabs builds low-latency native frameworks, GPU-accelerated graphic renderers, and modern developer tooling." },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: "Zenthra Labs — High-Performance Native Systems & Frameworks" },
-        { name: "twitter:description", content: "Zenthra Labs builds low-latency native frameworks, GPU-accelerated graphic renderers, and modern developer tooling." },
+        { name: "twitter:title", content: "ZenthraLabs — High-Performance Native Systems & Frameworks" },
+        { name: "twitter:description", content: "ZenthraLabs builds low-latency native frameworks, GPU-accelerated graphic renderers, and modern developer tooling." },
     ],
 };

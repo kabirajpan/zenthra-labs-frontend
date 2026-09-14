@@ -18,7 +18,7 @@ export default component$(() => {
                 <div>
                     <h2 class="font-['Syne',sans-serif] text-xl font-bold text-[#1b1b21] mb-3">1. Acceptance of Terms</h2>
                     <p>
-                        By visiting the Zenthra Labs website or downloading our open-source packages, libraries, and native applications, you agree to comply with and be bound by these Terms of Service, along with our active licensing definitions.
+                        By visiting the ZenthraLabs website or downloading our open-source packages, libraries, and native applications, you agree to comply with and be bound by these Terms of Service, along with our active licensing definitions.
                     </p>
                 </div>
 
@@ -39,7 +39,7 @@ export default component$(() => {
                 <div>
                     <h2 class="font-['Syne',sans-serif] text-xl font-bold text-[#1b1b21] mb-3">3. Disclaimer of Warranty</h2>
                     <p>
-                        The website content and all open-source packages are provided "as is", without warranty of any kind, express or implied. Under no circumstances shall Zenthra Labs or its developers be liable for any claims, damages, or liabilities arising out of your deployment of the code.
+                        The website content and all open-source packages are provided "as is", without warranty of any kind, express or implied. Under no circumstances shall ZenthraLabs or its developers be liable for any claims, damages, or liabilities arising out of your deployment of the code.
                     </p>
                 </div>
 
@@ -62,8 +62,8 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "Terms of Service — Zenthra Labs",
+    title: "Terms of Service — ZenthraLabs",
     meta: [
-        { name: "description", content: "Terms of Service for using websites, documentation, and tools by Zenthra Labs." },
+        { name: "description", content: "Terms of Service for using websites, documentation, and tools by ZenthraLabs." },
     ],
 };
