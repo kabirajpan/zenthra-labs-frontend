@@ -2,34 +2,47 @@ import { API_BASE } from "~/lib/api";
 import { component$, Slot, useSignal, useVisibleTask$, $ } from "@builder.io/qwik";
 import { useNavigate, useLocation } from "@builder.io/qwik-city";
 
+interface User {
+    id?: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: string;
+}
+
 export default component$(() => {
     const isAuthenticating = useSignal(true);
-    const user = useSignal<{ firstName: string; lastName: string; email: string; role: string } | null>(null);
+    const user = useSignal<User | null>(null);
     const isMobileMenuOpen = useSignal(false);
     const isProfileOpen = useSignal(false);
     const theme = useSignal<"light" | "dark">("dark");
     const nav = useNavigate();
     const loc = useLocation();
 
+    // Initialize theme from DOM/localStorage
     useVisibleTask$(() => {
-        const savedTheme = localStorage.getItem("zenthra_theme") as "light" | "dark" | null;
-        if (savedTheme) {
-            theme.value = savedTheme;
-        } else {
-            theme.value = "dark";
-        }
+        const isDark = document.documentElement.classList.contains("dark") ||
+            (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches) ||
+            localStorage.theme === "dark" ||
+            localStorage.getItem("zenthra_theme") === "dark";
+        theme.value = isDark ? "dark" : "light";
     });
 
+    // React to theme changes
     useVisibleTask$(({ track }) => {
         track(() => theme.value);
-        localStorage.setItem("zenthra_theme", theme.value);
         if (theme.value === "dark") {
             document.documentElement.classList.add("dark");
+            localStorage.theme = "dark";
+            localStorage.setItem("zenthra_theme", "dark");
         } else {
             document.documentElement.classList.remove("dark");
+            localStorage.theme = "light";
+            localStorage.setItem("zenthra_theme", "light");
         }
     });
 
+    // Authenticate user
     useVisibleTask$(async () => {
         const getCookie = (name: string) => {
             const value = `; ${document.cookie}`;
@@ -78,262 +91,221 @@ export default component$(() => {
 
     const handleSignOut = $(() => {
         document.cookie = "zenthra_auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        localStorage.removeItem("zenthra_user");
         window.location.href = "/";
     });
 
     if (isAuthenticating.value) {
         return (
-            <div class="flex items-center justify-center min-h-screen bg-[#fbf8ff] dark:bg-[#09090b] transition-colors duration-200">
+            <div class="flex items-center justify-center min-h-screen bg-[#e5e2ed] dark:bg-[#07080b] transition-colors duration-200">
                 <div class="text-center space-y-4">
-                    <div class="relative w-16 h-16 mx-auto">
-                        <div class="absolute inset-0 rounded-full border-4 border-[#5c6bc0]/20 dark:border-indigo-500/20" />
-                        <div class="absolute inset-0 rounded-full border-4 border-t-[#5c6bc0] dark:border-t-indigo-500 animate-spin" />
-                    </div>
-                    <p class="text-xs text-neutral-500 dark:text-[#94a3b8] font-medium font-mono tracking-wider uppercase">Initializing Workspace...</p>
+                    <div class="w-8 h-8 mx-auto border-2 border-[#1b1b21] dark:border-white border-t-transparent animate-spin rounded-full" />
+                    <p class="text-xs text-[#767683] dark:text-[#94a3b8] font-['JetBrains_Mono',monospace] uppercase tracking-wider">Initializing Workspace...</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div class="min-h-screen bg-[#fbf8ff] dark:bg-[#09090b] text-neutral-900 dark:text-[#e2e8f0] flex flex-col md:flex-row antialiased transition-colors duration-200 relative overflow-hidden">
-            {/* Ambient glows */}
-            <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-40 dark:opacity-20">
-                <div class="absolute top-0 right-0 w-[40%] aspect-square rounded-full bg-indigo-500/10 blur-[100px]" />
-                <div class="absolute bottom-0 left-[20%] w-[30%] aspect-square rounded-full bg-violet-500/10 blur-[100px]" />
-            </div>
+        /* ── Full Cover Background (Fixed Viewport, No Leak) ── */
+        <div class="h-screen bg-[#e5e2ed] dark:bg-[#07080b] text-[#1b1b21] dark:text-white font-['DM_Sans',sans-serif] antialiased transition-colors duration-200 p-1.5 md:p-2 flex flex-col md:flex-row gap-1.5 md:gap-2 overflow-hidden">
 
-            {/* Sidebar */}
-            <aside class={[
-                "fixed inset-y-0 left-0 z-40 w-64 bg-white dark:bg-[#0c0d12] border-r border-[#c6c5d3] dark:border-[#1c1d24] flex flex-col transform md:translate-x-0 transition-all duration-300 ease-out",
-                isMobileMenuOpen.value ? "translate-x-0" : "-translate-x-full"
-            ].join(" ")}>
-                {/* Logo Section */}
-                <div class="p-6 border-b border-[#c6c5d3] dark:border-[#1c1d24] flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <div class="w-7 h-7 rounded-[4px] bg-[#5c6bc0] flex items-center justify-center font-bold text-white shadow-sm shadow-[#5c6bc0]/25">Z</div>
-                        <h2 class="text-xl font-bold text-[#4352a5] font-['Syne',sans-serif]">ZenthraLabs</h2>
-                    </div>
-                </div>
-
-                {/* Navigation Menu */}
-                <nav class="flex-grow p-4 space-y-1.5 overflow-y-auto">
-                    <a
-                        href="/dashboard"
-                        class={[
-                            "flex items-center gap-3 px-4 py-2.5 rounded-[4px] text-xs font-bold transition-all duration-200 border",
-                            loc.url.pathname === "/dashboard" || loc.url.pathname === "/dashboard/"
-                                ? "bg-[#e9e7ef] text-[#4352a5] border-[#c6c5d3] dark:bg-white/5 dark:text-white dark:border-white/[0.05]"
-                                : "text-neutral-500 border-transparent hover:bg-[#e9e7ef]/40 dark:text-[#94a3b8] dark:hover:bg-white/[0.02] hover:text-neutral-900 dark:hover:text-white"
-                        ].join(" ")}
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0">
-                            <rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>
-                        </svg>
-                        Workspace Overview
-                    </a>
-
-                    <a
-                        href="/dashboard/products"
-                        class={[
-                            "flex items-center gap-3 px-4 py-2.5 rounded-[4px] text-xs font-bold transition-all duration-200 border",
-                            loc.url.pathname === "/dashboard/products" || loc.url.pathname === "/dashboard/products/"
-                                ? "bg-[#e9e7ef] text-[#4352a5] border-[#c6c5d3] dark:bg-white/5 dark:text-white dark:border-white/[0.05]"
-                                : "text-neutral-500 border-transparent hover:bg-[#e9e7ef]/40 dark:text-[#94a3b8] dark:hover:bg-white/[0.02] hover:text-neutral-900 dark:hover:text-white"
-                        ].join(" ")}
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0">
-                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                            <line x1="12" y1="22.08" x2="12" y2="12"/>
-                        </svg>
-                        Your Products
-                    </a>
-
-                    <a
-                        href="/dashboard/plan"
-                        class={[
-                            "flex items-center gap-3 px-4 py-2.5 rounded-[4px] text-xs font-bold transition-all duration-200 border",
-                            loc.url.pathname === "/dashboard/plan" || loc.url.pathname === "/dashboard/plan/"
-                                ? "bg-[#e9e7ef] text-[#4352a5] border-[#c6c5d3] dark:bg-white/5 dark:text-white dark:border-white/[0.05]"
-                                : "text-neutral-500 border-transparent hover:bg-[#e9e7ef]/40 dark:text-[#94a3b8] dark:hover:bg-white/[0.02] hover:text-neutral-900 dark:hover:text-white"
-                        ].join(" ")}
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0">
-                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
-                        </svg>
-                        Subscription & Plan
-                    </a>
-
-                    {user.value?.role === "ADMIN" && (
-                        <a
-                            href="/admin"
-                            class={[
-                                "flex items-center gap-3 px-4 py-2.5 rounded-[4px] text-xs font-bold transition-all duration-200 border",
-                                loc.url.pathname === "/admin" || loc.url.pathname === "/admin/"
-                                    ? "bg-amber-500/10 text-amber-600 border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20"
-                                    : "text-neutral-500 border-transparent hover:bg-amber-500/5 dark:text-[#94a3b8] dark:hover:bg-amber-500/5 hover:text-amber-700 dark:hover:text-amber-400"
-                            ].join(" ")}
-                        >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                            </svg>
-                            Launch Admin Panel
-                        </a>
-                    )}
-                </nav>
-
-                {/* Sidebar Footer Stats */}
-                <div class="p-4 border-t border-[#c6c5d3] dark:border-[#1c1d24] bg-neutral-50/50 dark:bg-black/10">
-                    <div class="flex items-center justify-between text-[9px] font-mono text-neutral-400 dark:text-[#64748b]">
-                        <span>System Load</span>
-                        <span class="text-emerald-500 font-bold">12%</span>
-                    </div>
-                    <div class="w-full bg-neutral-200 dark:bg-white/5 h-1 rounded-full mt-1.5 overflow-hidden">
-                        <div class="bg-emerald-500 h-full w-[12%]" />
-                    </div>
-                </div>
-            </aside>
-
-            {/* Mobile Header */}
-            <header class="md:hidden bg-white dark:bg-[#0c0d12] border-b border-[#c6c5d3] dark:border-[#1c1d24] p-4 flex items-center justify-between sticky top-0 z-30 transition-colors duration-200">
-                <div class="flex items-center gap-2">
-                    <div class="w-7 h-7 rounded-[4px] bg-[#5c6bc0] flex items-center justify-center font-bold text-white">Z</div>
-                    <span class="font-['Syne',sans-serif] font-bold tracking-wide text-neutral-900 dark:text-white">Zenthra Dev</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    {/* Theme toggle mobile */}
-                    <button
-                        onClick$={() => theme.value = theme.value === "light" ? "dark" : "light"}
-                        class="p-1.5 bg-[#fbf8ff] dark:bg-white/[0.02] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] text-neutral-500 dark:text-[#94a3b8] hover:text-neutral-900 dark:hover:text-white"
-                    >
-                        {theme.value === "light" ? (
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                            </svg>
-                        ) : (
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-                            </svg>
-                        )}
-                    </button>
-                    <button
-                        onClick$={() => isMobileMenuOpen.value = !isMobileMenuOpen.value}
-                        class="p-1.5 bg-[#fbf8ff] dark:bg-white/[0.02] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px] text-neutral-500 dark:text-[#94a3b8] hover:text-neutral-900 dark:hover:text-white"
-                    >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            {isMobileMenuOpen.value ? (
-                                <line x1="18" y1="6" x2="6" y2="18"/>
-                            ) : (
-                                <line x1="3" y1="12" x2="21" y2="12"/>
-                            )}
-                            {isMobileMenuOpen.value ? (
-                                <line x1="6" y1="6" x2="18" y2="18"/>
-                            ) : (
-                                <>
-                                    <line x1="3" y1="6" x2="21" y2="6"/>
-                                    <line x1="3" y1="18" x2="21" y2="18"/>
-                                </>
-                            )}
-                        </svg>
-                    </button>
-                </div>
-            </header>
-
-            {/* Backdrop for Mobile Sidebar */}
+            {/* Mobile backdrop */}
             {isMobileMenuOpen.value && (
                 <div
+                    class="fixed inset-0 bg-black/40 backdrop-blur-xs z-30 md:hidden"
                     onClick$={() => isMobileMenuOpen.value = false}
-                    class="fixed inset-0 bg-black/60 z-30 md:hidden backdrop-blur-sm"
                 />
             )}
 
-            {/* Main Workspace Frame */}
-            <div class="flex-grow flex flex-col md:pl-64 min-h-screen relative z-10">
-                {/* Desktop Top Header Bar */}
-                <header class="hidden md:flex items-center justify-between px-10 py-6 border-b border-[#c6c5d3] dark:border-[#1c1d24] sticky top-0 bg-[#fbf8ff]/80 dark:bg-[#09090b]/80 backdrop-blur-md z-20 transition-colors duration-200">
-                    <div class="flex items-center gap-3">
-                        <div class="flex items-center gap-2 text-sm text-neutral-500 dark:text-[#94a3b8]">
-                            <span class="font-mono text-[#5c6bc0] dark:text-indigo-400">workspace</span>
-                            <span>/</span>
-                            <span class="text-neutral-800 dark:text-white font-semibold">dashboard</span>
+            {/* ── Left Side Panel (Sidebar) - Full Height & Fixed ── */}
+            <aside class={[
+                "w-64 shrink-0 rounded-[7px] bg-white dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[0_4px_24px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.55)] flex flex-col p-3.5 transition-all duration-200 ease-out h-full overflow-hidden",
+                "fixed inset-y-1.5 left-1.5 z-40 md:static md:inset-auto md:z-auto",
+                isMobileMenuOpen.value ? "translate-x-0" : "-translate-x-[calc(100%+2rem)] md:translate-x-0"
+            ].join(" ")}>
+                {/* Brand Box with Inner Shadow */}
+                <div class="shrink-0 mb-3">
+                    <div class="flex items-center justify-center w-full py-4 px-3 rounded-[4px] bg-white dark:bg-[#1a1b26] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[inset_0_2px_4px_rgba(0,0,0,0.07)] dark:shadow-[inset_0_2px_6px_rgba(0,0,0,0.45)]">
+                        <a href="/dashboard" class="text-xl font-bold text-[#4352a5] font-['Syne',sans-serif]">ZenthraLabs</a>
+                    </div>
+                </div>
+
+                {/* Navigation Box with Inner Shadow (No Scroll) */}
+                <nav class="flex-grow overflow-hidden flex flex-col justify-between">
+                    <div class="w-full p-2 rounded-[4px] bg-white dark:bg-[#1a1b26] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[inset_0_2px_4px_rgba(0,0,0,0.07)] dark:shadow-[inset_0_2px_6px_rgba(0,0,0,0.45)] space-y-1">
+                        <a
+                            href="/dashboard"
+                            class={[
+                                "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
+                                loc.url.pathname === "/dashboard" || loc.url.pathname === "/dashboard/"
+                                    ? "bg-[#1b1b21] text-white border-[#1b1b21] dark:bg-white dark:text-[#1b1b21] dark:border-white shadow-sm"
+                                    : "text-[#767683] hover:text-[#1b1b21] dark:text-[#94a3b8] dark:hover:text-white border-transparent hover:bg-black/5 dark:hover:bg-white/5"
+                            ].join(" ")}
+                        >
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>
+                            </svg>
+                            Workspace Overview
+                        </a>
+
+                        <a
+                            href="/dashboard/products"
+                            class={[
+                                "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
+                                loc.url.pathname.startsWith("/dashboard/products")
+                                    ? "bg-[#1b1b21] text-white border-[#1b1b21] dark:bg-white dark:text-[#1b1b21] dark:border-white shadow-sm"
+                                    : "text-[#767683] hover:text-[#1b1b21] dark:text-[#94a3b8] dark:hover:text-white border-transparent hover:bg-black/5 dark:hover:bg-white/5"
+                            ].join(" ")}
+                        >
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                                <line x1="12" y1="22.08" x2="12" y2="12"/>
+                            </svg>
+                            Your Products
+                        </a>
+
+                        <a
+                            href="/dashboard/plan"
+                            class={[
+                                "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
+                                loc.url.pathname.startsWith("/dashboard/plan")
+                                    ? "bg-[#1b1b21] text-white border-[#1b1b21] dark:bg-white dark:text-[#1b1b21] dark:border-white shadow-sm"
+                                    : "text-[#767683] hover:text-[#1b1b21] dark:text-[#94a3b8] dark:hover:text-white border-transparent hover:bg-black/5 dark:hover:bg-white/5"
+                            ].join(" ")}
+                        >
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+                            </svg>
+                            Subscription & Plan
+                        </a>
+
+                        {user.value?.role === "ADMIN" && (
+                            <a
+                                href="/admin/dashboard"
+                                class={[
+                                    "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
+                                    loc.url.pathname.startsWith("/admin")
+                                        ? "bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30 shadow-sm"
+                                        : "text-amber-600 dark:text-amber-400/80 border-transparent hover:bg-amber-500/10"
+                                ].join(" ")}
+                            >
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                                Launch Admin Panel
+                            </a>
+                        )}
+                    </div>
+
+                    {/* Bottom Status Box with Inner Shadow */}
+                    <div class="mt-3 w-full p-2.5 rounded-[4px] bg-white dark:bg-[#1a1b26] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[inset_0_2px_4px_rgba(0,0,0,0.07)] dark:shadow-[inset_0_2px_6px_rgba(0,0,0,0.45)]">
+                        <div class="flex items-center justify-between text-[10px] font-['JetBrains_Mono',monospace] text-[#767683] dark:text-[#94a3b8]">
+                            <span>SYSTEM STATUS</span>
+                            <span class="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                ONLINE
+                            </span>
                         </div>
-                        {/* Live Status Pill */}
-                        <div class="flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-full text-[9px] font-mono font-bold tracking-wider uppercase">
+                        <div class="w-full bg-[#e5e2ed] dark:bg-black/40 h-1 rounded-full mt-2 overflow-hidden">
+                            <div class="bg-emerald-500 h-full w-[15%]" />
+                        </div>
+                    </div>
+                </nav>
+            </aside>
+
+            {/* ── Right Side Column with Gap ── */}
+            <div class="flex-1 min-w-0 flex flex-col gap-1.5 md:gap-2 h-full overflow-hidden">
+
+                {/* ── Top Floating Navbar Panel Card ── */}
+                <header class="h-14 rounded-[7px] bg-white dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[0_4px_24px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.55)] flex items-center justify-between px-4 md:px-6 shrink-0 z-20">
+                    {/* Left: hamburger for mobile & breadcrumbs */}
+                    <div class="flex items-center gap-3">
+                        <button
+                            class="md:hidden p-1.5 text-[#767683] hover:text-[#1b1b21] dark:text-[#94a3b8] dark:hover:text-white transition-colors"
+                            onClick$={() => isMobileMenuOpen.value = !isMobileMenuOpen.value}
+                            title="Toggle menu"
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+                            </svg>
+                        </button>
+
+                        <div class="flex items-center gap-2 text-xs text-[#767683] dark:text-[#94a3b8]">
+                            <span class="font-['JetBrains_Mono',monospace] text-[#4352a5] dark:text-indigo-400">workspace</span>
+                            <span>/</span>
+                            <span class="text-[#1b1b21] dark:text-white font-semibold">
+                                {loc.url.pathname.includes("/products") ? "products" : loc.url.pathname.includes("/plan") ? "plan" : "overview"}
+                            </span>
+                        </div>
+
+                        <div class="hidden sm:flex items-center gap-1.5 px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-[3px] text-[9px] font-['JetBrains_Mono',monospace] font-bold tracking-wider uppercase">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                             API: Operational
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-4">
-                        {/* Theme Switcher Desktop */}
+                    {/* Right: Role badge · dark mode toggle · profile */}
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-[9px] font-['JetBrains_Mono',monospace] px-1.5 py-0.5 bg-[#1b1b21] text-white dark:bg-white dark:text-[#1b1b21] font-bold rounded-[2px] uppercase select-none">
+                            {user.value?.role || "USER"}
+                        </span>
+
                         <button
                             onClick$={() => theme.value = theme.value === "light" ? "dark" : "light"}
-                            class="p-2 bg-white dark:bg-white/[0.02] border border-[#c6c5d3] dark:border-[#1c1d24] rounded-[4px] text-neutral-500 dark:text-[#94a3b8] hover:text-neutral-900 dark:hover:text-white transition-all cursor-pointer"
-                            title={`Switch to ${theme.value === "light" ? "dark" : "light"} theme`}
+                            class="p-1.5 text-[#767683] hover:text-[#1b1b21] dark:text-[#94a3b8] dark:hover:text-white transition-colors rounded-[4px] hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer"
+                            title="Toggle theme"
                         >
                             {theme.value === "light" ? (
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                                </svg>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
                             ) : (
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-                                </svg>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" /></svg>
                             )}
                         </button>
 
-                        {/* Profile Dropdown Menu */}
+                        <div class="w-px h-4 bg-[#c6c5d3] dark:bg-[#1e2030]" />
+
+                        {/* Profile Dropdown */}
                         <div class="relative">
                             <button
                                 onClick$={() => isProfileOpen.value = !isProfileOpen.value}
-                                class="w-8 h-8 rounded-[4px] bg-[#e9e7ef] dark:bg-[#1c1d24] flex items-center justify-center border border-[#c6c5d3] dark:border-white/[0.06] text-xs font-bold text-neutral-800 dark:text-[#e2e8f0] cursor-pointer hover:bg-neutral-200 dark:hover:bg-white/10 transition-all select-none"
+                                class="flex items-center justify-center w-8 h-8 rounded-full bg-[#4352a5] text-white text-xs font-bold font-['Syne',sans-serif] hover:bg-[#3a489a] transition-colors shadow-sm cursor-pointer"
+                                title="Profile menu"
                             >
-                                {user.value?.firstName[0]}{user.value?.lastName[0]}
+                                {user.value?.firstName?.[0] || "U"}{user.value?.lastName?.[0] || ""}
                             </button>
 
                             {isProfileOpen.value && (
-                                <>
-                                    {/* Click-outside backdrop to close */}
-                                    <div
-                                        onClick$={() => isProfileOpen.value = false}
-                                        class="fixed inset-0 z-40 cursor-default"
-                                    />
-                                    {/* Dropdown Box */}
-                                    <div class="absolute right-0 mt-2 w-52 bg-white dark:bg-[#0c0d12] border border-[#c6c5d3] dark:border-[#1c1d24] rounded-[4px] shadow-lg py-1.5 z-50 animate-fade-in font-sans">
-                                        <div class="px-4 py-2 border-b border-[#c6c5d3]/50 dark:border-white/[0.05]">
-                                            <p class="text-xs font-bold text-neutral-900 dark:text-white truncate">
-                                                {user.value?.firstName} {user.value?.lastName}
-                                            </p>
-                                            <p class="text-[10px] text-neutral-400 dark:text-[#64748b] truncate mt-0.5">
-                                                {user.value?.email}
-                                            </p>
-                                            <span class="inline-block mt-1.5 px-1.5 py-0.5 bg-[#e3e1e9] text-[#4352a5] dark:bg-white/5 dark:text-neutral-300 text-[8px] font-bold uppercase rounded tracking-wider">
-                                                {user.value?.role}
-                                            </span>
-                                        </div>
-                                        <button
-                                            onClick$={handleSignOut}
-                                            class="w-full text-left px-4 py-2 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 flex items-center gap-2 transition-all cursor-pointer"
-                                        >
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
-                                            </svg>
-                                            Log Out
-                                        </button>
+                                <div class="absolute right-0 top-10 w-56 bg-white dark:bg-[#1a1b26] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[6px] shadow-lg overflow-hidden z-50">
+                                    <div class="px-4 py-3 border-b border-[#c6c5d3] dark:border-[#1e2030]">
+                                        <p class="text-xs font-bold text-[#1b1b21] dark:text-white truncate">{user.value?.firstName} {user.value?.lastName}</p>
+                                        <p class="text-[11px] text-[#767683] dark:text-[#94a3b8] truncate mt-0.5 font-['JetBrains_Mono',monospace]">{user.value?.email}</p>
+                                        <span class="inline-block mt-1.5 text-[9px] font-['JetBrains_Mono',monospace] px-1.5 py-0.5 bg-[#1b1b21] text-white dark:bg-white dark:text-[#1b1b21] font-bold rounded-[2px] uppercase">
+                                            {user.value?.role || "USER"}
+                                        </span>
                                     </div>
-                                </>
+
+                                    <button
+                                        onClick$={handleSignOut}
+                                        class="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors font-semibold cursor-pointer"
+                                    >
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" />
+                                        </svg>
+                                        Sign Out
+                                    </button>
+                                </div>
                             )}
                         </div>
                     </div>
                 </header>
 
-                {/* Workspace Content */}
-                <main class="flex-grow p-6 md:p-10 overflow-y-auto w-full">
+                {/* ── Main Content Panel Card (Internally Scrollable, Never Leaks) ── */}
+                <main class="flex-1 min-h-0 rounded-[7px] bg-white dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[0_4px_24px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.55)] p-6 lg:p-8 overflow-y-auto">
                     <Slot />
                 </main>
             </div>
         </div>
     );
 });
-
