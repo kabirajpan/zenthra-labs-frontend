@@ -112,7 +112,7 @@ export default component$(() => {
                 <div class="p-6 border-b border-[#c6c5d3] dark:border-[#1c1d24] flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <div class="w-7 h-7 rounded-[4px] bg-[#5c6bc0] flex items-center justify-center font-bold text-white shadow-sm shadow-[#5c6bc0]/25">Z</div>
-                        <h2 class="font-['Syne',sans-serif] font-bold text-lg text-neutral-950 dark:text-white tracking-wide">ZenthraLabs</h2>
+                        <h2 class="text-xl font-bold text-[#4352a5] font-['Syne',sans-serif]">ZenthraLabs</h2>
                     </div>
                 </div>
 
