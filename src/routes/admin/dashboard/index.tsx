@@ -226,14 +226,14 @@ export default component$(() => {
             ) : stats.value ? (
                 <>
                     {/* ── Stat Cards ── */}
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                         {[
                             { label: "Total Users", value: stats.value.totalUsers, color: "#4352a5", icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" },
                             { label: "After Motion", value: stats.value.afterMotionCount || 0, color: "#7c3aed", icon: "M15 10l4.553-2.069A1 1 0 0 1 21 8.82v6.36a1 1 0 0 1-1.447.89L15 14M3 8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" },
                             { label: "Web App", value: stats.value.webAppCount || 0, color: "#0891b2", icon: "M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9" },
                             { label: "Admins", value: stats.value.adminCount, color: "#dc2626", icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0 1 12 2.944a11.955 11.955 0 0 1-8.618 3.04A12.02 12.02 0 0 0 3 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
                         ].map((card) => (
-                            <div key={card.label} class="bg-white dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[8px] p-5 flex items-start gap-4 shadow-sm hover:border-[#4352a5]/50 transition-colors">
+                            <div key={card.label} class="bg-white dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[8px] p-4 sm:p-5 flex items-start gap-4 shadow-sm hover:border-[#4352a5]/50 transition-colors">
                                 <div class="shrink-0 w-9 h-9 rounded-[6px] flex items-center justify-center" style={`background:${card.color}18`}>
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={card.color} stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                                         <path d={card.icon} />
@@ -248,7 +248,7 @@ export default component$(() => {
                     </div>
 
                     {/* ── User Registrations Chart Card ── */}
-                    <div class="bg-white dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[8px] p-5 shadow-sm space-y-5">
+                    <div class="bg-white dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[8px] p-4 sm:p-5 shadow-sm space-y-5">
                         {/* Header Controls */}
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#f0eff5] dark:border-[#1a1c28] pb-4">
                             <div class="flex items-center gap-3">
@@ -272,7 +272,7 @@ export default component$(() => {
                             </div>
 
                             {/* Time range selector */}
-                            <div class="flex items-center gap-1 p-1 bg-[#f4f2f8] dark:bg-[#1a1b26] border border-[#c6c5d3]/50 dark:border-[#1e2030] rounded-[6px] self-start sm:self-auto">
+                            <div class="flex items-center gap-1 p-1 bg-[#f4f2f8] dark:bg-[#1a1b26] border border-[#c6c5d3]/50 dark:border-[#1e2030] rounded-[6px] self-start sm:self-auto overflow-x-auto max-w-full">
                                 {[
                                     { label: "7D", days: 7 },
                                     { label: "14D", days: 14 },
@@ -296,7 +296,7 @@ export default component$(() => {
                         </div>
 
                         {/* Summary Metrics */}
-                        <div class="grid grid-cols-3 gap-3">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             <div class="p-3.5 rounded-[6px] bg-[#fbf8ff] dark:bg-[#161722] border border-[#e8e6f0] dark:border-[#1e2030]">
                                 <span class="text-[10px] text-[#767683] dark:text-[#94a3b8] font-['JetBrains_Mono',monospace] uppercase block">
                                     New Signups

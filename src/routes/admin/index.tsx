@@ -252,7 +252,7 @@ export default component$(() => {
 
             {/* Minimal Indicators */}
             {stats.value && (
-                <div class="grid grid-cols-3 gap-4 font-['JetBrains_Mono',monospace]">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 font-['JetBrains_Mono',monospace]">
                     <div class="p-4 bg-[#f4f2f8] dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px]">
                         <span class="text-[10px] text-[#767683] dark:text-[#94a3b8] uppercase block">Total Users</span>
                         <span class="text-xl font-bold text-[#1b1b21] dark:text-white mt-1 block">{stats.value.totalUsers}</span>

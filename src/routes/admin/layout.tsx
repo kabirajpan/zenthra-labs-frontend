@@ -278,7 +278,7 @@ export default component$(() => {
                 </header>
 
                 {/* ── Main Content Panel Card (Internally Scrollable, Never Leaks) ── */}
-                <main class="flex-1 min-h-0 rounded-[7px] bg-white dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[0_4px_24px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.55)] p-6 lg:p-8 overflow-y-auto">
+                <main class="flex-1 min-h-0 rounded-[7px] bg-white dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[0_4px_24px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.55)] p-4 sm:p-6 lg:p-8 overflow-y-auto">
                     <Slot />
                 </main>
             </div>
