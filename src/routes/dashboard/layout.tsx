@@ -1,6 +1,6 @@
 import { API_BASE } from "~/lib/api";
 import { component$, Slot, useSignal, useVisibleTask$, $ } from "@builder.io/qwik";
-import { useNavigate, useLocation } from "@builder.io/qwik-city";
+import { useNavigate, useLocation, Link } from "@builder.io/qwik-city";
 
 interface User {
     id?: string;
@@ -127,14 +127,14 @@ export default component$(() => {
                 {/* Brand Box with Inner Shadow */}
                 <div class="shrink-0 mb-3">
                     <div class="flex items-center justify-center w-full py-4 px-3 rounded-[4px] bg-white dark:bg-[#1a1b26] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[inset_0_2px_4px_rgba(0,0,0,0.07)] dark:shadow-[inset_0_2px_6px_rgba(0,0,0,0.45)]">
-                        <a href="/dashboard" class="text-xl font-bold text-[#4352a5] font-['Syne',sans-serif]">ZenthraLabs</a>
+                        <Link href="/dashboard" class="text-xl font-bold text-[#4352a5] font-['Syne',sans-serif]">ZenthraLabs</Link>
                     </div>
                 </div>
 
                 {/* Navigation Box with Inner Shadow (No Scroll) */}
                 <nav class="flex-grow overflow-hidden flex flex-col justify-between">
                     <div class="w-full p-2 rounded-[4px] bg-white dark:bg-[#1a1b26] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[inset_0_2px_4px_rgba(0,0,0,0.07)] dark:shadow-[inset_0_2px_6px_rgba(0,0,0,0.45)] space-y-1">
-                        <a
+                        <Link
                             href="/dashboard"
                             class={[
                                 "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
@@ -147,9 +147,9 @@ export default component$(() => {
                                 <rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>
                             </svg>
                             Workspace Overview
-                        </a>
+                        </Link>
 
-                        <a
+                        <Link
                             href="/dashboard/products"
                             class={[
                                 "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
@@ -164,9 +164,9 @@ export default component$(() => {
                                 <line x1="12" y1="22.08" x2="12" y2="12"/>
                             </svg>
                             Your Products
-                        </a>
+                        </Link>
 
-                        <a
+                        <Link
                             href="/dashboard/plan"
                             class={[
                                 "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
@@ -179,10 +179,10 @@ export default component$(() => {
                                 <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
                             </svg>
                             Subscription & Plan
-                        </a>
+                        </Link>
 
                         {user.value?.role === "ADMIN" && (
-                            <a
+                            <Link
                                 href="/admin/dashboard"
                                 class={[
                                     "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
@@ -195,7 +195,7 @@ export default component$(() => {
                                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                                 </svg>
                                 Launch Admin Panel
-                            </a>
+                            </Link>
                         )}
                     </div>
 

@@ -1,14 +1,13 @@
 import { API_BASE } from "~/lib/api";
 import { component$, useSignal, $ } from "@builder.io/qwik";
 import { DocumentHead, useNavigate } from "@builder.io/qwik-city";
+import { notify } from "~/lib/notify";
 
 export default component$(() => {
     const authType = useSignal<"email" | "phone">("email");
     const email = useSignal("");
     const phoneNumber = useSignal("");
     const password = useSignal("");
-    const errorMessage = useSignal("");
-    const successMessage = useSignal("");
     const isLoading = useSignal(false);
     const nav = useNavigate();
 
@@ -18,21 +17,21 @@ export default component$(() => {
 
         if (authType.value === "email") {
             if (!cleanEmail) {
-                errorMessage.value = "Please enter your email address.";
+                notify.error("Please enter your email address.");
                 return;
             }
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (!emailRegex.test(cleanEmail)) {
-                errorMessage.value = "Invalid email format. Please check for typos.";
+                notify.error("Invalid email format. Please check for typos.");
                 return;
             }
         }
         if (authType.value === "phone" && !cleanPhone) {
-            errorMessage.value = "Please enter your phone number.";
+            notify.error("Please enter your phone number.");
             return;
         }
         if (!password.value) {
-            errorMessage.value = "Please enter your password.";
+            notify.error("Please enter your password.");
             return;
         }
 
@@ -41,8 +40,6 @@ export default component$(() => {
             : { phoneNumber: cleanPhone, password: password.value };
 
         isLoading.value = true;
-        errorMessage.value = "";
-        successMessage.value = "";
 
         try {
             const res = await fetch(`${API_BASE}/api/auth/login`, {
@@ -58,18 +55,25 @@ export default component$(() => {
                 throw new Error(data.error || "Login failed");
             }
 
-            successMessage.value = "Sign-in successful! Redirecting...";
+            notify.success("Sign-in successful! Redirecting...");
             document.cookie = `zenthra_auth_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+            if (typeof window !== "undefined" && data.user) {
+                if (data.user.role === "ADMIN") {
+                    localStorage.setItem("zenthra_admin_user", JSON.stringify(data.user));
+                } else {
+                    localStorage.setItem("zenthra_user", JSON.stringify(data.user));
+                }
+            }
             
             setTimeout(() => {
                 if (data.user.role === "ADMIN") {
-                    nav("/admin");
+                    nav("/admin/dashboard");
                 } else {
                     nav("/dashboard");
                 }
-            }, 1000);
+            }, 500);
         } catch (err: any) {
-            errorMessage.value = err.message || "Something went wrong. Please try again.";
+            notify.error(err.message || "Something went wrong. Please try again.");
         } finally {
             isLoading.value = false;
         }
@@ -79,8 +83,6 @@ export default component$(() => {
 
     const handleGoogleLogin = $(async () => {
         isLoading.value = true;
-        errorMessage.value = "";
-        successMessage.value = "";
 
         try {
             if (typeof window !== "undefined" && (window as any).google?.accounts?.oauth2) {
@@ -89,7 +91,7 @@ export default component$(() => {
                     scope: "email profile openid",
                     callback: async (tokenResponse: any) => {
                         if (tokenResponse.error) {
-                            errorMessage.value = "Google sign-in was canceled or closed.";
+                            notify.error("Google sign-in was canceled or closed.");
                             isLoading.value = false;
                             return;
                         }
@@ -117,19 +119,25 @@ export default component$(() => {
                                 throw new Error(data.error || "Google authentication failed");
                             }
 
-                            successMessage.value = "Google authentication successful! Redirecting...";
+                            notify.success("Google authentication successful! Redirecting...");
                             document.cookie = `zenthra_auth_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
                             if (typeof window !== "undefined" && data.user) {
-                                localStorage.setItem("zenthra_user", JSON.stringify(data.user));
+                                if (data.user.role === "ADMIN") {
+                                    localStorage.setItem("zenthra_admin_user", JSON.stringify(data.user));
+                                } else {
+                                    localStorage.setItem("zenthra_user", JSON.stringify(data.user));
+                                }
                             }
                             
-                            if (data.user?.role === "ADMIN") {
-                                nav("/admin");
-                            } else {
-                                nav("/dashboard");
-                            }
+                            setTimeout(() => {
+                                if (data.user?.role === "ADMIN") {
+                                    nav("/admin/dashboard");
+                                } else {
+                                    nav("/dashboard");
+                                }
+                            }, 500);
                         } catch (err: any) {
-                            errorMessage.value = err.message || "Google sign-in error. Please try again.";
+                            notify.error(err.message || "Google sign-in error. Please try again.");
                         } finally {
                             isLoading.value = false;
                         }
@@ -160,18 +168,25 @@ export default component$(() => {
                                 throw new Error(data.error || "Google authentication failed");
                             }
 
-                            successMessage.value = "Google authentication successful! Redirecting...";
+                            notify.success("Google authentication successful! Redirecting...");
                             document.cookie = `zenthra_auth_token=${data.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+                            if (typeof window !== "undefined" && data.user) {
+                                if (data.user.role === "ADMIN") {
+                                    localStorage.setItem("zenthra_admin_user", JSON.stringify(data.user));
+                                } else {
+                                    localStorage.setItem("zenthra_user", JSON.stringify(data.user));
+                                }
+                            }
                             
                             setTimeout(() => {
                                 if (data.user?.role === "ADMIN") {
-                                    nav("/admin");
+                                    nav("/admin/dashboard");
                                 } else {
                                     nav("/dashboard");
                                 }
-                            }, 1000);
+                            }, 500);
                         } catch (err: any) {
-                            errorMessage.value = err.message || "Google sign-in error. Please try again.";
+                            notify.error(err.message || "Google sign-in error. Please try again.");
                         } finally {
                             isLoading.value = false;
                         }
@@ -182,7 +197,7 @@ export default component$(() => {
                 throw new Error("Google Sign-In is initializing. Please try again in a moment.");
             }
         } catch (err: any) {
-            errorMessage.value = err.message || "Google sign-in failed. Please try again.";
+            notify.error(err.message || "Google sign-in failed. Please try again.");
             isLoading.value = false;
         }
     });
@@ -198,24 +213,6 @@ export default component$(() => {
                         Sign in to Zenthra Developer Accounts to access active configurations and telemetry dashboards.
                     </p>
                 </div>
-
-                {errorMessage.value && (
-                    <div class="bg-rose-500/10 border border-rose-500/20 rounded-lg p-4 mb-6 text-sm text-rose-600 dark:text-rose-400 flex items-center gap-2">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0">
-                            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-                        </svg>
-                        <span>{errorMessage.value}</span>
-                    </div>
-                )}
-
-                {successMessage.value && (
-                    <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4 mb-6 text-sm text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-                        </svg>
-                        <span>{successMessage.value}</span>
-                    </div>
-                )}
 
                 {/* Login Form */}
                 <form preventdefault:submit onSubmit$={handleLogin} class="space-y-4 mb-6">

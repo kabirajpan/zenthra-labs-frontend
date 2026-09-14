@@ -1,6 +1,7 @@
 import { API_BASE } from "~/lib/api";
-import { component$, Slot, useSignal, useVisibleTask$, $ } from "@builder.io/qwik";
-import { useLocation, useNavigate } from "@builder.io/qwik-city";
+import { component$, Slot, useSignal, useVisibleTask$, $, useStore, useContextProvider } from "@builder.io/qwik";
+import { useLocation, useNavigate, Link } from "@builder.io/qwik-city";
+import { AdminContext, AdminStoreState, getCachedAdminStore } from "~/stores/adminStore";
 
 interface User {
     id: string;
@@ -18,6 +19,21 @@ export default component$(() => {
     const isMobileMenuOpen = useSignal(false);
     const isProfileMenuOpen = useSignal(false);
     const theme = useSignal<"light" | "dark">("light");
+
+    // Initialize Global Admin Store (Redux-like state shared across all admin routes)
+    const cachedStore = getCachedAdminStore();
+    const adminStore = useStore<AdminStoreState>({
+        stats: cachedStore?.stats || null,
+        registrations: cachedStore?.registrations || {},
+        users: cachedStore?.users || [],
+        totalUsersCount: cachedStore?.totalUsersCount || 0,
+        totalPages: cachedStore?.totalPages || 1,
+        currentPage: cachedStore?.currentPage || 1,
+        lastFetchedStats: cachedStore?.lastFetchedStats || 0,
+        lastFetchedUsers: cachedStore?.lastFetchedUsers || 0,
+        lastFetchedRegistrations: cachedStore?.lastFetchedRegistrations || {},
+    });
+    useContextProvider(AdminContext, adminStore);
 
     // Initialize theme from DOM/localStorage
     useVisibleTask$(() => {
@@ -39,7 +55,7 @@ export default component$(() => {
         }
     });
 
-    // Authenticate admin
+    // Authenticate admin with immediate cache restoration
     useVisibleTask$(async () => {
         const getCookie = (name: string) => {
             const value = `; ${document.cookie}`;
@@ -52,6 +68,20 @@ export default component$(() => {
         if (!token) {
             nav("/auth/signin");
             return;
+        }
+
+        // Fast path: load cached admin profile immediately so UI renders in 0ms without spinner
+        const cachedAdmin = localStorage.getItem("zenthra_admin_user");
+        if (cachedAdmin) {
+            try {
+                const parsed = JSON.parse(cachedAdmin);
+                if (parsed.role === "ADMIN") {
+                    user.value = parsed;
+                    isAuthenticating.value = false;
+                }
+            } catch (err) {
+                console.warn("Invalid admin user cache:", err);
+            }
         }
 
         try {
@@ -68,15 +98,19 @@ export default component$(() => {
             }
 
             user.value = data.user;
+            localStorage.setItem("zenthra_admin_user", JSON.stringify(data.user));
             isAuthenticating.value = false;
         } catch {
             document.cookie = "zenthra_auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            localStorage.removeItem("zenthra_admin_user");
             nav("/auth/signin");
         }
     });
 
     const handleSignOut = $(() => {
         document.cookie = "zenthra_auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        localStorage.removeItem("zenthra_admin_user");
+        sessionStorage.removeItem("zenthra_admin_store_cache");
         window.location.href = "/";
     });
 
@@ -112,14 +146,14 @@ export default component$(() => {
                 {/* Brand Box with Inner Shadow */}
                 <div class="shrink-0 mb-3">
                     <div class="flex items-center justify-center w-full py-4 px-3 rounded-[4px] bg-white dark:bg-[#1a1b26] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[inset_0_2px_4px_rgba(0,0,0,0.07)] dark:shadow-[inset_0_2px_6px_rgba(0,0,0,0.45)]">
-                        <a href="/admin/dashboard" class="text-xl font-bold text-[#4352a5] font-['Syne',sans-serif]">ZenthraLabs</a>
+                        <Link href="/admin/dashboard" class="text-xl font-bold text-[#4352a5] font-['Syne',sans-serif]">ZenthraLabs</Link>
                     </div>
                 </div>
 
                 {/* Navigation Box with Inner Shadow (No Scroll) */}
                 <nav class="flex-grow overflow-hidden">
                     <div class="w-full p-2 rounded-[4px] bg-white dark:bg-[#1a1b26] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[inset_0_2px_4px_rgba(0,0,0,0.07)] dark:shadow-[inset_0_2px_6px_rgba(0,0,0,0.45)] space-y-1">
-                        <a
+                        <Link
                             href="/admin/dashboard"
                             class={[
                                 "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
@@ -135,9 +169,9 @@ export default component$(() => {
                                 <rect x="3" y="14" width="7" height="7" />
                             </svg>
                             Dashboard
-                        </a>
+                        </Link>
 
-                        <a
+                        <Link
                             href="/admin"
                             class={[
                                 "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
@@ -150,9 +184,9 @@ export default component$(() => {
                                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
                             </svg>
                             User Directory
-                        </a>
+                        </Link>
 
-                        <a
+                        <Link
                             href="/admin/products"
                             class={[
                                 "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
@@ -165,7 +199,7 @@ export default component$(() => {
                                 <polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /><polyline points="2 12 12 17 22 12" />
                             </svg>
                             Production Products
-                        </a>
+                        </Link>
                     </div>
                 </nav>
             </aside>

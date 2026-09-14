@@ -1,5 +1,6 @@
 import { API_BASE } from "~/lib/api";
-import { component$, useSignal, useVisibleTask$, $ } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$, $, useContext } from "@builder.io/qwik";
+import { AdminContext, setCachedAdminStore } from "~/stores/adminStore";
 
 interface Stats {
     totalUsers: number;
@@ -21,12 +22,15 @@ interface ContinuousDay {
 }
 
 export default component$(() => {
-    const stats = useSignal<Stats | null>(null);
-    const statsLoading = useSignal(true);
+    const adminStore = useContext(AdminContext);
+
+    // Instant 0ms hydration from global store
+    const stats = useSignal<Stats | null>(adminStore.stats);
+    const statsLoading = useSignal(!adminStore.stats);
 
     const selectedDays = useSignal<number>(30);
-    const registrations = useSignal<RegistrationPoint[]>([]);
-    const regLoading = useSignal(true);
+    const registrations = useSignal<RegistrationPoint[]>(adminStore.registrations[30] || []);
+    const regLoading = useSignal(!adminStore.registrations[30]);
     const hoveredIndex = useSignal<number | null>(null);
 
     const getCookie = $((name: string) => {
@@ -46,6 +50,9 @@ export default component$(() => {
             if (res.ok) {
                 const data = await res.json();
                 stats.value = data.stats;
+                adminStore.stats = data.stats;
+                adminStore.lastFetchedStats = Date.now();
+                setCachedAdminStore({ stats: data.stats, lastFetchedStats: Date.now() });
             }
         } catch (err) {
             console.error("Failed to fetch admin stats:", err);
@@ -55,16 +62,26 @@ export default component$(() => {
     });
 
     const fetchRegistrations = $(async (days: number) => {
+        // Use cached points from store immediately if available
+        if (adminStore.registrations[days]) {
+            registrations.value = adminStore.registrations[days];
+            regLoading.value = false;
+        } else {
+            regLoading.value = true;
+        }
+
         const token = await getCookie("zenthra_auth_token");
         if (!token) return;
-        regLoading.value = true;
         try {
             const res = await fetch(`${API_BASE}/api/admin/registrations?days=${days}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             if (res.ok) {
                 const data = await res.json();
-                registrations.value = data.registrations || [];
+                const points = data.registrations || [];
+                registrations.value = points;
+                adminStore.registrations[days] = points;
+                setCachedAdminStore({ registrations: adminStore.registrations });
             }
         } catch (err) {
             console.error("Failed to fetch registrations:", err);

@@ -1,7 +1,7 @@
 import { component$, isDev } from "@builder.io/qwik";
 import { QwikCityProvider, RouterOutlet } from "@builder.io/qwik-city";
 import { RouterHead } from "./components/router-head/router-head";
-
+import GlobalNotification from "./components/common/GlobalNotification";
 
 import "./global.css";
 
@@ -28,6 +28,7 @@ export default component$(() => {
             </head>
             <body lang="en">
                 <RouterOutlet />
+                <GlobalNotification />
             </body>
         </QwikCityProvider>
     );

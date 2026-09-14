@@ -1,5 +1,7 @@
 import { API_BASE } from "~/lib/api";
-import { component$, useSignal, useVisibleTask$, $, useTask$ } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$, $, useTask$, useContext } from "@builder.io/qwik";
+import { AdminContext, setCachedAdminStore } from "~/stores/adminStore";
+import { notify } from "~/lib/notify";
 
 interface User {
     id: string;
@@ -53,19 +55,20 @@ const formatTimeIST = (dateStr?: string | null) => {
 };
 
 export default component$(() => {
-    const users = useSignal<User[]>([]);
-    const stats = useSignal<Stats | null>(null);
+    const adminStore = useContext(AdminContext);
+
+    // Instant 0ms hydration from global store
+    const users = useSignal<User[]>(adminStore.users as User[]);
+    const stats = useSignal<Stats | null>(adminStore.stats);
     const searchQuery = useSignal("");
     const roleFilter = useSignal<"ALL" | "ADMIN" | "USER">("ALL");
     
-    // Pagination signals
-    const currentPage = useSignal(1);
-    const totalPages = useSignal(1);
-    const totalUsersCount = useSignal(0);
+    // Pagination signals hydrated from store
+    const currentPage = useSignal(adminStore.currentPage || 1);
+    const totalPages = useSignal(adminStore.totalPages || 1);
+    const totalUsersCount = useSignal(adminStore.totalUsersCount || 0);
     const limit = useSignal(10);
 
-    const errorMsg = useSignal("");
-    const actionMsg = useSignal("");
     const isActionLoading = useSignal(false);
     const isRefreshing = useSignal(false);
 
@@ -76,7 +79,7 @@ export default component$(() => {
         return null;
     });
 
-    const fetchUsers = $(async () => {
+    const fetchUsers = $(async (silent = false) => {
         const token = await getCookie("zenthra_auth_token");
         if (!token) return;
 
@@ -89,17 +92,29 @@ export default component$(() => {
             if (!res.ok) throw new Error("Could not fetch users");
             const data = await res.json();
             users.value = data.users || [];
+            adminStore.users = data.users || [];
+            adminStore.lastFetchedUsers = Date.now();
+
             if (data.pagination) {
                 totalUsersCount.value = data.pagination.totalUsers;
                 totalPages.value = data.pagination.totalPages;
                 currentPage.value = data.pagination.currentPage;
+                adminStore.totalUsersCount = data.pagination.totalUsers;
+                adminStore.totalPages = data.pagination.totalPages;
+                adminStore.currentPage = data.pagination.currentPage;
             }
+            setCachedAdminStore({
+                users: adminStore.users,
+                totalUsersCount: adminStore.totalUsersCount,
+                totalPages: adminStore.totalPages,
+                currentPage: adminStore.currentPage,
+            });
         } catch (e: any) {
-            errorMsg.value = e.message;
+            if (!silent) notify.error(e.message);
         }
     });
 
-    const fetchStats = $(async () => {
+    const fetchStats = $(async (silent = false) => {
         const token = await getCookie("zenthra_auth_token");
         if (!token) return;
 
@@ -110,14 +125,19 @@ export default component$(() => {
             if (!res.ok) throw new Error("Could not fetch stats");
             const data = await res.json();
             stats.value = data.stats;
+            adminStore.stats = data.stats;
+            adminStore.lastFetchedStats = Date.now();
+            setCachedAdminStore({ stats: data.stats, lastFetchedStats: Date.now() });
         } catch (e: any) {
-            errorMsg.value = e.message;
+            if (!silent) notify.error(e.message);
         }
     });
 
     useVisibleTask$(async () => {
-        await fetchUsers();
-        await fetchStats();
+        // If data is already in store, silent background refresh; otherwise notify on error
+        const hasCached = adminStore.users.length > 0;
+        await fetchUsers(hasCached);
+        await fetchStats(hasCached);
     });
 
     useTask$(({ track }) => {
@@ -138,8 +158,6 @@ export default component$(() => {
 
         const newRole = user.role === "ADMIN" ? "USER" : "ADMIN";
         isActionLoading.value = true;
-        actionMsg.value = "";
-        errorMsg.value = "";
 
         try {
             const res = await fetch(`${API_BASE}/api/admin/users/${user.id}/role`, {
@@ -154,11 +172,11 @@ export default component$(() => {
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || "Failed to update role");
 
-            actionMsg.value = `Updated role for ${user.firstName}`;
-            await fetchUsers();
-            await fetchStats();
+            notify.success(`Updated role for ${user.firstName} to ${newRole}`);
+            await fetchUsers(true);
+            await fetchStats(true);
         } catch (err: any) {
-            errorMsg.value = err.message;
+            notify.error(err.message || "Failed to update role");
         } finally {
             isActionLoading.value = false;
         }
@@ -171,8 +189,6 @@ export default component$(() => {
         if (!token) return;
 
         isActionLoading.value = true;
-        actionMsg.value = "";
-        errorMsg.value = "";
 
         try {
             const res = await fetch(`${API_BASE}/api/admin/users/${userId}`, {
@@ -183,11 +199,11 @@ export default component$(() => {
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || "Failed to delete user");
 
-            actionMsg.value = `Deleted ${email}`;
-            await fetchUsers();
-            await fetchStats();
+            notify.success(`Deleted user ${email}`);
+            await fetchUsers(true);
+            await fetchStats(true);
         } catch (err: any) {
-            errorMsg.value = err.message;
+            notify.error(err.message || "Failed to delete user");
         } finally {
             isActionLoading.value = false;
         }
@@ -209,10 +225,9 @@ export default component$(() => {
                     type="button"
                     onClick$={async () => {
                         isRefreshing.value = true;
-                        actionMsg.value = "";
-                        errorMsg.value = "";
                         await Promise.all([fetchUsers(), fetchStats()]);
                         isRefreshing.value = false;
+                        notify.success("User directory refreshed");
                     }}
                     disabled={isRefreshing.value}
                     class="self-start sm:self-auto inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium rounded-[4px] bg-[#f4f2f8] dark:bg-[#12131b] text-[#1b1b21] dark:text-white border border-[#c6c5d3] dark:border-[#1e2030] hover:bg-[#e6e4ed] dark:hover:bg-[#1a1c29] active:scale-95 transition-all disabled:opacity-50 font-['DM_Sans',sans-serif] cursor-pointer shadow-sm"
@@ -234,18 +249,6 @@ export default component$(() => {
                     <span>{isRefreshing.value ? "Refreshing..." : "Refresh"}</span>
                 </button>
             </div>
-
-            {/* Notifications */}
-            {errorMsg.value && (
-                <div class="p-3 text-xs bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 rounded-[4px]">
-                    {errorMsg.value}
-                </div>
-            )}
-            {actionMsg.value && (
-                <div class="p-3 text-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 rounded-[4px]">
-                    {actionMsg.value}
-                </div>
-            )}
 
             {/* Minimal Indicators */}
             {stats.value && (
