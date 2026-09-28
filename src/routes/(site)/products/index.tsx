@@ -74,14 +74,50 @@ const ZenthreeThumbnail = component$(() => (
     </div>
 ));
 
-const FlyBrainThumbnail = component$(() => (
-    <div class="w-full h-full bg-[#0b0813] flex items-center justify-center relative overflow-hidden">
+const ZeneTerminalThumbnail = component$(() => (
+    <div class="w-full h-full bg-[#071025] flex flex-col p-3.5 font-['JetBrains_Mono',monospace] text-[11px] leading-relaxed relative overflow-hidden select-none">
+        <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+                <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+                <span class="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+                <span class="ml-2 text-[10px] text-[#9aa6e0] font-semibold">zene agent</span>
+            </div>
+            <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">100Hz</span>
+        </div>
+        <div class="flex flex-col gap-1 text-[10.5px]">
+            <div><span class="text-purple-400">&gt; </span><span class="text-white">zene "Refactor AST parser"</span></div>
+            <div class="text-[9.5px] text-purple-300 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-500/20">
+                [Reflex]: EXECUTION · 11.4 µs (0.00% wipe)
+            </div>
+            <div class="pl-2 border-l border-slate-700 text-slate-400 text-[10px] space-y-0.5">
+                <div>⚡ Tool Masking: 13 tools provisioned</div>
+                <div>📁 AST: 42 files indexed (Tree-sitter)</div>
+                <div>🔧 edit_file(src/parser.rs:L142)</div>
+            </div>
+            <div class="text-[10px] text-emerald-400 font-semibold">✓ 18 tests passed · 0 compile errors</div>
+        </div>
+        <div class="mt-auto flex items-center justify-between text-[10px] text-[#9aa6e0] pt-2 border-t border-white/5">
+            <span class="text-emerald-400">▲ &lt; 15µs reflex</span>
+            <span>500 neurons</span>
+            <span>0 deps</span>
+        </div>
+    </div>
+));
+
+const ZeneArtworkThumbnail = component$(() => (
+    <div class="w-full h-full bg-[#05060f] relative overflow-hidden group/art flex items-center justify-center">
         <img
-            src="/assets/research/fly-decision-net/intent_neural_trajectories.png"
-            alt="Fly Brain Neural Trajectories"
-            class="w-full h-full object-cover rounded-[4px] opacity-85 hover:opacity-100 transition-opacity"
+            src="/assets/products/zene_neural_artwork.jpg"
+            alt="ZENE Neuromorphic Neural Circuit and Code Mesh"
+            class="w-full h-full object-cover group-hover/art:scale-105 transition-transform duration-500"
+            width={640}
+            height={400}
         />
-        <div class="absolute inset-0 bg-gradient-to-t from-[#0b0813] via-transparent to-transparent pointer-events-none" />
+        <div class="absolute inset-0 bg-gradient-to-t from-[#05060f]/80 via-transparent to-transparent pointer-events-none" />
+        <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded bg-purple-950/80 text-purple-200 border border-purple-500/40 text-[9px] font-['JetBrains_Mono',monospace] font-semibold tracking-wider uppercase backdrop-blur-xs">
+            Neuromorphic AI
+        </span>
     </div>
 ));
 
@@ -153,6 +189,16 @@ const ZenFileActions = component$(() => (
     <div class="flex flex-wrap gap-2 sm:gap-3">
         <a href="/products/zenthra/apps/file-manager" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
         <a href="/products/zenthra/apps/file-manager/download" class="py-2 px-4 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">Download</a>
+    </div>
+));
+
+const ZeneActions = component$(() => (
+    <div class="flex flex-wrap gap-2 sm:gap-3">
+        <a href="/products/zene" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
+        <a href="/research/biological-connectomes" class="py-2 px-3.5 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">Report</a>
+        <a href="https://github.com/kabirajpan/zene" target="_blank" rel="noopener" class="py-2 px-3 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm flex items-center gap-1.5 hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all" title="View ZENE on GitHub">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
+        </a>
     </div>
 ));
 
@@ -231,33 +277,35 @@ export default component$(() => {
                 <p class="text-[#454651] dark:text-[#94a3b8] mt-2 text-sm">A portfolio of projects, demos, and future work.</p>
             </div>
 
-            <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#4352a5] dark:text-[#818cf8] mb-4">Frameworks &amp; Tools</p>
-            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-14">
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {/* 1. Zenthra */}
                 <ProductCard thumbnail={ZenthraThumbnail} title="Zenthra" badge="v1.2 Stable" category="UI Framework"
                     description="A high-performance, Rust-based UI framework for building complex user interfaces with zero-runtime overhead."
                     Actions={ZenthraActions} />
-                <ProductCard thumbnail={ZenthraViewThumbnail} title="Zenthra View" badge="Example App" category="Desktop App"
-                    description="A native desktop image viewer built with Zenthra — file browser, zoom, slideshow, and thumbnail filmstrip."
-                    Actions={ZenthraViewActions} />
-                <ProductCard thumbnail={FutureLabsThumbnail} title="Future Labs" category="R&D"
-                    description="Mobile apps and games — exploring next-generation interface metaphors and GPU-accelerated rendering."
-                    comingSoon={true} Actions={FutureLabsActions} />
-            </div>
-
-            <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#4352a5] dark:text-[#818cf8] mb-4">Apps &amp; Engines</p>
-            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {/* 2. Zenthree */}
                 <ProductCard thumbnail={ZenthreeThumbnail} title="Zenthree" badge="New" badgeVariant="green" category="Desktop IDE & Code Editor"
                     description="A modern GPU-accelerated code editor built in Rust with Zenthra. Tree-sitter semantic syntax, native PTY terminal, and an integrated AI assistant sidecar."
                     Actions={ZenthreeActions} />
+                {/* 3. After Motion */}
                 <ProductCard thumbnail={AfterMotionThumbnail} title="After Motion" badge="Live" badgeVariant="green" category="Mobile Video Editor"
                     description="A production-ready mobile video editor built for fast, fluid, on-device editing. No subscriptions. No cloud required."
                     Actions={AfterMotionActions} />
+                {/* 4. ZENE: Neuromorphic Coding Agent */}
+                <ProductCard thumbnail={ZeneTerminalThumbnail} title="ZENE: Neuromorphic Coding Agent" badge="Connectome Reflex Core" category="ZenthraLabs Research"
+                    description="Autonomous multi-turn Rust coding agent governed by an embedded 500-neuron Drosophila connectome. Sub-15µs involuntary safety gating, AST-bound tool masking, and local attractor dynamics."
+                    Actions={ZeneActions} />
+                {/* 5. ZenFile */}
                 <ProductCard thumbnail={ZenFileThumbnail} title="ZenFile" badge="v1.0" badgeVariant="green" category="Desktop File Manager"
                     description="A high-performance native file manager built with Zenthra. Instant loading directory virtual lists, beveled frosted layouts, and fully local filesystem actions."
                     Actions={ZenFileActions} />
-                <ProductCard thumbnail={FlyBrainThumbnail} title="Fly Brain & ZENE" badge="R&D" category="Neuromorphic AI & Agents"
-                    description="Sub-millisecond biological decision kernel based on the Drosophila connectome, powering ZENE's autonomous coding engine with spinal reflex safety gates."
-                    Actions={ResearchActions} />
+                {/* 6. Zenthra View */}
+                <ProductCard thumbnail={ZenthraViewThumbnail} title="Zenthra View" badge="Example App" category="Desktop App"
+                    description="A native desktop image viewer built with Zenthra — file browser, zoom, slideshow, and thumbnail filmstrip."
+                    Actions={ZenthraViewActions} />
+                {/* 7. Future Labs */}
+                <ProductCard thumbnail={FutureLabsThumbnail} title="Future Labs" category="R&D"
+                    description="Mobile apps and games — exploring next-generation interface metaphors and GPU-accelerated rendering."
+                    comingSoon={true} Actions={FutureLabsActions} />
             </div>
         </section>
     );

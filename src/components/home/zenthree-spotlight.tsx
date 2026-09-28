@@ -21,7 +21,7 @@ export const ZenthreeSpotlight = component$(() => {
                         </h2>
 
                         <p class="text-sm sm:text-base text-[#454651] dark:text-[#94a3b8] leading-relaxed">
-                            A lightweight, GPU-accelerated code editor built from scratch in Rust on the Zenthra GUI engine. Instant startup, Tree-sitter syntax highlighting, embedded PTY terminal, and zero Electron bloat.
+                            A lightweight, GPU-accelerated code editor built from scratch in Rust on the Zenthra GUI engine. Instant startup, Tree-sitter syntax highlighting, embedded PTY terminal, and native autonomous agent intelligence powered by <strong class="text-purple-700 dark:text-purple-400 font-semibold">ZENE</strong>.
                         </p>
 
                         {/* Minimal specs */}
@@ -38,10 +38,10 @@ export const ZenthreeSpotlight = component$(() => {
                                 <span class="w-1.5 h-1.5 rounded-full bg-[#5c6bc0]" />
                                 <span>Embedded PTY Shell</span>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-[#5c6bc0]" />
-                                <span>Linux · macOS · Windows</span>
-                            </div>
+                            <a href="/products/zene" class="flex items-center gap-2 text-purple-700 dark:text-purple-400 font-semibold hover:underline">
+                                <span class="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                                <span>Powered by ZENE</span>
+                            </a>
                         </div>
 
                         {/* Actions */}
@@ -62,6 +62,13 @@ export const ZenthreeSpotlight = component$(() => {
                                 class="py-2.5 px-4 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-[#e2e8f0] hover:bg-[#f5f2fa] dark:hover:bg-[#151928] font-medium rounded-[4px] text-xs sm:text-sm transition-colors"
                             >
                                 Features &amp; Specs
+                            </a>
+                            <a
+                                href="/products/zene"
+                                class="py-2.5 px-3.5 border border-purple-500/40 text-purple-700 dark:text-purple-300 hover:bg-purple-500/10 font-medium rounded-[4px] text-xs sm:text-sm transition-colors flex items-center gap-1.5"
+                            >
+                                <span>ZENE Agent</span>
+                                &rarr;
                             </a>
                             <a
                                 href="https://github.com/kabirajpan/zenthree"

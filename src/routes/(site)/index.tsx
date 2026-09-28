@@ -78,14 +78,34 @@ const ZenthreeThumbnail = component$(() => (
     </div>
 ));
 
-const FlyBrainThumbnail = component$(() => (
-    <div class="w-full h-full bg-[#0b0813] flex items-center justify-center relative overflow-hidden">
-        <img
-            src="/assets/research/fly-decision-net/intent_neural_trajectories.png"
-            alt="Fly Brain Connectome Neural Trajectories"
-            class="w-full h-full object-cover rounded-[4px] opacity-85 hover:opacity-100 transition-opacity"
-        />
-        <div class="absolute inset-0 bg-gradient-to-t from-[#0b0813] via-transparent to-transparent pointer-events-none" />
+const ZeneTerminalThumbnail = component$(() => (
+    <div class="w-full h-full bg-[#071025] flex flex-col p-3.5 font-['JetBrains_Mono',monospace] text-[11px] leading-relaxed relative overflow-hidden select-none">
+        <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+                <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+                <span class="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+                <span class="ml-2 text-[10px] text-[#9aa6e0] font-semibold">zene agent</span>
+            </div>
+            <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">100Hz</span>
+        </div>
+        <div class="flex flex-col gap-1 text-[10.5px]">
+            <div><span class="text-purple-400">&gt; </span><span class="text-white">zene "Refactor AST parser"</span></div>
+            <div class="text-[9.5px] text-purple-300 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-500/20">
+                [Reflex]: EXECUTION · 11.4 µs (0.00% wipe)
+            </div>
+            <div class="pl-2 border-l border-slate-700 text-slate-400 text-[10px] space-y-0.5">
+                <div>⚡ Tool Masking: 13 tools provisioned</div>
+                <div>📁 AST: 42 files indexed (Tree-sitter)</div>
+                <div>🔧 edit_file(src/parser.rs:L142)</div>
+            </div>
+            <div class="text-[10px] text-emerald-400 font-semibold">✓ 18 tests passed · 0 compile errors</div>
+        </div>
+        <div class="mt-auto flex items-center justify-between text-[10px] text-[#9aa6e0] pt-2 border-t border-white/5">
+            <span class="text-emerald-400">▲ &lt; 15µs reflex</span>
+            <span>500 neurons</span>
+            <span>0 deps</span>
+        </div>
     </div>
 ));
 
@@ -366,7 +386,7 @@ export default component$(() => {
                     </div>
 
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {/* Zenthra */}
+                        {/* 1. Zenthra */}
                         <div class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[4px] overflow-hidden flex flex-col hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 hover:-translate-y-1 transition-all duration-200 shadow-sm">
                             <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] dark:border-[#1e2230] bg-[#fbf8ff] dark:bg-[#07080d]">
                                 <ZenthraThumbnail />
@@ -383,7 +403,27 @@ export default component$(() => {
                             </div>
                         </div>
 
-                        {/* After Motion */}
+                        {/* 2. Zenthree */}
+                        <div class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[4px] overflow-hidden flex flex-col hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 hover:-translate-y-1 transition-all duration-200 shadow-sm">
+                            <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] dark:border-[#1e2230] bg-[#fbf8ff] dark:bg-[#07080d]">
+                                <ZenthreeThumbnail />
+                            </div>
+                            <div class="p-6 flex flex-col flex-grow">
+                                <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#4352a5] dark:text-[#818cf8] mb-2">Desktop Code Editor &amp; IDE</p>
+                                <h3 class="font-['Syne',sans-serif] text-lg font-bold text-[#1b1b21] dark:text-white mb-2">Zenthree</h3>
+                                <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed flex-grow">A high-performance code editor built in Rust with Zenthra. Tree-sitter semantic syntax, native PTY terminal drawer, and an integrated AI assistant sidecar.</p>
+                                <div class="mt-6 flex flex-wrap gap-2">
+                                    <a href="/products/zenthra/apps/zenthree" class="inline-block py-2 px-5 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">
+                                        View Details
+                                    </a>
+                                    <a href="/products/zenthra/apps/zenthree/download" class="inline-block py-2 px-5 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">
+                                        Download
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 3. After Motion */}
                         <div class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[4px] overflow-hidden flex flex-col hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 hover:-translate-y-1 transition-all duration-200 shadow-sm">
                             <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] dark:border-[#1e2230] bg-[#fbf8ff] dark:bg-[#07080d]">
                                 <AfterMotionThumbnail />
@@ -420,27 +460,35 @@ export default component$(() => {
                             </div>
                         </div>
 
-                        {/* Zenthra View */}
+                        {/* 4. ZENE: Neuromorphic Coding Agent */}
                         <div class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[4px] overflow-hidden flex flex-col hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 hover:-translate-y-1 transition-all duration-200 shadow-sm">
                             <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] dark:border-[#1e2230] bg-[#fbf8ff] dark:bg-[#07080d]">
-                                <ZenthraViewThumbnail />
+                                <ZeneTerminalThumbnail />
                             </div>
                             <div class="p-6 flex flex-col flex-grow">
-                                <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#4352a5] dark:text-[#818cf8] mb-2">Desktop Application</p>
-                                <h3 class="font-['Syne',sans-serif] text-lg font-bold text-[#1b1b21] dark:text-white mb-2">Zenthra View</h3>
-                                <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed flex-grow">A native, cross-platform image viewer constructed using the Zenthra UI framework. Smooth canvas zooming, directory trees, slideshow settings, and a high-performance filmstrip.</p>
+                                <div class="flex items-center justify-between gap-2 mb-2">
+                                    <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-purple-600 dark:text-purple-400">ZenthraLabs Research</p>
+                                    <span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/20 text-[10px] font-['JetBrains_Mono',monospace] font-semibold">Reflex Core</span>
+                                </div>
+                                <h3 class="font-['Syne',sans-serif] text-lg font-bold text-[#1b1b21] dark:text-white mb-2">ZENE: Neuromorphic Coding Agent</h3>
+                                <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed flex-grow">An autonomous multi-turn Rust coding agent governed by an embedded 500-neuron Drosophila connectome. Sub-15µs spinal reflex safety locks, AST dynamic tool masking, and local attractor dynamics.</p>
                                 <div class="mt-6 flex flex-wrap gap-2">
-                                    <a href="/products/zenthra/apps/zenthra-view" class="inline-block py-2 px-5 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">
+                                    <a href="/products/zene" class="inline-block py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">
                                         View Details
                                     </a>
-                                    <a href="/products/zenthra/apps/zenthra-view/download" class="inline-block py-2 px-5 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">
-                                        Download
+                                    <a href="/research/biological-connectomes" class="inline-block py-2 px-3.5 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">
+                                        Research Report
+                                    </a>
+                                    <a href="https://github.com/kabirajpan/zene" target="_blank" rel="noopener" class="py-2 px-3 border border-[#c6c5d3] dark:border-[#1e2230] text-[#767683] dark:text-[#94a3b8] hover:text-[#1b1b21] dark:hover:text-white hover:bg-[#f5f2fa] dark:hover:bg-[#151928] font-medium rounded-[4px] text-sm transition-colors flex items-center gap-1.5" title="View ZENE on GitHub">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                                        </svg>
                                     </a>
                                 </div>
                             </div>
                         </div>
 
-                        {/* ZenFile */}
+                        {/* 5. ZenFile */}
                         <div class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[4px] overflow-hidden flex flex-col hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 hover:-translate-y-1 transition-all duration-200 shadow-sm">
                             <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] dark:border-[#1e2230] bg-[#fbf8ff] dark:bg-[#07080d]">
                                 <ZenFileThumbnail />
@@ -460,37 +508,20 @@ export default component$(() => {
                             </div>
                         </div>
 
-                        {/* Fly Brain & ZENE (R&D) */}
+                        {/* 6. Zenthra View */}
                         <div class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[4px] overflow-hidden flex flex-col hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 hover:-translate-y-1 transition-all duration-200 shadow-sm">
                             <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] dark:border-[#1e2230] bg-[#fbf8ff] dark:bg-[#07080d]">
-                                <FlyBrainThumbnail />
+                                <ZenthraViewThumbnail />
                             </div>
                             <div class="p-6 flex flex-col flex-grow">
-                                <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-purple-600 dark:text-purple-400 mb-2">Research &amp; Development</p>
-                                <h3 class="font-['Syne',sans-serif] text-lg font-bold text-[#1b1b21] dark:text-white mb-2">Fly Brain &amp; ZENE</h3>
-                                <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed flex-grow">A sub-50µs biological decision kernel based on the Drosophila connectome, powering ZENE's autonomous coding engine with spinal reflex safety gates and dynamic tool masking.</p>
-                                <div class="mt-6">
-                                    <a href="/research" class="inline-block py-2 px-5 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">
-                                        Explore R&amp;D
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Zenthree */}
-                        <div class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[4px] overflow-hidden flex flex-col hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 hover:-translate-y-1 transition-all duration-200 shadow-sm">
-                            <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] dark:border-[#1e2230] bg-[#fbf8ff] dark:bg-[#07080d]">
-                                <ZenthreeThumbnail />
-                            </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#4352a5] dark:text-[#818cf8] mb-2">Desktop Code Editor &amp; IDE</p>
-                                <h3 class="font-['Syne',sans-serif] text-lg font-bold text-[#1b1b21] dark:text-white mb-2">Zenthree</h3>
-                                <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed flex-grow">A high-performance code editor built in Rust with Zenthra. Tree-sitter semantic syntax, native PTY terminal drawer, and an integrated AI assistant sidecar.</p>
+                                <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#4352a5] dark:text-[#818cf8] mb-2">Desktop Application</p>
+                                <h3 class="font-['Syne',sans-serif] text-lg font-bold text-[#1b1b21] dark:text-white mb-2">Zenthra View</h3>
+                                <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed flex-grow">A native, cross-platform image viewer constructed using the Zenthra UI framework. Smooth canvas zooming, directory trees, slideshow settings, and a high-performance filmstrip.</p>
                                 <div class="mt-6 flex flex-wrap gap-2">
-                                    <a href="/products/zenthra/apps/zenthree" class="inline-block py-2 px-5 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">
+                                    <a href="/products/zenthra/apps/zenthra-view" class="inline-block py-2 px-5 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">
                                         View Details
                                     </a>
-                                    <a href="/products/zenthra/apps/zenthree/download" class="inline-block py-2 px-5 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">
+                                    <a href="/products/zenthra/apps/zenthra-view/download" class="inline-block py-2 px-5 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">
                                         Download
                                     </a>
                                 </div>
