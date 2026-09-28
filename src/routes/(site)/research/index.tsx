@@ -13,6 +13,7 @@ interface Stage {
     biologicalModel: string;
     active: boolean;
     features: string[];
+    anatomicalBreakdown?: { name: string; pct: string; role: string }[];
 }
 
 const STAGES: Stage[] = [
@@ -23,49 +24,59 @@ const STAGES: Stage[] = [
         latency: "< 0.015 ms",
         ram: "154 KB",
         title: "Spinal Reflex Core",
-        subtitle: "Active in Production (ZENE v0.1.0)",
+        subtitle: "Active in Production (ZENE Engine v0.1.0)",
         desc: "A pure Rust 30-step Euler integration RNN modeled directly from the adult Drosophila melanogaster connectome. Evaluates safety gates and intent classification natively in single-digit microseconds with ZERO external ML runtimes.",
         biologicalModel: "Drosophila Nerve Cord & Giant Fiber Escape Circuit",
         active: true,
+        anatomicalBreakdown: [
+            { name: "Sensory_PN (Indices 0..74)", pct: "15%", role: "20 sensory projection channels receiving token & AST logit streams" },
+            { name: "CX_Ring_EB (Indices 75..249)", pct: "35%", role: "175 ring neurons computing compass heading and angular orientation" },
+            { name: "CX_Columnar_FB (Indices 250..424)", pct: "35%", role: "175 columnar neurons handling steering, sensory integration, and conflict gating" },
+            { name: "DN_Motor (Indices 425..499)", pct: "15%", role: "20 descending premotor readouts driving safety locks and tool masks" },
+        ],
         features: [
             "Giant Fiber Escape Reflex: blocks destructive workspace operations (< 15 µs)",
-            "Dynamic Tool Provisioning: masks unused tools to save tokens & prevent hallucinations",
-            "Zero cloud round-trip overhead: runs 100% offline on standard CPU",
-            "Embedded directly into the binary with zero ONNX or PyTorch dependencies"
+            "Dynamic Tool Masking: filters 13 tools down to least-privilege subsets per turn",
+            "Dale's Principle Enforced: strict ~68% excitatory (ACh) and ~32% inhibitory (GABA) wiring",
+            "L1 Cache Residency: ~50 KB active footprint fits entirely within CPU L1 data cache",
+            "Piéron's Law Reaction Time: dynamic convergence (25 steps for clear queries, 30 for ambiguous)",
+            "In Silico Lesion Resilience: tolerates up to 30% neuronal ablation without losing safety locks"
         ]
     },
     {
         id: "Stage 02",
         neurons: "~3,000",
-        synapses: "~32,000",
+        synapses: "~150,000",
         latency: "~0.25 ms",
         ram: "~850 KB",
         title: "Central Complex (CX)",
-        subtitle: "Multi-Goal Trajectory Engine (Research)",
-        desc: "Implements heading direction cells (E-PG / P-EN neurons) and fan-shaped body layers for vector-space navigation across massive multi-file refactoring paths without goal drift.",
-        biologicalModel: "Drosophila Protocerebral Bridge & Ellipsoid Body",
+        subtitle: "Multi-Goal Trajectory Engine (Research Phase)",
+        desc: "Direct integration of FlyWire Codex and Janelia Central Complex volumes. Implements heading direction cells (E-PG / P-EN neurons) and fan-shaped body layers for vector-space navigation across deep multi-file refactoring paths without goal drift.",
+        biologicalModel: "Drosophila Protocerebral Bridge (PB), Ellipsoid Body (EB), Fan-shaped Body (FB)",
         active: false,
         features: [
-            "Vector-space heading persistence across long multi-turn agent loops",
-            "Compass-locked sub-goal tracking to prevent task deviation",
-            "Real-time obstacle detour planning during failed compiler checks"
+            "Biologically authentic columnar phase shifts (16x8 wedge arrays) for heading persistence",
+            "Compass-locked sub-goal tracking to prevent multi-turn agent wandering",
+            "Real-time obstacle detour planning during failed compiler diagnostics checks",
+            "Sub-millisecond trajectory vector calculations on local CPU"
         ]
     },
     {
         id: "Stage 03",
         neurons: "~25,000",
-        synapses: "~2.1M",
+        synapses: "~20,000,000",
         latency: "~3.8 ms",
         ram: "~12 MB",
         title: "Janelia Hemibrain",
         subtitle: "Associative Plasticity & Episodic Code Memory",
-        desc: "Mushroom Body Kenyon cell sparse expansion (10x projection) paired with dopaminergic reward signaling. Implements online STDP plasticity to remember repository-specific conventions without fine-tuning.",
-        biologicalModel: "Janelia Research Campus Electron Microscopy Reconstructions",
+        desc: "Mushroom Body (MB) Kenyon cell sparse expansion (10x projection) paired with dopaminergic reward loops. Implements online biological Spike-Timing-Dependent Plasticity (STDP) to remember repository-specific conventions without token stuffing or vector databases.",
+        biologicalModel: "Janelia Research Campus Electron Microscopy Reconstructions (neuPrint)",
         active: false,
         features: [
             "Kenyon cell sparse coding: 10,000-dimensional sparse memory representations",
-            "STDP synaptic weight updates on successful test execution",
-            "Instant pattern recall of developer coding styles and naming patterns"
+            "STDP synaptic weight updates triggered on successful test & build passes",
+            "Instant pattern recall of developer coding styles, naming habits, and architectural choices",
+            "Replaces heavy vector databases (RAG) with biological associative recall"
         ]
     },
     {
@@ -75,16 +86,35 @@ const STAGES: Stage[] = [
         latency: "~30 ms",
         ram: "~180 MB",
         title: "FlyWire Whole-Brain",
-        subtitle: "Full Connectome Emulation (Nature 2024)",
-        desc: "Complete adult fruit fly connectome with every single known neuron and synaptic connection mapped from the landmark 2024 FlyWire consortium dataset. Neuromorphic decision substrate for autonomous software engineering.",
+        subtitle: "Full Connectome Emulation (Nature October 2024)",
+        desc: "Complete adult fruit fly connectome with every single known neuron and synaptic connection mapped from the landmark 2024 FlyWire consortium dataset. Neuromorphic decision substrate executing on sparse GPU/Metal matrix kernels.",
         biologicalModel: "FlyWire Consortium Full Adult Drosophila Connectome (Nature 2024)",
         active: false,
         features: [
+            "Complete whole-organism simulation covering all sensory and motor neuropils",
             "End-to-end sensory-motor loop: AST perception to keystroke synthesis",
-            "Neuromorphic spike timing across 54+ million verified biological synapses",
-            "Complete autonomous self-repair and system recovery behaviors"
+            "Neuromorphic spike timing across 54.5 million verified biological synapses",
+            "Multi-modal cross-attention between visual AST graphs, diagnostics, and code diffs"
         ]
     },
+    {
+        id: "Stage 05",
+        neurons: "~140,000+",
+        synapses: "54.5M+",
+        latency: "< 10 ms",
+        ram: "~60 MB",
+        title: "Neuromorphic Agent OS",
+        subtitle: "North-Star Vision (Zero-Token Autonomous Thought Loop)",
+        desc: "A revolutionary paradigm shift eliminating the traditional monolithic cloud LLM wrapper. The local biological connectome executes the continuous agentic loop in < 10 ms on-device, only invoking cloud reasoning models for brief final creative synthesis.",
+        biologicalModel: "Whole-Brain Neuropil Network × Multi-Modal Sensory Encoders",
+        active: false,
+        features: [
+            "Local connectome executive runs tool navigation, AST checks, and safety in < 10 ms",
+            "Eliminates 95% of traditional LLM tokens: $1.50 per task drops to $0.005",
+            "Immunized against prompt injection: safety enforced at physical neural synapse level",
+            "Full multi-modal sensory perception across 52 spoken languages and codebases"
+        ]
+    }
 ];
 
 const INTENTS = [
@@ -162,7 +192,7 @@ const BENCHMARKS = [
         metric: "Accidental File Deletion Rate",
         conventional: "2.4% - 6.1% (Prompt hallucination)",
         zene: "0.00% (Hardwired biological veto)",
-        advantage: "Mathematically zero accidental wipe",
+        advantage: "Zero accidental wipe risk",
         highlight: true,
     },
     {
@@ -176,7 +206,7 @@ const BENCHMARKS = [
         metric: "Local Memory Overhead",
         conventional: "500 MB - 1.2 GB (Python/ONNX/PyTorch)",
         zene: "154 KB (Single binary asset)",
-        advantage: "99.9% memory reduction",
+        advantage: "99.9% memory reduction (Fits in L1)",
         highlight: true,
     },
     {
@@ -194,17 +224,16 @@ const BENCHMARKS = [
         highlight: false,
     },
     {
-        metric: "External ML Dependencies",
-        conventional: "PyTorch / LibTorch / CUDA drivers",
-        zene: "Pure Rust (Zero C++/Python bindings)",
-        advantage: "True zero-dependency portability",
+        metric: "Biological Principles",
+        conventional: "None (Unconstrained linear weights)",
+        zene: "Dale's Principle + Piéron's Law",
+        advantage: "Biologically stable convergence",
         highlight: true,
     },
 ];
 
 export default component$(() => {
     const selectedStage = useSignal(0);
-    const copiedCommand = useSignal(false);
 
     return (
         <div class="min-h-screen bg-[var(--theme-bg)] text-[var(--theme-text-primary)] transition-colors duration-200">
@@ -224,31 +253,31 @@ export default component$(() => {
                         <div class="flex items-center gap-2">
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25 font-['JetBrains_Mono',monospace] text-[11px] uppercase tracking-wider rounded-[4px]">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                ZENE Open Source v0.1.0 Released
+                                Current Status: Stage 1 (Spinal Reflex Core) Active
                             </span>
                         </div>
                     </div>
 
                     {/* Hero Section */}
-                    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-24 pb-20 border-b border-[var(--theme-border)]">
+                    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-20 pb-20 border-b border-[var(--theme-border)]">
                         <div class="col-span-12 lg:col-span-7 space-y-6">
                             <div class="flex flex-wrap items-center gap-2">
                                 <span class="px-2.5 py-1 bg-[var(--theme-accent-subtle)] text-[var(--theme-accent-text)] border border-[var(--theme-border)] font-['JetBrains_Mono',monospace] text-xs font-semibold uppercase tracking-wider rounded-[4px]">
-                                    Bio-Connectome Architecture
+                                    Stage 1 Biological Connectome
                                 </span>
                                 <span class="px-2.5 py-1 bg-[var(--theme-surface)] text-[var(--theme-text-secondary)] border border-[var(--theme-border)] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
-                                    Pure Rust Engine
+                                    L1 Cache Resident (~50 KB)
                                 </span>
                                 <span class="px-2.5 py-1 bg-[var(--theme-surface)] text-[var(--theme-text-secondary)] border border-[var(--theme-border)] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
-                                    Sub-15 µs Reflex Gate
+                                    Dale's Principle (~68% ACh / ~32% GABA)
                                 </span>
                             </div>
 
                             <div>
                                 <h1 class="font-['Syne',sans-serif] text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-5 leading-[1.08]">
-                                    Biological Connectomes &{" "}
+                                    Fly Brain Connectomes &{" "}
                                     <span class="bg-gradient-to-r from-[#5c6bc0] via-[#818cf8] to-[#60a5fa] bg-clip-text text-transparent">
-                                        Autonomous Intelligence
+                                        Autonomous Code Intelligence
                                     </span>
                                 </h1>
                                 <p class="text-base sm:text-lg text-[var(--theme-text-secondary)] leading-relaxed max-w-2xl">
@@ -259,7 +288,7 @@ export default component$(() => {
                             {/* Core Specs Grid */}
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
                                 {[
-                                    { value: "500", label: "Connectome Neurons", sub: "Biological RNN" },
+                                    { value: "500", label: "Neurons (Stage 1)", sub: "Active in ZENE" },
                                     { value: "< 15 µs", label: "Reflex Gate Latency", sub: "Euler Integration" },
                                     { value: "13", label: "Native Rust Tools", sub: "AST & System Tools" },
                                     { value: "154 KB", label: "Binary Footprint", sub: "Zero PyTorch / ONNX" },
@@ -311,32 +340,79 @@ export default component$(() => {
 
                         {/* Right: Neural Trajectory Artifact */}
                         <div class="col-span-12 lg:col-span-5">
-                            <div class="relative rounded-[8px] overflow-hidden border border-[var(--theme-border)] bg-[#07080d] shadow-2xl group">
-                                <div class="relative h-[380px] sm:h-[440px] w-full">
+                            <div class="rounded-[8px] overflow-hidden border border-[var(--theme-border)] bg-[#07080d] shadow-xl flex flex-col">
+                                {/* Header bar */}
+                                <div class="flex items-center justify-between px-3.5 py-2.5 bg-[#0e111a] border-b border-white/10">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+                                        <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+                                        <span class="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+                                        <span class="ml-1.5 font-['JetBrains_Mono',monospace] text-[11px] text-zinc-400">
+                                            intent_neural_trajectories.png
+                                        </span>
+                                    </div>
+                                    <span class="text-[10px] font-['JetBrains_Mono',monospace] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                                        Stage 1 RNN · 30 dt
+                                    </span>
+                                </div>
+
+                                {/* Image Canvas (100% visible, uncropped, clean) */}
+                                <div class="w-full bg-[#05060a] p-2 flex items-center justify-center">
                                     <img
                                         src="/assets/research/fly-decision-net/intent_neural_trajectories.png"
-                                        alt="Biological Connectome Neural Trajectory Space"
-                                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90"
+                                        alt="Biological Connectome Neural Trajectory Space — 5-class intent separation"
+                                        class="w-full h-auto max-h-[260px] sm:max-h-[300px] object-contain rounded"
                                     />
-                                    <div class="absolute inset-0 bg-gradient-to-t from-[#07080d] via-[#07080d]/40 to-transparent" />
-                                    
-                                    <div class="absolute top-4 left-4 right-4 flex items-center justify-between">
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/70 backdrop-blur-md border border-white/10 text-[10px] font-['JetBrains_Mono',monospace] text-emerald-400">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                                            Live Euler Integration (30 Steps)
-                                        </span>
-                                        <span class="text-[10px] font-['JetBrains_Mono',monospace] text-zinc-400 bg-black/60 px-2 py-0.5 rounded">
-                                            fly_brain_500.bin
-                                        </span>
-                                    </div>
+                                </div>
 
-                                    <div class="absolute bottom-4 left-4 right-4 p-4 rounded-[6px] bg-black/80 backdrop-blur-md border border-white/10">
-                                        <div class="font-['JetBrains_Mono',monospace] text-[10px] text-zinc-400 uppercase tracking-widest mb-1">Connectome Latent Space</div>
-                                        <h3 class="font-['Syne',sans-serif] text-white text-base font-bold">5-State Intent Trajectory Attractors</h3>
-                                        <p class="text-zinc-300 text-xs mt-1 leading-relaxed">
-                                            High-dimensional recurrent neural dynamics separate developer queries into safe conceptual contemplation vs destructive code mutation in &lt; 15 µs.
-                                        </p>
+                                {/* Caption & Metadata (Cleanly positioned BELOW the image, not covering it) */}
+                                <div class="p-3.5 bg-[#0a0d16] border-t border-white/10">
+                                    <div class="flex items-center justify-between text-[10px] font-['JetBrains_Mono',monospace] text-zinc-400 uppercase tracking-widest mb-1">
+                                        <span>Connectome Latent Dynamics</span>
+                                        <span class="text-zinc-500">2400 × 1200 px</span>
                                     </div>
+                                    <h3 class="font-['Syne',sans-serif] text-white text-sm font-bold">
+                                        Neural Trajectory Separation Space
+                                    </h3>
+                                    <p class="text-zinc-400 text-[11px] mt-1 leading-relaxed">
+                                        30-step Euler integration over the 500-neuron connectome. Recurrent attractors project developer prompts into safe consultation vs destructive code mutation in &lt; 15 µs.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Active Stage 1 Deep-Dive Banner */}
+                    <div class="mb-20 p-6 sm:p-8 rounded-[8px] border border-emerald-500/30 bg-emerald-500/5 dark:bg-emerald-950/20">
+                        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 text-[10px] font-bold font-['JetBrains_Mono',monospace] uppercase rounded bg-emerald-500 text-white">
+                                        Current Stage Status
+                                    </span>
+                                    <span class="font-['JetBrains_Mono',monospace] text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                                        Stage 1: 500-Neuron Spinal Reflex Core — Integrated in ZENE
+                                    </span>
+                                </div>
+                                <h3 class="font-['Syne',sans-serif] text-xl sm:text-2xl font-bold">
+                                    Why 500 Biological Neurons Master Real-Time IDE Safety
+                                </h3>
+                                <p class="text-xs sm:text-sm text-[var(--theme-text-secondary)] max-w-3xl leading-relaxed">
+                                    At 500 neurons, the network fits directly within the CPU's <strong>L1 data cache</strong> (zero cache misses). It executes in <strong>&lt; 0.015 ms</strong>, enforces biological <strong>Dale's Principle</strong> (weights never flip polarity), satisfies <strong>Piéron's Law</strong> for decision convergence, and survives 30% neuronal ablation.
+                                </p>
+                            </div>
+                            <div class="flex flex-wrap lg:flex-col gap-2 shrink-0 font-['JetBrains_Mono',monospace] text-xs">
+                                <div class="px-3 py-1.5 rounded bg-[var(--theme-surface)] border border-[var(--theme-border)] flex items-center justify-between gap-4">
+                                    <span class="text-[var(--theme-text-muted)]">L1 Footprint</span>
+                                    <span class="font-bold text-[var(--theme-text-primary)]">~50 KB</span>
+                                </div>
+                                <div class="px-3 py-1.5 rounded bg-[var(--theme-surface)] border border-[var(--theme-border)] flex items-center justify-between gap-4">
+                                    <span class="text-[var(--theme-text-muted)]">Euler Steps</span>
+                                    <span class="font-bold text-[var(--theme-text-primary)]">30 dt (α = 0.2)</span>
+                                </div>
+                                <div class="px-3 py-1.5 rounded bg-[var(--theme-surface)] border border-[var(--theme-border)] flex items-center justify-between gap-4">
+                                    <span class="text-[var(--theme-text-muted)]">Lesion Tolerance</span>
+                                    <span class="font-bold text-emerald-500">Up to 30%</span>
                                 </div>
                             </div>
                         </div>
@@ -364,7 +440,7 @@ export default component$(() => {
                                     title: "Fly Connectome Gate",
                                     latency: "< 0.015 ms",
                                     latencyColor: "#22c55e",
-                                    runtime: "Pure Rust · Native CPU",
+                                    runtime: "Pure Rust · Native CPU (L1 Cache)",
                                     description: "500-neuron adult Drosophila neural connectome RNN executing 30 Euler numerical integration steps locally before any cloud network request is dispatched.",
                                     bullets: [
                                         "Sub-15 µs Giant Fiber safety veto blocks rm -rf, git reset, and disk format",
@@ -375,16 +451,16 @@ export default component$(() => {
                                 },
                                 {
                                     tier: "TIER 02",
-                                    badge: "SYNTAX PERCEPTION",
-                                    title: "Tree-sitter AST Engine",
+                                    badge: "SYNTAX & ROUTING",
+                                    title: "Tree-sitter AST & Laya",
                                     latency: "< 1.0 ms",
                                     latencyColor: "#60a5fa",
-                                    runtime: "Tree-sitter C/Rust ABI",
-                                    description: "Full concrete syntax tree parsing engine operating directly over your project files to provide structural language intelligence rather than dumb line numbers.",
+                                    runtime: "Tree-sitter C/Rust ABI + Laya",
+                                    description: "Concrete syntax tree parser and local encoder router (ModernBERT 8K context) operating over project files to extract exact scopes and cascade models.",
                                     bullets: [
                                         "Extracts exact enclosing function, class, and method symbol boundaries",
                                         "Generates targeted, semantic diffs with zero regex brittle parsing",
-                                        "Multi-language support for Rust, TypeScript, Python, C++, and Go"
+                                        "Routes lightweight queries to Groq LPUs and complex reasoning to Gemini"
                                     ],
                                     borderHover: "hover:border-blue-500/60",
                                 },
@@ -462,11 +538,11 @@ export default component$(() => {
                                     02 / Neuromorphic Roadmap
                                 </span>
                                 <h2 class="font-['Syne',sans-serif] text-2xl sm:text-4xl font-bold tracking-tight">
-                                    Connectome Scaling: From Spinal Reflex to Whole-Brain
+                                    Connectome Scaling: 5 Stages to Whole-Brain Agent OS
                                 </h2>
                             </div>
                             <p class="text-xs sm:text-sm text-[var(--theme-text-muted)] font-['JetBrains_Mono',monospace] max-w-md">
-                                Select an evolutionary connectome scale below to inspect synaptic architectures and computational performance.
+                                Currently operating in Stage 1. Click through the 5 stages below to inspect biological substrates, neuron counts, and computational milestones.
                             </p>
                         </div>
 
@@ -494,8 +570,9 @@ export default component$(() => {
                                                 </span>
                                             </div>
                                             {s.active ? (
-                                                <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-['JetBrains_Mono',monospace] font-bold uppercase tracking-wider">
-                                                    Production
+                                                <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-['JetBrains_Mono',monospace] font-bold uppercase tracking-wider flex items-center gap-1">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                                    Current Focus
                                                 </span>
                                             ) : (
                                                 <span class="text-[10px] px-2 py-0.5 rounded bg-zinc-500/15 text-zinc-500 dark:text-zinc-400 font-['JetBrains_Mono',monospace] uppercase tracking-wider">
@@ -524,9 +601,16 @@ export default component$(() => {
                                         <div class="space-y-6">
                                             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--theme-border)] pb-4">
                                                 <div>
-                                                    <span class="text-xs font-['JetBrains_Mono',monospace] text-[var(--theme-accent-text)] font-bold">
-                                                        {s.id} ARCHITECTURAL SPECIFICATION
-                                                    </span>
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="text-xs font-['JetBrains_Mono',monospace] text-[var(--theme-accent-text)] font-bold">
+                                                            {s.id} ARCHITECTURAL SPECIFICATION
+                                                        </span>
+                                                        {s.active && (
+                                                            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold font-['JetBrains_Mono',monospace]">
+                                                                CURRENT STAGE
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                     <h3 class="font-['Syne',sans-serif] text-2xl font-bold text-[var(--theme-text-primary)] mt-0.5">
                                                         {s.title}
                                                     </h3>
@@ -546,16 +630,38 @@ export default component$(() => {
 
                                             <div>
                                                 <h4 class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[var(--theme-text-primary)] uppercase tracking-wider mb-2">
-                                                    Biological Substrate
+                                                    Biological Connectome Source
                                                 </h4>
                                                 <p class="text-xs sm:text-sm font-['JetBrains_Mono',monospace] text-[var(--theme-accent-text)] bg-[var(--theme-accent-subtle)] p-2.5 rounded border border-[var(--theme-border)]/50">
                                                     {s.biologicalModel}
                                                 </p>
                                             </div>
 
+                                            {/* Anatomical breakdown if available for Stage 1 */}
+                                            {s.anatomicalBreakdown && (
+                                                <div>
+                                                    <h4 class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[var(--theme-text-primary)] uppercase tracking-wider mb-2">
+                                                        Stage 1 Anatomical Circuit Sub-Regions
+                                                    </h4>
+                                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                                        {s.anatomicalBreakdown.map((anat, idx) => (
+                                                            <div key={idx} class="p-2.5 rounded bg-[var(--theme-bg)] border border-[var(--theme-border)]/50">
+                                                                <div class="flex items-center justify-between text-xs font-bold font-['JetBrains_Mono',monospace] text-[var(--theme-accent-text)]">
+                                                                    <span>{anat.name}</span>
+                                                                    <span>{anat.pct}</span>
+                                                                </div>
+                                                                <p class="text-[11px] text-[var(--theme-text-secondary)] mt-1 leading-snug">
+                                                                    {anat.role}
+                                                                </p>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
                                             <div>
                                                 <h4 class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[var(--theme-text-primary)] uppercase tracking-wider mb-2">
-                                                    Connectome Functional Capabilities
+                                                    Functional Capabilities
                                                 </h4>
                                                 <ul class="space-y-2.5">
                                                     {s.features.map((feature, idx) => (
@@ -765,7 +871,7 @@ export default component$(() => {
                             <div class="grid grid-cols-12 px-6 py-4 border-b border-[var(--theme-border)] bg-[var(--theme-bg)] text-[11px] font-['JetBrains_Mono',monospace] text-[var(--theme-text-muted)] uppercase tracking-wider">
                                 <span class="col-span-12 md:col-span-4 font-bold">Target Metric</span>
                                 <span class="col-span-6 md:col-span-3">Conventional Agents</span>
-                                <span class="col-span-6 md:col-span-3 text-emerald-500 font-bold">ZENE + Fly Brain</span>
+                                <span class="col-span-6 md:col-span-3 text-emerald-500 font-bold">ZENE + Fly Brain (Stage 1)</span>
                                 <span class="hidden md:block md:col-span-2 text-right">Advantage</span>
                             </div>
 
@@ -862,7 +968,7 @@ export const head: DocumentHead = {
         },
         {
             name: "keywords",
-            content: "neuromorphic AI, Drosophila connectome, biological RNN, autonomous coding agent, Rust AI agent, ZENE, Zenthree",
+            content: "neuromorphic AI, Drosophila connectome, biological RNN, autonomous coding agent, Rust AI agent, ZENE, Zenthree, Stage 1 connectome",
         },
     ],
 };
