@@ -73,14 +73,31 @@ const FEATURES = [
 
 const BUILT_WITH = [
     {
+        href: "/products/zenthra/apps/zenthree",
+        name: "Zenthree",
+        type: "Desktop IDE / Editor",
+        badge: "New Release",
+        badgeClass: "bg-[#e9e7ef] dark:bg-[#1e2230] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#5c6bc0]/30",
+        desc: "A GPU-accelerated code editor with Tree-sitter syntax highlighting, embedded PTY terminal, and an AI assistant.",
+        thumbnail: (
+            <div class="w-full h-full bg-[#e9e7ef] dark:bg-[#07080d] flex items-center justify-center overflow-hidden">
+                <img
+                    src="/assets/screenshots/zenthree/glassmorphism_mode.png"
+                    alt="Zenthree"
+                    class="w-full h-full object-cover"
+                />
+            </div>
+        ),
+    },
+    {
         href: "/products/zenthra/apps/zenthra-view",
         name: "Zenthra View",
         type: "Desktop App",
         badge: "Example App",
-        badgeClass: "bg-[#e9e7ef] text-[#454651]",
+        badgeClass: "bg-[#e9e7ef] dark:bg-[#1e2230] text-[#454651] dark:text-[#94a3b8] border border-[#c6c5d3]/40 dark:border-[#1e2230]",
         desc: "A native desktop image viewer with file browser, zoom, rotation, and slideshow mode.",
         thumbnail: (
-            <div class="w-full h-full bg-[#e9e7ef] flex items-center justify-center">
+            <div class="w-full h-full bg-[#e9e7ef] dark:bg-[#07080d] flex items-center justify-center">
                 <img
                     src="/assets/screenshots/zenthra_viewer/04.jpeg"
                     alt="Zenthra View"
@@ -94,10 +111,10 @@ const BUILT_WITH = [
         name: "ZenFile",
         type: "Desktop App",
         badge: "Example App",
-        badgeClass: "bg-[#e9e7ef] text-[#454651]",
+        badgeClass: "bg-[#e9e7ef] dark:bg-[#1e2230] text-[#454651] dark:text-[#94a3b8] border border-[#c6c5d3]/40 dark:border-[#1e2230]",
         desc: "A native, dependency-light file manager with instant directory listings and native filesystem access.",
         thumbnail: (
-            <div class="w-full h-full bg-[#e9e7ef] flex items-center justify-center">
+            <div class="w-full h-full bg-[#e9e7ef] dark:bg-[#07080d] flex items-center justify-center">
                 <img
                     src="/assets/screenshots/zenfile/main-default-size-and-color.png"
                     alt="ZenFile"
@@ -110,60 +127,69 @@ const BUILT_WITH = [
 
 const SLIDES = [
     {
+        src: "/assets/slider/zenthree.png",
+        title: "Zenthree IDE & Code Editor",
+        desc: "GPU-accelerated code editing with Tree-sitter syntax highlighting, PTY terminal, and frosted glass UI."
+    },
+    {
         src: "/assets/slider/zenthra_view.jpeg",
         title: "Zenthra View",
         desc: "A native image viewer built using Zenthra's dual-pass frosted glass textures and GPU paint canvas."
     },
     {
         src: "/assets/slider/zenfile.png",
-        title: "ZenFile Manager",
-        desc: "High performance desktop explorer demonstrating layout hierarchy alignment boxes."
+        title: "ZenFile File Manager",
+        desc: "Lightweight, hardware-accelerated directory navigation with customizable frosted glass columns."
     },
     {
-        src: "/assets/slider/zenthra_viewer_04.jpeg",
-        title: "Interactive Canvas Operations",
-        desc: "Immediate mode context menus and hardware render canvas zooming options."
+        src: "/assets/slider/02.jpeg",
+        title: "Image Viewport Controls",
+        desc: "Precision floating-point zoom, pan, and rotate controls rendering directly on metal-level GPU buffers."
     },
     {
-        src: "/assets/slider/zenthra_viewer_05.png",
-        title: "Native Font Rendering",
-        desc: "Pixel-perfect text layout formatting using GPU atlas systems and cosmic-text fallbacks."
-    }
+        src: "/assets/slider/03.jpeg",
+        title: "Dynamic Thumbnail Matrix",
+        desc: "Asynchronous multi-threaded directory scanning maintaining solid 60 FPS viewport scrolling."
+    },
+    {
+        src: "/assets/slider/04.jpeg",
+        title: "Native Modal Architecture",
+        desc: "Sub-pixel vector fonts shaped by Cosmic Text combined with Taffy flexbox layout logic."
+    },
 ];
-
-// ── Page ─────────────────────────────────────────────────────────────────────
 
 export default component$(() => {
     const activeSlide = useSignal(0);
 
+    // Auto-advance slides every 5 seconds
     useVisibleTask$(({ cleanup }) => {
         const interval = setInterval(() => {
             activeSlide.value = (activeSlide.value + 1) % SLIDES.length;
-        }, 4000);
+        }, 5000);
         cleanup(() => clearInterval(interval));
     });
 
     return (
         <>
             {/* ── Hero ── */}
-            <section class="border-b border-[#c6c5d3]">
+            <section class="border-b border-[#c6c5d3] dark:border-[#1e2230]">
                 <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
                     {/* Breadcrumb */}
                     <div class="flex items-center gap-2 mb-8 text-xs font-['JetBrains_Mono',monospace]">
-                        <a href="/products" class="text-[#767683] hover:text-[#4352a5] transition-colors">Products</a>
-                        <span class="text-[#c6c5d3]">/</span>
-                        <span class="text-[#1b1b21]">Zenthra</span>
+                        <a href="/products" class="text-[#767683] dark:text-[#94a3b8] hover:text-[#4352a5] dark:hover:text-[#818cf8] transition-colors">Products</a>
+                        <span class="text-[#c6c5d3] dark:text-[#1e2230]">/</span>
+                        <span class="text-[#1b1b21] dark:text-white">Zenthra</span>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
                         <div>
-                            <span class="inline-block px-3 py-1 bg-[#e3e1e9] text-[#454651] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider mb-5 rounded-[4px]">
+                            <span class="inline-block px-3 py-1 bg-[#e3e1e9] dark:bg-[#1e2230] text-[#454651] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#5c6bc0]/20 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider mb-5 rounded-[4px]">
                                 UI Framework · v1.2 Stable
                             </span>
-                            <h1 class="font-['Syne',sans-serif] text-3xl sm:text-5xl font-bold text-[#1b1b21] mb-5 leading-tight tracking-tight">
+                            <h1 class="font-['Syne',sans-serif] text-3xl sm:text-5xl font-bold text-[#1b1b21] dark:text-white mb-5 leading-tight tracking-tight">
                                 Zenthra
                             </h1>
-                            <p class="text-base sm:text-lg text-[#454651] leading-relaxed mb-8 max-w-lg">
+                            <p class="text-base sm:text-lg text-[#454651] dark:text-[#94a3b8] leading-relaxed mb-8 max-w-lg">
                                 A high-performance, Rust-based UI framework for building native desktop applications with zero-runtime overhead and 4ms input latency.
                             </p>
                             <div class="flex flex-wrap gap-3">
@@ -173,27 +199,27 @@ export default component$(() => {
                                     View on GitHub
                                 </a>
                                 <a href="https://crates.io/crates/zenthra" target="_blank" rel="noopener"
-                                    class="py-2 px-5 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] hover:bg-[#e9e7ef] transition-all text-sm flex items-center gap-2">
+                                    class="py-2 px-5 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-[#e2e8f0] font-medium rounded-[4px] hover:bg-[#e9e7ef] dark:hover:bg-[#12141f] transition-all text-sm flex items-center gap-2">
                                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                                     </svg>
                                     crates.io
                                 </a>
                                 <a href="/products/zenthra/docs/"
-                                    class="py-2 px-5 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] hover:bg-[#e9e7ef] transition-all text-sm">
+                                    class="py-2 px-5 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-[#e2e8f0] font-medium rounded-[4px] hover:bg-[#e9e7ef] dark:hover:bg-[#12141f] transition-all text-sm">
                                     Read the Docs
                                 </a>
                                 {/* zenthra.dev — mock, not live yet */}
                                 <span
                                     title="Coming soon — zenthra.dev is not live yet"
-                                    class="relative group py-2 px-5 border border-dashed border-[#c6c5d3] text-[#767683] font-medium rounded-[4px] text-sm flex items-center gap-2 cursor-not-allowed select-none"
+                                    class="relative group py-2 px-5 border border-dashed border-[#c6c5d3] dark:border-[#1e2230] text-[#767683] dark:text-[#64748b] font-medium rounded-[4px] text-sm flex items-center gap-2 cursor-not-allowed select-none"
                                 >
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                                         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                                     </svg>
                                     zenthra.dev
-                                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#1b1b21] text-white text-[10px] font-['JetBrains_Mono',monospace] px-2 py-1 rounded-[3px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white dark:bg-[#0e1017] text-[#1b1b21] dark:text-white border border-[#c6c5d3] dark:border-[#1e2230] text-[10px] font-['JetBrains_Mono',monospace] px-2 py-1 rounded-[3px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-md">
                                         Coming soon
                                     </span>
                                 </span>
@@ -208,10 +234,10 @@ export default component$(() => {
                                 { value: "Rust", label: "Language", sub: "memory-safe, no GC pauses" },
                                 { value: "3", label: "Platforms", sub: "Linux · macOS · Windows" },
                             ].map((s) => (
-                                <div key={s.value} class="bg-white border border-[#c6c5d3] rounded-[4px] p-5">
-                                    <div class="font-['Syne',sans-serif] text-2xl font-bold text-[#4352a5] mb-1">{s.value}</div>
-                                    <div class="text-sm font-bold text-[#1b1b21] mb-0.5">{s.label}</div>
-                                    <div class="text-xs text-[#767683]">{s.sub}</div>
+                                <div key={s.value} class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[6px] p-5 hover:border-[#5c6bc0]/60 dark:hover:border-[#5c6bc0]/40 transition-all">
+                                    <div class="font-['Syne',sans-serif] text-2xl font-bold text-[#4352a5] dark:text-[#818cf8] mb-1">{s.value}</div>
+                                    <div class="text-sm font-bold text-[#1b1b21] dark:text-white mb-0.5">{s.label}</div>
+                                    <div class="text-xs text-[#767683] dark:text-[#94a3b8]">{s.sub}</div>
                                 </div>
                             ))}
                         </div>
@@ -220,43 +246,39 @@ export default component$(() => {
             </section>
 
             {/* ── Showcase Image Slider ── */}
-            <section class="border-b border-[#c6c5d3] bg-[#fbf8ff]">
+            <section class="border-b border-[#c6c5d3] dark:border-[#1e2230] bg-[#fbf8ff] dark:bg-[#07080d]/60">
                 <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
                     <div class="text-center max-w-2xl mx-auto mb-10">
-                        <h2 class="font-['Syne',sans-serif] text-2xl sm:text-3xl font-bold text-[#1b1b21] mb-3">
+                        <h2 class="font-['Syne',sans-serif] text-2xl sm:text-3xl font-bold text-[#1b1b21] dark:text-white mb-3">
                             Visual Showcase
                         </h2>
-                        <p class="text-sm text-[#454651]">
+                        <p class="text-sm text-[#454651] dark:text-[#94a3b8]">
                             Explore screenshots of high-performance applications built entirely on Zenthra's native GPU-accelerated graphics stack.
                         </p>
                     </div>
 
                     {/* Image Slider Wrapper */}
-                    <div class="relative bg-white border border-[#c6c5d3] rounded-[4px] shadow-sm overflow-hidden group">
+                    <div class="relative bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[6px] shadow-sm dark:shadow-xl overflow-hidden group">
                         {/* Slide Display Area */}
-                        <div class="relative w-full aspect-[16/10] md:aspect-[16/9] bg-[#0f1115] flex items-center justify-center">
+                        <div class="relative w-full aspect-[16/10] md:aspect-[16/9] bg-[#0f1115] dark:bg-[#07080d] flex items-center justify-center">
                             {SLIDES.map((slide, index) => (
                                 <div
                                     key={slide.title}
-                                    class={`absolute inset-0 w-full h-full flex items-center justify-center transition-all duration-700 ease-in-out ${index === activeSlide.value
-                                        ? "translate-x-0 opacity-100 pointer-events-auto"
-                                        : index < activeSlide.value
-                                            ? "-translate-x-full opacity-0 pointer-events-none"
-                                            : "translate-x-full opacity-0 pointer-events-none"
+                                    class={`absolute inset-0 transition-opacity duration-700 ease-in-out flex items-center justify-center ${index === activeSlide.value ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
                                         }`}
                                 >
                                     <img
                                         src={slide.src}
                                         alt={slide.title}
-                                        class="max-w-full max-h-full object-contain select-none"
+                                        class="w-full h-full object-contain"
                                     />
 
                                     {/* Bottom Captions Overlay */}
-                                    <div class="absolute bottom-0 inset-x-0 bg-[#071025]/50 backdrop-blur-[4px] text-white p-5 border-t border-white/10 transition-opacity duration-300">
+                                    <div class="absolute bottom-0 inset-x-0 bg-[#071025]/50 dark:bg-[#07080d]/80 backdrop-blur-md text-white p-5 border-t border-white/10 dark:border-[#1e2230] transition-opacity duration-300">
                                         <h3 class="font-['Syne',sans-serif] font-bold text-base text-white mb-1">
                                             {slide.title}
                                         </h3>
-                                        <p class="text-xs text-[#dcdfe7] leading-relaxed max-w-2xl">
+                                        <p class="text-xs text-[#dcdfe7] dark:text-[#94a3b8] leading-relaxed max-w-2xl">
                                             {slide.desc}
                                         </p>
                                     </div>
@@ -269,7 +291,7 @@ export default component$(() => {
                             onClick$={() => {
                                 activeSlide.value = (activeSlide.value - 1 + SLIDES.length) % SLIDES.length;
                             }}
-                            class="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 border border-[#c6c5d3] flex items-center justify-center hover:bg-[#5c6bc0] hover:text-white hover:border-[#5c6bc0] transition-all text-[#1b1b21] font-bold focus:outline-none z-10 opacity-0 group-hover:opacity-100"
+                            class="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 dark:bg-[#0e1017]/90 border border-[#c6c5d3] dark:border-[#1e2230] flex items-center justify-center hover:bg-[#5c6bc0] hover:text-white hover:border-[#5c6bc0] transition-all text-[#1b1b21] dark:text-white font-bold focus:outline-none z-10 opacity-0 group-hover:opacity-100 cursor-pointer shadow-md"
                             aria-label="Previous Slide"
                         >
                             &larr;
@@ -278,48 +300,48 @@ export default component$(() => {
                             onClick$={() => {
                                 activeSlide.value = (activeSlide.value + 1) % SLIDES.length;
                             }}
-                            class="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 border border-[#c6c5d3] flex items-center justify-center hover:bg-[#5c6bc0] hover:text-white hover:border-[#5c6bc0] transition-all text-[#1b1b21] font-bold focus:outline-none z-10 opacity-0 group-hover:opacity-100"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 dark:bg-[#0e1017]/90 border border-[#c6c5d3] dark:border-[#1e2230] flex items-center justify-center hover:bg-[#5c6bc0] hover:text-white hover:border-[#5c6bc0] transition-all text-[#1b1b21] dark:text-white font-bold focus:outline-none z-10 opacity-0 group-hover:opacity-100 cursor-pointer shadow-md"
                             aria-label="Next Slide"
                         >
                             &rarr;
                         </button>
-                    </div>
 
-                    {/* Indicator Dots */}
-                    <div class="flex justify-center items-center gap-2 mt-6">
-                        {SLIDES.map((_, index) => (
-                            <button
-                                key={index}
-                                onClick$={() => {
-                                    activeSlide.value = index;
-                                }}
-                                class={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === activeSlide.value
-                                    ? "bg-[#5c6bc0] w-6"
-                                    : "bg-[#c6c5d3] hover:bg-[#767683]"
-                                    }`}
-                                aria-label={`Go to slide ${index + 1}`}
-                            />
-                        ))}
+                        {/* Slide Indicator Dots */}
+                        <div class="absolute bottom-16 sm:bottom-20 right-6 flex items-center gap-2 z-20">
+                            {SLIDES.map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick$={() => {
+                                        activeSlide.value = index;
+                                    }}
+                                    class={`w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer ${index === activeSlide.value
+                                        ? "bg-[#5c6bc0] w-6"
+                                        : "bg-[#c6c5d3] dark:bg-[#1e2230] hover:bg-[#767683] dark:hover:bg-[#334155]"
+                                        }`}
+                                    aria-label={`Go to slide ${index + 1}`}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* ── Code sample ── */}
-            <section class="bg-[#f5f2fa] border-b border-[#c6c5d3] overflow-hidden">
+            <section class="bg-[#f5f2fa] dark:bg-[#090a10] border-b border-[#c6c5d3] dark:border-[#1e2230] overflow-hidden">
                 <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16 grid md:grid-cols-2 gap-8 md:gap-16 items-center">
                     <div>
-                        <h2 class="font-['Syne',sans-serif] text-xl sm:text-2xl font-bold text-[#1b1b21] mb-4">Simple by design.</h2>
-                        <p class="text-[#454651] text-sm leading-relaxed mb-4">
+                        <h2 class="font-['Syne',sans-serif] text-xl sm:text-2xl font-bold text-[#1b1b21] dark:text-white mb-4">Simple by design.</h2>
+                        <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed mb-4">
                             Zenthra's API is intentionally minimal. You describe your interface as composable widgets — the framework handles the rest. No lifecycle hooks, no re-render cycles, no magic.
                         </p>
-                        <p class="text-[#454651] text-sm leading-relaxed">
+                        <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed">
                             The entire widget tree compiles to a flat sequence of native draw calls at build time. What ships is a tiny binary with zero interpreter overhead.
                         </p>
                     </div>
 
                     {/* Dark code block */}
-                    <div class="bg-[#071025] rounded-[6px] overflow-hidden shadow-xl w-full">
-                        <div class="flex items-center gap-1.5 px-4 py-3 border-b border-white/5">
+                    <div class="bg-[#071025] dark:bg-[#07080d] border border-transparent dark:border-[#1e2230] rounded-[6px] overflow-hidden shadow-xl w-full">
+                        <div class="flex items-center gap-1.5 px-4 py-3 border-b border-white/5 dark:border-[#1e2230]">
                             <span class="w-2.5 h-2.5 rounded-full bg-[#ff6058]" />
                             <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
                             <span class="w-2.5 h-2.5 rounded-full bg-[#28ca41]" />
@@ -347,16 +369,16 @@ export default component$(() => {
             </section>
 
             {/* ── Features ── */}
-            <section class="border-b border-[#c6c5d3]">
+            <section class="border-b border-[#c6c5d3] dark:border-[#1e2230]">
                 <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
-                    <h2 class="font-['Syne',sans-serif] text-xl sm:text-2xl font-bold text-[#1b1b21] mb-2">What makes it different.</h2>
-                    <p class="text-[#454651] text-sm mb-10">Zenthra is opinionated about the things that matter and silent about everything else.</p>
+                    <h2 class="font-['Syne',sans-serif] text-xl sm:text-2xl font-bold text-[#1b1b21] dark:text-white mb-2">What makes it different.</h2>
+                    <p class="text-[#454651] dark:text-[#94a3b8] text-sm mb-10">Zenthra is opinionated about the things that matter and silent about everything else.</p>
                     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                         {FEATURES.map((f) => (
-                            <div key={f.title} class="bg-white border border-[#c6c5d3] rounded-[4px] p-5 hover:border-[#4352a5] transition-all">
-                                <div class="text-[#5c6bc0] mb-3">{f.icon}</div>
-                                <h3 class="font-['Syne',sans-serif] font-bold text-[#1b1b21] text-sm mb-1.5">{f.title}</h3>
-                                <p class="text-[#454651] text-xs leading-relaxed">{f.desc}</p>
+                            <div key={f.title} class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[6px] p-5 hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 transition-all">
+                                <div class="text-[#4352a5] dark:text-[#818cf8] mb-3">{f.icon}</div>
+                                <h3 class="font-['Syne',sans-serif] font-bold text-[#1b1b21] dark:text-white text-sm mb-1.5">{f.title}</h3>
+                                <p class="text-[#454651] dark:text-[#94a3b8] text-xs leading-relaxed">{f.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -364,30 +386,30 @@ export default component$(() => {
             </section>
 
             {/* ── Built with Zenthra ── */}
-            <section class="border-b border-[#c6c5d3]">
+            <section class="border-b border-[#c6c5d3] dark:border-[#1e2230]">
                 <div class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
-                    <h2 class="font-['Syne',sans-serif] text-xl sm:text-2xl font-bold text-[#1b1b21] mb-2">Built with Zenthra.</h2>
-                    <p class="text-[#454651] text-sm mb-10">Real apps shipping with the framework today.</p>
+                    <h2 class="font-['Syne',sans-serif] text-xl sm:text-2xl font-bold text-[#1b1b21] dark:text-white mb-2">Built with Zenthra.</h2>
+                    <p class="text-[#454651] dark:text-[#94a3b8] text-sm mb-10">Real apps shipping with the framework today.</p>
 
                     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {BUILT_WITH.map((app) => (
                             <div key={app.name} class="block group">
-                                <div class="bg-white border border-[#c6c5d3] rounded-[4px] overflow-hidden flex flex-col h-full hover:border-[#4352a5] hover:-translate-y-1 transition-all duration-200">
-                                    <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] bg-[#f5f2fa]">
+                                <div class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[6px] overflow-hidden flex flex-col h-full hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 hover:-translate-y-1 transition-all duration-200">
+                                    <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] dark:border-[#1e2230] bg-[#e9e7ef] dark:bg-[#07080d]">
                                         {app.thumbnail}
                                     </div>
                                     <div class="p-5 flex flex-col flex-grow">
-                                        <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] mb-2">{app.type}</p>
+                                        <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] dark:text-[#818cf8] mb-2">{app.type}</p>
                                         <div class="flex flex-wrap items-center gap-2 mb-2">
-                                            <h3 class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21]">{app.name}</h3>
+                                            <h3 class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21] dark:text-white">{app.name}</h3>
                                             <span class={`px-2 py-0.5 text-xs rounded-[4px] font-medium ${app.badgeClass}`}>{app.badge}</span>
                                         </div>
-                                        <p class="text-[#454651] text-sm leading-relaxed flex-grow">{app.desc}</p>
+                                        <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed flex-grow">{app.desc}</p>
                                         <div class="mt-4 flex flex-wrap gap-2">
                                             <a href={app.href} class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm inline-block hover:brightness-110 transition-all">
                                                 View Details
                                             </a>
-                                            <a href={`${app.href}/download`} class="py-2 px-4 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] text-sm inline-block hover:bg-[#e9e7ef] transition-all">
+                                            <a href={`${app.href}/download`} class="py-2 px-4 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-[#e2e8f0] font-medium rounded-[4px] text-sm inline-block hover:bg-[#e9e7ef] dark:hover:bg-[#12141f] transition-all">
                                                 Download
                                             </a>
                                         </div>
@@ -397,11 +419,11 @@ export default component$(() => {
                         ))}
 
                         {/* Placeholder — more coming */}
-                        <div class="bg-[#fbf8ff] border border-dashed border-[#c6c5d3] rounded-[4px] flex flex-col items-center justify-center p-10 gap-3 opacity-60">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c6c5d3" stroke-width="1.5">
+                        <div class="bg-[#fbf8ff] dark:bg-[#0e1017]/40 border border-dashed border-[#c6c5d3] dark:border-[#1e2230] rounded-[6px] flex flex-col items-center justify-center p-10 gap-3 opacity-60">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-[#c6c5d3] dark:text-[#64748b]" stroke-width="1.5">
                                 <circle cx="12" cy="12" r="10" /><path d="M12 8v8M8 12h8" />
                             </svg>
-                            <p class="text-xs font-['JetBrains_Mono',monospace] text-[#c6c5d3] tracking-widest text-center">More apps<br />coming soon</p>
+                            <p class="text-xs font-['JetBrains_Mono',monospace] text-[#767683] dark:text-[#64748b] tracking-widest text-center">More apps<br />coming soon</p>
                         </div>
                     </div>
                 </div>
@@ -409,10 +431,10 @@ export default component$(() => {
 
             {/* ── Get started CTA ── */}
             <section class="max-w-7xl mx-auto px-6 md:px-12 py-8 md:py-16">
-                <div class="bg-[#071025] rounded-[6px] p-6 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+                <div class="bg-[#071025] dark:bg-[#0e1017] border border-[#071025] dark:border-[#1e2230] rounded-[6px] p-6 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
                     <div>
                         <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-white mb-2">Start building with Zenthra.</h2>
-                        <p class="text-[#9aa6e0] text-sm">Open source. MIT licensed. No account required.</p>
+                        <p class="text-[#9aa6e0] dark:text-[#94a3b8] text-sm">Open source. MIT licensed. No account required.</p>
                     </div>
                     <div class="flex flex-wrap gap-3 flex-shrink-0">
                         <a href="https://github.com/kabirajpan/zenthra-v2" target="_blank" rel="noopener"
@@ -421,27 +443,27 @@ export default component$(() => {
                             GitHub
                         </a>
                         <a href="https://crates.io/crates/zenthra" target="_blank" rel="noopener"
-                            class="py-2.5 px-6 border border-white/20 text-white font-medium rounded-[4px] hover:bg-white/10 transition-all text-sm flex items-center gap-2">
+                            class="py-2.5 px-6 border border-white/20 dark:border-[#1e2230] text-white font-medium rounded-[4px] hover:bg-white/10 dark:hover:bg-[#12141f] transition-all text-sm flex items-center gap-2">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                             </svg>
                             crates.io
                         </a>
                         <a href="/products/zenthra/docs/"
-                            class="py-2.5 px-6 border border-white/20 text-white font-medium rounded-[4px] hover:bg-white/10 transition-all text-sm">
+                            class="py-2.5 px-6 border border-white/20 dark:border-[#1e2230] text-white font-medium rounded-[4px] hover:bg-white/10 dark:hover:bg-[#12141f] transition-all text-sm">
                             Documentation
                         </a>
                         {/* zenthra.dev — mock, swap href to https://zenthra.dev when live */}
                         <span
                             title="Coming soon — zenthra.dev is not live yet"
-                            class="relative group py-2.5 px-6 border border-dashed border-white/20 text-white/40 font-medium rounded-[4px] text-sm flex items-center gap-2 cursor-not-allowed select-none"
+                            class="relative group py-2.5 px-6 border border-dashed border-white/20 dark:border-[#1e2230] text-white/50 dark:text-[#64748b] font-medium rounded-[4px] text-sm flex items-center gap-2 cursor-not-allowed select-none"
                         >
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                                 <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                             </svg>
                             zenthra.dev
-                            <span class="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white text-[#1b1b21] text-[10px] font-['JetBrains_Mono',monospace] px-2 py-1 rounded-[3px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                            <span class="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white dark:bg-[#0e1017] text-[#1b1b21] dark:text-white border border-[#c6c5d3] dark:border-[#1e2230] text-[10px] font-['JetBrains_Mono',monospace] px-2 py-1 rounded-[3px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-md">
                                 Coming soon
                             </span>
                         </span>

@@ -309,14 +309,14 @@ export default component$(() => {
     });
 
     return (
-        <section class="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24 flex items-center justify-center min-h-[calc(100vh-16rem)] bg-[#f8fafc] dark:bg-[#07070b] transition-colors duration-200">
+        <section class="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24 flex items-center justify-center min-h-[calc(100vh-16rem)] bg-theme-bg transition-colors duration-200">
             <script src="https://accounts.google.com/gsi/client" async defer />
-            <div class="w-full max-w-lg bg-white dark:bg-[#0b0c11]/80 border border-neutral-200 dark:border-[#1e2030] rounded-xl shadow-xl p-8 md:p-10 relative overflow-hidden transition-all">
+            <div class="w-full max-w-lg bg-theme-card border border-theme rounded-xl shadow-xl p-8 md:p-10 relative overflow-hidden transition-all">
                 <div class="text-center mb-8">
-                    <h1 class="font-['Syne',sans-serif] text-3xl font-bold text-neutral-900 dark:text-white mb-2">
+                    <h1 class="font-['Syne',sans-serif] text-3xl font-bold text-theme-primary mb-2">
                         Get Started
                     </h1>
-                    <p class="text-sm text-neutral-500 dark:text-[#94a3b8] max-w-sm mx-auto">
+                    <p class="text-sm text-theme-secondary max-w-sm mx-auto">
                         Create a Zenthra Developer Account to synchronize timelines, manage variables, and monitor telemetry.
                     </p>
                 </div>
@@ -343,13 +343,13 @@ export default component$(() => {
                 {isVerifying.value ? (
                     <form preventdefault:submit onSubmit$={handleVerify} class="space-y-4 mb-6">
                         <div>
-                            <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">6-Digit Verification Code</label>
+                            <label class="block text-xs font-bold text-theme-primary mb-1.5">6-Digit Verification Code</label>
                             <input 
                                 type="text" 
                                 placeholder="123456" 
                                 value={verificationCode.value}
                                 onInput$={(e) => verificationCode.value = (e.target as HTMLInputElement).value}
-                                class="w-full text-center tracking-widest font-mono text-lg border border-neutral-200 dark:border-[#1e2030] rounded-lg p-3 outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                                class="w-full text-center tracking-widest font-mono text-lg border border-theme rounded-lg p-3 outline-none bg-theme-elevated text-theme-primary focus:border-indigo-500 transition-colors" 
                                 disabled={isLoading.value}
                                 maxLength={6}
                                 required
@@ -371,25 +371,25 @@ export default component$(() => {
                         <form preventdefault:submit onSubmit$={handleSignup} class="space-y-4 mb-6">
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">First Name</label>
+                                <label class="block text-xs font-bold text-theme-primary mb-1.5">First Name</label>
                                 <input 
                                     type="text" 
                                     placeholder="John" 
                                     value={firstName.value}
                                     onInput$={(e) => firstName.value = (e.target as HTMLInputElement).value}
-                                    class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                                    class="w-full border border-theme rounded-lg p-2.5 text-sm outline-none bg-theme-elevated text-theme-primary focus:border-indigo-500 transition-colors" 
                                     disabled={isLoading.value}
                                     required
                                 />
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">Last Name</label>
+                                <label class="block text-xs font-bold text-theme-primary mb-1.5">Last Name</label>
                                 <input 
                                     type="text" 
                                     placeholder="Doe" 
                                     value={lastName.value}
                                     onInput$={(e) => lastName.value = (e.target as HTMLInputElement).value}
-                                    class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                                    class="w-full border border-theme rounded-lg p-2.5 text-sm outline-none bg-theme-elevated text-theme-primary focus:border-indigo-500 transition-colors" 
                                     disabled={isLoading.value}
                                     required
                                 />
@@ -397,26 +397,26 @@ export default component$(() => {
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">Email Address</label>
+                            <label class="block text-xs font-bold text-theme-primary mb-1.5">Email Address</label>
                             <input 
                                 type="email" 
                                 placeholder="name@domain.com" 
                                 value={email.value}
                                 onInput$={(e) => email.value = (e.target as HTMLInputElement).value}
-                                class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                                class="w-full border border-theme rounded-lg p-2.5 text-sm outline-none bg-theme-elevated text-theme-primary focus:border-indigo-500 transition-colors" 
                                 disabled={isLoading.value}
                                 required
                             />
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">Password</label>
+                            <label class="block text-xs font-bold text-theme-primary mb-1.5">Password</label>
                             <input 
                                 type="password" 
                                 placeholder="••••••••" 
                                 value={password.value}
                                 onInput$={(e) => password.value = (e.target as HTMLInputElement).value}
-                                class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                                class="w-full border border-theme rounded-lg p-2.5 text-sm outline-none bg-theme-elevated text-theme-primary focus:border-indigo-500 transition-colors" 
                                 disabled={isLoading.value}
                                 required
                             />
@@ -436,10 +436,10 @@ export default component$(() => {
 
                     <div class="relative my-6">
                         <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-neutral-200 dark:border-[#1e2030]" />
+                            <div class="w-full border-t border-theme" />
                         </div>
                         <div class="relative flex justify-center text-xs uppercase">
-                            <span class="bg-white dark:bg-[#0b0c11] px-2 text-neutral-400 font-mono text-[10px] tracking-wider">
+                            <span class="bg-theme-card px-2 text-theme-muted font-mono text-[10px] tracking-wider">
                                 OR CONTINUE WITH
                             </span>
                         </div>
@@ -449,7 +449,7 @@ export default component$(() => {
                         type="button"
                         onClick$={handleGoogleSignup}
                         disabled={isLoading.value}
-                        class="w-full py-2.5 px-4 bg-neutral-50 hover:bg-neutral-100 dark:bg-black/30 dark:hover:bg-white/5 border border-neutral-200 dark:border-[#1e2030] rounded-lg text-xs font-semibold text-neutral-800 dark:text-white flex items-center justify-center gap-2.5 transition-all cursor-pointer mb-6"
+                        class="w-full py-2.5 px-4 bg-theme-elevated hover:opacity-90 border border-theme rounded-lg text-xs font-semibold text-theme-primary flex items-center justify-center gap-2.5 transition-all cursor-pointer mb-6"
                     >
                         <svg class="w-4 h-4" viewBox="0 0 24 24">
                             <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
@@ -463,14 +463,14 @@ export default component$(() => {
                 )}
 
                 <div class="text-center mt-6 space-y-2">
-                    <p class="text-xs text-neutral-500 dark:text-[#94a3b8]">
+                    <p class="text-xs text-theme-secondary">
                         Already have an account?{" "}
                         <a href="/auth/signin" class="text-indigo-600 dark:text-indigo-400 hover:underline font-bold">
                             Sign In
                         </a>
                     </p>
                     <div>
-                        <a href="/" class="text-xs text-neutral-400 dark:text-[#64748b] hover:text-neutral-700 dark:hover:text-white font-bold transition-colors">
+                        <a href="/" class="text-xs text-theme-muted hover:text-theme-primary font-bold transition-colors">
                             &larr; Back to Home
                         </a>
                     </div>

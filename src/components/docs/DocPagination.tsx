@@ -7,14 +7,14 @@ export const DocPagination = component$<{
     onSelect$: PropFunction<(fileId: string) => void>;
 }>(({ prevDoc, nextDoc, onSelect$ }) => {
     return (
-        <div class="mt-12 pt-6 border-t border-[#e9e7ef] flex justify-between gap-4">
+        <div class="mt-12 pt-6 border-t border-neutral-200 dark:border-[#1e2230] flex justify-between gap-4">
             {prevDoc ? (
                 <button
                     onClick$={() => onSelect$(prevDoc.id)}
-                    class="flex flex-col text-left py-2 px-4 rounded-[4px] hover:bg-[#e9e7ef]/30 text-[#4352a5] border border-[#c6c5d3] max-w-[220px] w-full cursor-pointer select-none transition-all"
+                    class="flex flex-col text-left py-2 px-4 rounded-[4px] hover:bg-neutral-100 dark:hover:bg-[#12141f] text-[#5c6bc0] dark:text-[#818cf8] border border-neutral-200 dark:border-[#1e2230] bg-neutral-50 dark:bg-[#0e1017] max-w-[220px] w-full cursor-pointer select-none transition-all"
                 >
-                    <span class="text-[10px] text-[#767683] uppercase font-bold mb-1">Previous</span>
-                    <span class="text-sm font-semibold truncate">{prevDoc.label}</span>
+                    <span class="text-[10px] text-neutral-500 dark:text-[#64748b] uppercase font-bold mb-1">Previous</span>
+                    <span class="text-sm font-semibold text-neutral-900 dark:text-white truncate">{prevDoc.label}</span>
                 </button>
             ) : (
                 <div class="max-w-[220px] w-full" />
@@ -23,10 +23,10 @@ export const DocPagination = component$<{
             {nextDoc ? (
                 <button
                     onClick$={() => onSelect$(nextDoc.id)}
-                    class="flex flex-col text-right py-2 px-4 rounded-[4px] hover:bg-[#e9e7ef]/30 text-[#4352a5] border border-[#c6c5d3] max-w-[220px] w-full cursor-pointer select-none transition-all ml-auto"
+                    class="flex flex-col text-right py-2 px-4 rounded-[4px] hover:bg-neutral-100 dark:hover:bg-[#12141f] text-[#5c6bc0] dark:text-[#818cf8] border border-neutral-200 dark:border-[#1e2230] bg-neutral-50 dark:bg-[#0e1017] max-w-[220px] w-full cursor-pointer select-none transition-all ml-auto"
                 >
-                    <span class="text-[10px] text-[#767683] uppercase font-bold mb-1">Next</span>
-                    <span class="text-sm font-semibold truncate">{nextDoc.label}</span>
+                    <span class="text-[10px] text-neutral-500 dark:text-[#64748b] uppercase font-bold mb-1">Next</span>
+                    <span class="text-sm font-semibold text-neutral-900 dark:text-white truncate">{nextDoc.label}</span>
                 </button>
             ) : (
                 <div class="max-w-[220px] w-full ml-auto" />

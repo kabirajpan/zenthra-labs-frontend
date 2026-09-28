@@ -32,6 +32,22 @@ const APPLICATIONS: ApplicationCard[] = [
         category: "desktop",
     },
     {
+        id: "zenthree",
+        title: "Zenthree",
+        description: "A high-performance GPU-accelerated code editor built in Rust with Zenthra. Features Tree-sitter semantic syntax, native PTY terminal, and integrated AI coding companion.",
+        status: "active",
+        statusLabel: "v0.1.0 (Developer Preview)",
+        platforms: ["Linux", "macOS", "Windows"],
+        link: "/products/zenthra/apps/zenthree/download",
+        icon: (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
+            </svg>
+        ),
+        category: "desktop",
+    },
+    {
         id: "zenfile",
         title: "ZenFile",
         description: "A high-performance native file manager built with Zenthra. Instant loading directory virtual lists, beveled frosted layouts, and fully local filesystem actions.",
@@ -124,20 +140,20 @@ export default component$(() => {
         <section class="max-w-6xl mx-auto px-6 py-12 md:py-20">
             {/* Header */}
             <div class="text-center mb-16 space-y-4">
-                <span class="inline-block px-3 py-1 bg-[#e9e7ef] text-[#4352a5] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
+                <span class="inline-block px-3 py-1 bg-[#e9e7ef] dark:bg-[#1e2235] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#312e81]/40 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
                     Software Suite
                 </span>
-                <h1 class="font-['Syne',sans-serif] text-4xl sm:text-5xl font-bold text-[#1b1b21]">
+                <h1 class="font-['Syne',sans-serif] text-4xl sm:text-5xl font-bold text-[#1b1b21] dark:text-white">
                     Download Center
                 </h1>
-                <p class="text-[#454651] text-base max-w-xl mx-auto">
+                <p class="text-[#454651] dark:text-[#94a3b8] text-base max-w-xl mx-auto">
                     Get the official native applications compiled directly for your platform, built from the ground up using the high-performance Zenthra engine.
                 </p>
             </div>
 
             {/* Tab Selector */}
             <div class="flex justify-center mb-12">
-                <div class="inline-flex p-1 bg-[#e9e7ef] border border-[#c6c5d3] rounded-[8px] gap-1">
+                <div class="inline-flex p-1 bg-[#e9e7ef] dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[8px] gap-1">
                     {[
                         { id: "all", label: "All Apps" },
                         { id: "desktop", label: "Desktop" },
@@ -152,10 +168,10 @@ export default component$(() => {
                                     activeTab.value = tab.id as any;
                                 }}
                                 class={[
-                                    "px-4 py-1.5 rounded-[6px] text-xs font-semibold font-['Syne',sans-serif] transition-all",
+                                    "px-4 py-1.5 rounded-[6px] text-xs font-semibold font-['Syne',sans-serif] transition-all cursor-pointer",
                                     isSelected
                                         ? "bg-[#5c6bc0] text-white shadow-md"
-                                        : "text-[#767683] hover:text-[#1b1b21]",
+                                        : "text-[#767683] dark:text-[#94a3b8] hover:text-[#1b1b21] dark:hover:text-white",
                                 ].join(" ")}
                             >
                                 {tab.label}
@@ -174,10 +190,10 @@ export default component$(() => {
                         <div
                             key={app.id}
                             class={[
-                                "bg-white border border-[#c6c5d3] rounded-[6px] p-6 flex flex-col justify-between transition-all",
+                                "bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[6px] p-6 flex flex-col justify-between transition-all",
                                 isActive 
-                                    ? "hover:border-[#5c6bc0] hover:shadow-md hover:shadow-[#5c6bc0]/5" 
-                                    : "opacity-75 bg-[#fbf8ff]/50"
+                                    ? "hover:border-[#5c6bc0] dark:hover:border-[#5c6bc0]/60 hover:shadow-lg hover:shadow-[#5c6bc0]/5" 
+                                    : "opacity-75 dark:opacity-60 bg-[#fbf8ff]/50 dark:bg-[#0e1017]/50"
                             ].join(" ")}
                         >
                             <div>
@@ -187,23 +203,27 @@ export default component$(() => {
                                         <img
                                             src="/assets/screenshots/after-motion/logos/full.png"
                                             alt="After Motion Logo"
-                                            class="w-12 h-12 rounded-[8px] object-cover shadow-sm"
+                                            class="w-12 h-12 rounded-[4px] object-cover shadow-sm"
                                         />
                                     ) : (
                                         <div class={[
                                             "p-3 rounded-[4px]",
-                                            isActive ? "bg-[#e9e7ef] text-[#4352a5]" : "bg-[#e2e2ec] text-[#767683]"
+                                            isActive 
+                                                ? "bg-[#e9e7ef] dark:bg-[#161928] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#312e81]/40" 
+                                                : "bg-[#e2e2ec] dark:bg-[#12141f] text-[#767683] dark:text-[#64748b] border border-[#c6c5d3]/50 dark:border-[#1e2230]"
                                         ].join(" ")}>
                                             {app.icon}
                                         </div>
                                     )}
                                     <div>
-                                        <h2 class="font-['Syne',sans-serif] text-xl font-bold text-[#1b1b21]">
+                                        <h2 class="font-['Syne',sans-serif] text-xl font-bold text-[#1b1b21] dark:text-white">
                                             {app.title}
                                         </h2>
                                         <span class={[
                                             "text-[10px] font-['JetBrains_Mono',monospace] px-2 py-0.5 rounded-[4px] inline-block mt-0.5",
-                                            isActive ? "bg-[#e3e1e9] text-[#4352a5]" : "bg-[#ececed] text-[#767683]"
+                                            isActive 
+                                                ? "bg-[#e3e1e9] dark:bg-[#1e2235] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#312e81]/40" 
+                                                : "bg-[#ececed] dark:bg-[#161928] text-[#767683] dark:text-[#64748b] border border-[#c6c5d3]/50 dark:border-[#1e2230]"
                                         ].join(" ")}>
                                             {app.statusLabel}
                                         </span>
@@ -211,20 +231,20 @@ export default component$(() => {
                                 </div>
 
                                 {/* Description */}
-                                <p class="text-sm text-[#454651] leading-relaxed mb-6">
+                                <p class="text-sm text-[#454651] dark:text-[#94a3b8] leading-relaxed mb-6">
                                     {app.description}
                                 </p>
 
                                 {/* Supported Platforms */}
                                 <div class="mb-8">
-                                    <span class="text-[10px] font-['JetBrains_Mono',monospace] text-[#767683] block mb-2 uppercase tracking-wider">
+                                    <span class="text-[10px] font-['JetBrains_Mono',monospace] text-[#4352a5] dark:text-[#818cf8] block mb-2 uppercase tracking-wider font-semibold">
                                         Supported Platforms
                                     </span>
                                     <div class="flex flex-wrap gap-1.5">
                                         {app.platforms.map((p) => (
-                                            <span 
+                                             <span 
                                                 key={p} 
-                                                class="px-2 py-0.5 text-xs border border-[#c6c5d3] rounded-[4px] text-[#454651] bg-[#fbf8ff]"
+                                                class="px-2 py-0.5 text-xs border border-[#c6c5d3] dark:border-[#1e2230] rounded-[4px] text-[#454651] dark:text-[#cbd5e1] bg-[#fbf8ff] dark:bg-[#12141f]"
                                             >
                                                 {p}
                                             </span>
@@ -263,7 +283,7 @@ export default component$(() => {
                             ) : (
                                 <button
                                     disabled
-                                    class="py-2.5 px-4 bg-[#ececed] text-[#767683] text-sm font-semibold rounded-[4px] text-center cursor-not-allowed border border-dashed border-[#c6c5d3]"
+                                    class="py-2.5 px-4 bg-[#ececed] dark:bg-[#12141f] text-[#767683] dark:text-[#64748b] text-sm font-semibold rounded-[4px] text-center cursor-not-allowed border border-dashed border-[#c6c5d3] dark:border-[#1e2230]"
                                 >
                                     Coming Soon
                                 </button>
@@ -274,10 +294,10 @@ export default component$(() => {
             </div>
 
             {/* General Info */}
-            <div class="mt-16 bg-[#f5f2fa] border border-[#c6c5d3] rounded-[6px] p-6 text-center max-w-2xl mx-auto">
-                <h3 class="font-['Syne',sans-serif] text-sm font-bold text-[#1b1b21] mb-2">Need a custom environment build?</h3>
-                <p class="text-xs text-[#454651] leading-relaxed">
-                    All apps are open source under the MIT license. You can compile them from source using the cargo toolchain. Check out our <a href="https://github.com/kabirajpan/zenthra-v2" target="_blank" rel="noopener" class="text-[#5c6bc0] underline">GitHub Organization</a> to explore the build requirements.
+            <div class="mt-16 bg-[#f5f2fa] dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[6px] p-6 text-center max-w-2xl mx-auto">
+                <h3 class="font-['Syne',sans-serif] text-sm font-bold text-[#1b1b21] dark:text-white mb-2">Need a custom environment build?</h3>
+                <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
+                    All apps are open source under the MIT license. You can compile them from source using the cargo toolchain. Check out our <a href="https://github.com/kabirajpan/zenthra-v2" target="_blank" rel="noopener" class="text-[#5c6bc0] dark:text-[#818cf8] underline">GitHub Organization</a> to explore the build requirements.
                 </p>
             </div>
         </section>

@@ -44,10 +44,10 @@ const AfterMotionThumbnail = component$(() => (
     <div class="w-full h-full bg-[#0b0813] relative overflow-hidden flex items-center justify-center py-2">
         <div 
             class="absolute inset-0 bg-cover bg-center blur-md opacity-20 scale-110"
-            style="background-image: url('/assets/screenshots/after-motion/editing-screen.png');"
+            style="background-image: url('/assets/screenshots/after-motion/android-medium-1.png');"
         />
         <img
-            src="/assets/screenshots/after-motion/editing-screen.png"
+            src="/assets/screenshots/after-motion/android-medium-1.png"
             alt="After Motion"
             class="h-full w-auto object-contain relative z-10 rounded-[4px] shadow-xl"
         />
@@ -64,11 +64,24 @@ const ZenFileThumbnail = component$(() => (
     </div>
 ));
 
-const DomoThumbnail = component$(() => (
-    <div class="w-full h-full bg-[#f5f2fa] flex items-end justify-center gap-2 px-6 pb-4">
-        {[40, 65, 50, 80, 55, 70, 45].map((h, i) => (
-            <div key={i} class="flex-1 rounded-t-sm bg-[#5c6bc0] opacity-70" style={`height: ${h}%`} />
-        ))}
+const ZenthreeThumbnail = component$(() => (
+    <div class="w-full h-full bg-[#0b0813] flex items-center justify-center overflow-hidden">
+        <img
+            src="/assets/screenshots/zenthree/glassmorphism_mode.png"
+            alt="Zenthree Code Editor"
+            class="w-full h-full object-cover"
+        />
+    </div>
+));
+
+const FlyBrainThumbnail = component$(() => (
+    <div class="w-full h-full bg-[#0b0813] flex items-center justify-center relative overflow-hidden">
+        <img
+            src="/assets/research/fly-decision-net/intent_neural_trajectories.png"
+            alt="Fly Brain Neural Trajectories"
+            class="w-full h-full object-cover rounded-[4px] opacity-85 hover:opacity-100 transition-opacity"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0b0813] via-transparent to-transparent pointer-events-none" />
     </div>
 ));
 
@@ -85,12 +98,12 @@ const FutureLabsThumbnail = component$(() => (
 
 const ZenthraActions = component$(() => (
     <div class="flex flex-wrap gap-2 sm:gap-3">
-        <a href="/products/zenthra" class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all flex items-center justify-center">View Details</a>
-        <a href="https://github.com/kabirajpan/zenthra-v2" target="_blank" rel="noopener" class="py-2 px-4 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] text-sm flex items-center gap-1.5 hover:bg-[#e9e7ef] transition-all">
+        <a href="/products/zenthra" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all flex items-center justify-center">View Details</a>
+        <a href="https://github.com/kabirajpan/zenthra-v2" target="_blank" rel="noopener" class="py-2 px-4 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm flex items-center gap-1.5 hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
             GitHub
         </a>
-        <a href="https://crates.io/crates/zenthra" target="_blank" rel="noopener" class="py-2 px-4 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] text-sm flex items-center gap-1.5 hover:bg-[#e9e7ef] transition-all">
+        <a href="https://crates.io/crates/zenthra" target="_blank" rel="noopener" class="py-2 px-4 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm flex items-center gap-1.5 hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
@@ -101,19 +114,19 @@ const ZenthraActions = component$(() => (
 
 const ZenthraViewActions = component$(() => (
     <div class="flex flex-wrap gap-2 sm:gap-3">
-        <a href="/products/zenthra/apps/zenthra-view" class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
-        <a href="/products/zenthra/apps/zenthra-view/download" class="py-2 px-4 border border-[#c6c5d3] text-[#1b1b21] font-medium rounded-[4px] text-sm hover:bg-[#e9e7ef] transition-all">Download</a>
+        <a href="/products/zenthra/apps/zenthra-view" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
+        <a href="/products/zenthra/apps/zenthra-view/download" class="py-2 px-4 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">Download</a>
     </div>
 ));
 
 const AfterMotionActions = component$(() => (
     <div class="flex flex-wrap gap-2 sm:gap-3">
-        <a href="/products/after-motion" class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
+        <a href="/products/after-motion" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
         <a 
             href="https://play.google.com/store/apps/details?id=com.aftermotion.app" 
             target="_blank" 
             rel="noopener noreferrer" 
-            class="py-2 px-3.5 bg-[#12131a] text-white font-medium rounded-[4px] text-sm hover:bg-[#1b1c26] transition-all flex items-center gap-1.5 shadow-sm"
+            class="py-2 px-3.5 bg-[#12131a] text-white font-medium rounded-[4px] text-sm hover:bg-[#1b1c26] transition-all flex items-center gap-1.5 shadow-sm border border-[#2a2a38]"
         >
             <svg width="16" height="16" viewBox="0 0 24 24" class="shrink-0">
                 <path fill="#EA4335" d="M3.6 2.2C3.2 2.6 3 3.2 3 4v16c0 .8.2 1.4.6 1.8l.1.1 9-9v-.2L3.7 2.1l-.1.1z"/>
@@ -126,21 +139,32 @@ const AfterMotionActions = component$(() => (
     </div>
 ));
 
-const ZenFileActions = component$(() => (
+const ZenthreeActions = component$(() => (
     <div class="flex flex-wrap gap-2 sm:gap-3">
-        <a href="/products/zenthra/apps/file-manager/download" class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">Download</a>
+        <a href="/products/zenthra/apps/zenthree" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
+        <a href="/products/zenthra/apps/zenthree/download" class="py-2 px-4 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">Download</a>
+        <a href="https://github.com/kabirajpan/zenthree" target="_blank" rel="noopener" class="py-2 px-3 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm flex items-center gap-1.5 hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
+        </a>
     </div>
 ));
 
-const DomoActions = component$(() => (
+const ZenFileActions = component$(() => (
     <div class="flex flex-wrap gap-2 sm:gap-3">
-        <a href="/products/domo" class="py-2 px-4 bg-[#5c6bc0] text-[#f8f6ff] font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
+        <a href="/products/zenthra/apps/file-manager" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
+        <a href="/products/zenthra/apps/file-manager/download" class="py-2 px-4 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">Download</a>
+    </div>
+));
+
+const ResearchActions = component$(() => (
+    <div class="flex flex-wrap gap-2 sm:gap-3">
+        <a href="/research" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">Explore R&amp;D</a>
     </div>
 ));
 
 const FutureLabsActions = component$(() => (
     <div class="flex flex-wrap gap-2 sm:gap-3">
-        <span class="py-2 px-4 bg-[#e9e7ef] text-[#767683] font-medium rounded-[4px] text-sm cursor-default">Coming Soon</span>
+        <span class="py-2 px-4 bg-[#f5f2fa] dark:bg-[#151928] text-[#767683] dark:text-[#64748b] border border-[#c6c5d3] dark:border-[#1e2230] font-medium rounded-[4px] text-sm cursor-default">Coming Soon</span>
     </div>
 ));
 
@@ -163,21 +187,21 @@ const ProductCard = component$<CardProps>(({
     category, description, comingSoon = false, Actions,
 }) => {
     const badgeClass = {
-        default: "bg-[#e9e7ef] text-[#454651]",
-        green: "bg-[#d7f5df] text-[#1f6b3a]",
-        muted: "bg-[#e9e7ef] text-[#767683]",
+        default: "bg-[#dee0ff] dark:bg-[#1e2235] text-[#2f3f92] dark:text-[#818cf8] border border-transparent dark:border-[#312e81]/40",
+        green: "bg-[#e2f7e6] dark:bg-emerald-950/60 text-[#147a32] dark:text-emerald-400 border border-transparent dark:border-emerald-800/40",
+        muted: "bg-[#e9e7ef] dark:bg-[#161928] text-[#454651] dark:text-[#64748b] border border-transparent dark:border-[#1e2230]",
     }[badgeVariant];
 
     return (
         <div class={[
-            "bg-white border border-[#c6c5d3] rounded-[4px] overflow-hidden flex flex-col h-full transition-all duration-200",
-            comingSoon ? "opacity-70 border-dashed" : "hover:border-[#4352a5] hover:-translate-y-1",
+            "bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[4px] overflow-hidden flex flex-col h-full transition-all duration-200 shadow-sm",
+            comingSoon ? "opacity-60 border-dashed" : "hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 hover:-translate-y-1",
         ].join(" ")}>
-            <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] bg-[#f5f2fa]">
+            <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] dark:border-[#1e2230] bg-[#fbf8ff] dark:bg-[#07080d]">
                 <Thumbnail />
             </div>
             <div class="p-5 flex flex-col flex-grow">
-                <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] mb-2">{category}</p>
+                <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#4352a5] dark:text-[#818cf8] mb-2">{category}</p>
                 <div class="flex flex-wrap items-center gap-2 mb-2">
                     {title === "After Motion" ? (
                         <img
@@ -186,11 +210,11 @@ const ProductCard = component$<CardProps>(({
                             class="h-6 w-auto object-contain rounded-[4px]"
                         />
                     ) : (
-                        <h3 class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21]">{title}</h3>
+                        <h3 class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21] dark:text-white">{title}</h3>
                     )}
                     {badge && <span class={`px-2 py-0.5 text-xs rounded-[4px] font-medium ${badgeClass}`}>{badge}</span>}
                 </div>
-                <p class="text-[#454651] text-sm leading-relaxed flex-grow">{description}</p>
+                <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed flex-grow">{description}</p>
                 <div class="mt-4"><Actions /></div>
             </div>
         </div>
@@ -203,11 +227,11 @@ export default component$(() => {
     return (
         <section class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
             <div class="mb-10">
-                <h1 class="font-['Syne',sans-serif] text-3xl font-bold text-[#1b1b21]">Products</h1>
-                <p class="text-[#454651] mt-2 text-sm">A portfolio of projects, demos, and future work.</p>
+                <h1 class="font-['Syne',sans-serif] text-3xl font-bold text-[#1b1b21] dark:text-white">Products</h1>
+                <p class="text-[#454651] dark:text-[#94a3b8] mt-2 text-sm">A portfolio of projects, demos, and future work.</p>
             </div>
 
-            <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] mb-4">Frameworks &amp; Tools</p>
+            <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#4352a5] dark:text-[#818cf8] mb-4">Frameworks &amp; Tools</p>
             <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-14">
                 <ProductCard thumbnail={ZenthraThumbnail} title="Zenthra" badge="v1.2 Stable" category="UI Framework"
                     description="A high-performance, Rust-based UI framework for building complex user interfaces with zero-runtime overhead."
@@ -220,23 +244,27 @@ export default component$(() => {
                     comingSoon={true} Actions={FutureLabsActions} />
             </div>
 
-            <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#767683] mb-4">Apps</p>
+            <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#4352a5] dark:text-[#818cf8] mb-4">Apps &amp; Engines</p>
             <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <ProductCard thumbnail={ZenthreeThumbnail} title="Zenthree" badge="New" badgeVariant="green" category="Desktop IDE & Code Editor"
+                    description="A modern GPU-accelerated code editor built in Rust with Zenthra. Tree-sitter semantic syntax, native PTY terminal, and an integrated AI assistant sidecar."
+                    Actions={ZenthreeActions} />
                 <ProductCard thumbnail={AfterMotionThumbnail} title="After Motion" badge="Live" badgeVariant="green" category="Mobile Video Editor"
                     description="A production-ready mobile video editor built for fast, fluid, on-device editing. No subscriptions. No cloud required."
                     Actions={AfterMotionActions} />
                 <ProductCard thumbnail={ZenFileThumbnail} title="ZenFile" badge="v1.0" badgeVariant="green" category="Desktop File Manager"
                     description="A high-performance native file manager built with Zenthra. Instant loading directory virtual lists, beveled frosted layouts, and fully local filesystem actions."
                     Actions={ZenFileActions} />
-                <ProductCard thumbnail={DomoThumbnail} title="Domo" badge="Demo" category="Interactive Demo"
-                    description="A small demo exploring interactive data visualizations and live previews."
-                    Actions={DomoActions} />
+                <ProductCard thumbnail={FlyBrainThumbnail} title="Fly Brain & ZENE" badge="R&D" category="Neuromorphic AI & Agents"
+                    description="Sub-millisecond biological decision kernel based on the Drosophila connectome, powering ZENE's autonomous coding engine with spinal reflex safety gates."
+                    Actions={ResearchActions} />
             </div>
         </section>
     );
 });
 
+
 export const head: DocumentHead = {
     title: "Products — ZenthraLabs",
-    meta: [{ name: "description", content: "Products, demos, and experimental projects from ZenthraLabs." }],
+    meta: [{ name: "description", content: "Production products, native developer tools, and cutting-edge research from ZenthraLabs." }],
 };

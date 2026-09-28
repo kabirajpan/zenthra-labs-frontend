@@ -60,18 +60,18 @@ export default component$(() => {
     return (
         <section class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
             {/* ── Header ── */}
-            <div class="mb-16 border-b border-[#c6c5d3] pb-12">
-                <span class="inline-block px-3 py-1 bg-[#e9e7ef] text-[#4352a5] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px] mb-4">
+            <div class="mb-16 border-b border-[#c6c5d3] dark:border-[#1e2230] pb-12">
+                <span class="inline-block px-3 py-1 bg-[#e9e7ef] dark:bg-[#1e2230] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#5c6bc0]/20 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px] mb-4">
                     ZenthraLabs · Tech Blog
                 </span>
-                <h1 class="font-['Syne',sans-serif] text-3xl lg:text-5xl font-bold text-[#1b1b21] leading-tight mb-4">
+                <h1 class="font-['Syne',sans-serif] text-3xl lg:text-5xl font-bold text-[#1b1b21] dark:text-white leading-tight mb-4">
                     Engineering, graphics research, &amp; native updates.
                 </h1>
-                <p class="text-[#454651] text-base leading-relaxed max-w-2xl">
+                <p class="text-[#454651] dark:text-[#94a3b8] text-base leading-relaxed max-w-2xl">
                     Articles and documentation written by developers at ZenthraLabs on rendering architectures, GUI performance pipelines, and Rust design patterns.
                 </p>
                 <div class="mt-6 flex flex-wrap items-center gap-3">
-                    <a href="/products/after-motion/blog" class="inline-flex items-center gap-2 px-4 py-2 bg-[#0b0813] text-[#e2dff0] border border-violet-700/50 hover:bg-violet-950 transition-all rounded-[6px] text-xs font-['JetBrains_Mono',monospace] shadow-md">
+                    <a href="/products/after-motion/blog" class="inline-flex items-center gap-2 px-4 py-2 bg-[#fbf8ff] dark:bg-[#0b0813] text-[#4352a5] dark:text-[#e2dff0] border border-violet-300 dark:border-violet-700/50 hover:bg-violet-50 dark:hover:bg-violet-950 transition-all rounded-[6px] text-xs font-['JetBrains_Mono',monospace] shadow-md">
                         <span class="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
                         <span>After Motion Engineering Journal &rarr;</span>
                     </a>
@@ -81,36 +81,36 @@ export default component$(() => {
             {/* ── Featured Post Panel ── */}
             {featuredPost && selectedCategory.value === "All" && (
                 <div class="mb-16">
-                    <div class="bg-[#071025] rounded-[6px] overflow-hidden grid grid-cols-12 shadow-xl border border-white/5 group">
+                    <div class="bg-white dark:bg-[#0e1017] rounded-[6px] overflow-hidden grid grid-cols-12 shadow-2xl border border-[#c6c5d3] dark:border-[#1e2230] group">
                         <div class="col-span-12 lg:col-span-7 p-6 sm:p-8 lg:p-12 flex flex-col justify-between">
                             <div>
                                 <div class="flex items-center gap-3 mb-6">
-                                    <span class="px-2 py-0.5 text-[10px] font-['JetBrains_Mono',monospace] bg-[#e9e7ef] text-[#4352a5] rounded-[4px] uppercase tracking-wider">
+                                    <span class="px-2 py-0.5 text-[10px] font-['JetBrains_Mono',monospace] bg-[#e9e7ef] dark:bg-[#1e2230] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#5c6bc0]/20 rounded-[4px] uppercase tracking-wider">
                                         Featured {featuredPost.category}
                                     </span>
-                                    <span class="text-xs text-[#9aa6e0] font-['JetBrains_Mono',monospace]">
+                                    <span class="text-xs text-[#767683] dark:text-[#94a3b8] font-['JetBrains_Mono',monospace]">
                                         {featuredPost.date}
                                     </span>
                                 </div>
-                                <h2 class="font-['Syne',sans-serif] text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 group-hover:text-[#82aaff] transition-colors leading-tight">
+                                <h2 class="font-['Syne',sans-serif] text-xl sm:text-2xl lg:text-3xl font-bold text-[#1b1b21] dark:text-white mb-4 group-hover:text-[#4352a5] dark:group-hover:text-[#818cf8] transition-colors leading-tight">
                                     {featuredPost.title}
                                 </h2>
-                                <p class="text-[#9aa6e0] text-sm leading-relaxed mb-8">
+                                <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed mb-8">
                                     {featuredPost.desc}
                                 </p>
                             </div>
                             <div class="flex items-center justify-between">
-                                <span class="text-xs text-[#7f8ab5] font-['JetBrains_Mono',monospace]">
+                                <span class="text-xs text-[#767683] dark:text-[#64748b] font-['JetBrains_Mono',monospace]">
                                     {featuredPost.readTime}
                                 </span>
-                                <span class="text-xs font-['JetBrains_Mono',monospace] font-bold text-[#82aaff] hover:text-[#5c6bc0] transition-colors cursor-pointer">
+                                <span class="text-xs font-['JetBrains_Mono',monospace] font-bold text-[#4352a5] dark:text-[#818cf8] hover:text-[#2a3674] dark:hover:text-white transition-colors cursor-pointer">
                                     Read Article &rarr;
                                 </span>
                             </div>
                         </div>
-                        <div class="col-span-12 lg:col-span-5 bg-[#12193b] flex items-center justify-center p-8 border-t lg:border-t-0 lg:border-l border-white/5 relative overflow-hidden">
+                        <div class="col-span-12 lg:col-span-5 bg-[#12193b] dark:bg-[#090a10] flex items-center justify-center p-8 border-t lg:border-t-0 lg:border-l border-[#c6c5d3]/30 dark:border-[#1e2230] relative overflow-hidden">
                             <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 2px, transparent 2px, transparent 24px);" />
-                            <div class="w-full max-w-xs aspect-[4/3] bg-[#071025] rounded-[4px] p-4 font-['JetBrains_Mono',monospace] text-[10px] text-[#9aa6e0] leading-relaxed shadow-lg flex flex-col justify-between">
+                            <div class="w-full max-w-xs aspect-[4/3] bg-[#071025] dark:bg-[#07080d] border border-white/10 dark:border-[#1e2230] rounded-[4px] p-4 font-['JetBrains_Mono',monospace] text-[10px] text-[#9aa6e0] leading-relaxed shadow-lg flex flex-col justify-between">
                                 <div class="flex items-center gap-1 mb-2">
                                     <span class="w-2 h-2 rounded-full bg-[#ff6058]" />
                                     <span class="w-2 h-2 rounded-full bg-[#ffbd2e]" />
@@ -128,16 +128,16 @@ export default component$(() => {
             )}
 
             {/* ── Category Filter ── */}
-            <div class="flex flex-wrap gap-2 mb-10 border-b border-[#c6c5d3] pb-6">
+            <div class="flex flex-wrap gap-2 mb-10 border-b border-[#c6c5d3] dark:border-[#1e2230] pb-6">
                 {categories.map((cat) => (
                     <button
                         key={cat}
                         onClick$={() => (selectedCategory.value = cat)}
                         class={[
-                            "px-4 py-1.5 text-xs font-bold rounded-[4px] font-['JetBrains_Mono',monospace] transition-all",
+                            "px-4 py-1.5 text-xs font-bold rounded-[4px] font-['JetBrains_Mono',monospace] transition-all cursor-pointer",
                             selectedCategory.value === cat
-                                ? "bg-[#4352a5] text-white"
-                                : "bg-white border border-[#c6c5d3] text-[#454651] hover:bg-[#e9e7ef]",
+                                ? "bg-[#4352a5] dark:bg-[#5c6bc0] text-white"
+                                : "bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] text-[#454651] dark:text-[#94a3b8] hover:bg-[#e9e7ef] dark:hover:bg-[#12141f] hover:text-[#1b1b21] dark:hover:text-white",
                         ].join(" ")}
                     >
                         {cat}
@@ -150,29 +150,29 @@ export default component$(() => {
                 {filteredPosts.map((post) => (
                     <div
                         key={post.id}
-                        class="bg-white border border-[#c6c5d3] rounded-[4px] p-6 flex flex-col justify-between hover:border-[#4352a5] hover:-translate-y-1 transition-all group cursor-pointer"
+                        class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[6px] p-6 flex flex-col justify-between hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 hover:-translate-y-1 transition-all group cursor-pointer"
                     >
                         <div>
                             <div class="flex items-center justify-between mb-4">
-                                <span class="px-2 py-0.5 text-[9px] font-['JetBrains_Mono',monospace] bg-[#e9e7ef] text-[#767683] rounded-[4px] uppercase tracking-wider">
+                                <span class="px-2 py-0.5 text-[9px] font-['JetBrains_Mono',monospace] bg-[#e9e7ef] dark:bg-[#1e2230] text-[#767683] dark:text-[#818cf8] border border-[#c6c5d3]/40 dark:border-[#5c6bc0]/20 rounded-[4px] uppercase tracking-wider">
                                     {post.category}
                                 </span>
-                                <span class="text-[10px] text-[#767683] font-['JetBrains_Mono',monospace]">
+                                <span class="text-[10px] text-[#767683] dark:text-[#64748b] font-['JetBrains_Mono',monospace]">
                                     {post.date}
                                 </span>
                             </div>
-                            <h3 class="font-['Syne',sans-serif] font-bold text-base text-[#1b1b21] mb-2 group-hover:text-[#4352a5] transition-colors leading-snug">
+                            <h3 class="font-['Syne',sans-serif] font-bold text-base text-[#1b1b21] dark:text-white mb-2 group-hover:text-[#4352a5] dark:group-hover:text-[#818cf8] transition-colors leading-snug">
                                 {post.title}
                             </h3>
-                            <p class="text-xs text-[#454651] leading-relaxed mb-6">
+                            <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed mb-6">
                                 {post.desc}
                             </p>
                         </div>
                         <div class="flex items-center justify-between mt-auto">
-                            <span class="text-[10px] text-[#767683] font-['JetBrains_Mono',monospace]">
+                            <span class="text-[10px] text-[#767683] dark:text-[#64748b] font-['JetBrains_Mono',monospace]">
                                 {post.readTime}
                             </span>
-                            <span class="text-xs font-bold text-[#4352a5] font-['JetBrains_Mono',monospace] opacity-0 group-hover:opacity-100 transition-opacity">
+                            <span class="text-xs font-bold text-[#4352a5] dark:text-[#818cf8] font-['JetBrains_Mono',monospace] opacity-0 group-hover:opacity-100 transition-opacity">
                                 Read More &rarr;
                             </span>
                         </div>

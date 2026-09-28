@@ -559,71 +559,71 @@ fn main() {
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div class="border border-[#c6c5d3] p-4 rounded-[6px] bg-white">
-                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] mb-2">ui.drag()</div>
-                    <p class="text-xs text-[#454651] leading-relaxed">
+                <div class="border border-neutral-200 dark:border-[#1e2230] p-4 rounded-[6px] bg-neutral-50/50 dark:bg-[#0e1017]">
+                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] dark:text-[#818cf8] mb-2">ui.drag()</div>
+                    <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                         Dispatches a native drag request to the OS window manager via <code>WindowAction::Drag</code>. The OS directly assumes mouse cursor control, delivering buttery-smooth 120Hz+ jitter-free motion while preserving native snap docking (Windows Snap, KDE Quick Tile, GNOME tiling).
                     </p>
                 </div>
-                <div class="border border-[#c6c5d3] p-4 rounded-[6px] bg-white">
-                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] mb-2">ui.minimize()</div>
-                    <p class="text-xs text-[#454651] leading-relaxed">
+                <div class="border border-neutral-200 dark:border-[#1e2230] p-4 rounded-[6px] bg-neutral-50/50 dark:bg-[#0e1017]">
+                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] dark:text-[#818cf8] mb-2">ui.minimize()</div>
+                    <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                         Emits <code>WindowAction::Minimize</code>, requesting the native desktop environment to minimize the application window into the dock or taskbar.
                     </p>
                 </div>
-                <div class="border border-[#c6c5d3] p-4 rounded-[6px] bg-white">
-                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] mb-2">ui.maximize()</div>
-                    <p class="text-xs text-[#454651] leading-relaxed">
+                <div class="border border-neutral-200 dark:border-[#1e2230] p-4 rounded-[6px] bg-neutral-50/50 dark:bg-[#0e1017]">
+                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] dark:text-[#818cf8] mb-2">ui.maximize()</div>
+                    <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                         Emits <code>WindowAction::Maximize</code>, toggling the native window state between maximized (full monitor space) and restored geometry.
                     </p>
                 </div>
-                <div class="border border-[#c6c5d3] p-4 rounded-[6px] bg-white">
-                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] mb-2">ui.close()</div>
-                    <p class="text-xs text-[#454651] leading-relaxed">
+                <div class="border border-neutral-200 dark:border-[#1e2230] p-4 rounded-[6px] bg-neutral-50/50 dark:bg-[#0e1017]">
+                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] dark:text-[#818cf8] mb-2">ui.close()</div>
+                    <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                         Emits <code>WindowAction::Close</code>, terminating the application event loop cleanly and exiting the process.
                     </p>
                 </div>
             </div>
 
-            <h2 class="font-['Syne',sans-serif] text-xl font-bold text-[#1b1b21] mb-4">3. Title Bar Architecture &amp; Draggable Spacers</h2>
-            <p class="text-sm text-[#454651] mb-4">
+            <h2 class="font-['Syne',sans-serif] text-xl font-bold text-[#1b1b21] dark:text-white mb-4">3. Title Bar Architecture &amp; Draggable Spacers</h2>
+            <p class="text-sm text-[#454651] dark:text-[#94a3b8] mb-4">
                 A custom title bar is organized horizontally using a <code>row()</code> container partitioned into three distinct functional zones:
             </p>
 
-            <ul class="list-disc pl-5 space-y-2 text-sm text-[#454651] mb-6">
+            <ul class="list-disc pl-5 space-y-2 text-sm text-[#454651] dark:text-[#94a3b8] mb-6">
                 <li><strong>Left Zone:</strong> App icon, title label, and interactive dropdown menus (e.g. <code>ui.menu("File")</code>).</li>
                 <li><strong>Center Zone (Draggable Spacer):</strong> An empty expanding spacer that catches click-and-drag interactions and invokes <code>ui.drag()</code>.</li>
                 <li><strong>Right Zone:</strong> Search bars, notification indicators, and window action buttons (Minimize, Maximize, Close).</li>
             </ul>
 
-            <div class="bg-[#f0f4ff] border-l-4 border-[#5c6bc0] p-4 rounded-r-[6px] mb-6">
-                <h4 class="text-xs font-bold uppercase tracking-wider text-[#4352a5] mb-1">Architecture Tip: Why Use Draggable Spacers?</h4>
-                <p class="text-xs text-[#454651] leading-relaxed">
+            <div class="bg-[#f0f4ff] dark:bg-[#12141f] border-l-4 border-[#5c6bc0] p-4 rounded-r-[6px] mb-6">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-[#4352a5] dark:text-[#818cf8] mb-1">Architecture Tip: Why Use Draggable Spacers?</h4>
+                <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                     Avoid setting <code>.draggable_window(true)</code> on the entire outer title bar container! Doing so causes the OS window manager to intercept all mouse clicks across the entire bar, swallowing clicks intended for menus, buttons, and search inputs. Instead, leave the outer container un-draggable and allocate an empty center spacer with <code>.fill_x()</code> that invokes <code>ui.drag()</code> on press/drag. This ensures buttons and menus stay 100% responsive.
                 </p>
             </div>
 
-            <h2 class="font-['Syne',sans-serif] text-xl font-bold text-[#1b1b21] mb-4">4. Linking the Title Bar with the Main Application</h2>
-            <p class="text-sm text-[#454651] mb-4">
+            <h2 class="font-['Syne',sans-serif] text-xl font-bold text-[#1b1b21] dark:text-white mb-4">4. Linking the Title Bar with the Main Application</h2>
+            <p class="text-sm text-[#454651] dark:text-[#94a3b8] mb-4">
                 Because Zenthra runs on an immediate-mode UI pipeline, your custom title bar is not an isolated native OS widget—it is drawn directly at the top of your layout hierarchy inside the <code>with_ui</code> closure on every frame.
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div class="border border-[#c6c5d3] p-4 rounded-[6px] bg-white">
-                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] mb-2">1. Application State</div>
-                    <p class="text-xs text-[#454651] leading-relaxed">
+                <div class="border border-neutral-200 dark:border-[#1e2230] p-4 rounded-[6px] bg-neutral-50/50 dark:bg-[#0e1017]">
+                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] dark:text-[#818cf8] mb-2">1. Application State</div>
+                    <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                         Declare an <code>AppState</code> struct outside the UI loop to hold active views, open documents/tabs, theme preferences, and sync status.
                     </p>
                 </div>
-                <div class="border border-[#c6c5d3] p-4 rounded-[6px] bg-white">
-                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] mb-2">2. Vertical Column Layout</div>
-                    <p class="text-xs text-[#454651] leading-relaxed">
+                <div class="border border-neutral-200 dark:border-[#1e2230] p-4 rounded-[6px] bg-neutral-50/50 dark:bg-[#0e1017]">
+                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] dark:text-[#818cf8] mb-2">2. Vertical Column Layout</div>
+                    <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                         Inside <code>with_ui(move |ui| ...)</code>, create an outer container with <code>.fill().column()</code> that places the Title Bar (36px fixed) above the Main Workspace (filling remaining height).
                     </p>
                 </div>
-                <div class="border border-[#c6c5d3] p-4 rounded-[6px] bg-white">
-                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] mb-2">3. Reactivity &amp; Redraws</div>
-                    <p class="text-xs text-[#454651] leading-relaxed">
+                <div class="border border-neutral-200 dark:border-[#1e2230] p-4 rounded-[6px] bg-neutral-50/50 dark:bg-[#0e1017]">
+                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] dark:text-[#818cf8] mb-2">3. Reactivity &amp; Redraws</div>
+                    <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                         When title bar widgets (tabs, menus, theme toggles) mutate <code>state</code>, call <code>ui.request_redraw()</code> to immediately schedule the next rendered frame.
                     </p>
                 </div>

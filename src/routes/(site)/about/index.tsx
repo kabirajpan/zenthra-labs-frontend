@@ -5,21 +5,21 @@ export default component$(() => {
     return (
         <section class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
             {/* ── Hero ── */}
-            <div class="mb-16 border-b border-[#c6c5d3] pb-12">
-                <span class="inline-block px-3 py-1 bg-[#e9e7ef] text-[#4352a5] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px] mb-4">
+            <div class="mb-16 border-b border-[#c6c5d3] dark:border-[#1e2230] pb-12">
+                <span class="inline-block px-3 py-1 bg-[#e9e7ef] dark:bg-[#1e2230] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#5c6bc0]/20 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px] mb-4">
                     ZenthraLabs · Our Story
                 </span>
-                <h1 class="font-['Syne',sans-serif] text-3xl lg:text-5xl font-bold text-[#1b1b21] leading-tight mb-4">
+                <h1 class="font-['Syne',sans-serif] text-3xl lg:text-5xl font-bold text-[#1b1b21] dark:text-white leading-tight mb-4">
                     Rebuilding desktop &amp; mobile computing from the metal up.
                 </h1>
-                <p class="text-[#454651] text-base leading-relaxed max-w-3xl">
+                <p class="text-[#454651] dark:text-[#94a3b8] text-base leading-relaxed max-w-3xl">
                     ZenthraLabs was founded in 2024 with a simple belief: modern user interfaces shouldn't require gigabytes of runtime framework overhead. We build GPU-accelerated graphics stacks and low-latency native developer tools for the next generation of computing.
                 </p>
             </div>
 
             {/* ── Core Philosophy & Values ── */}
             <div class="mb-20">
-                <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] mb-8">
+                <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] dark:text-white mb-8">
                     Core Operational Tenets
                 </h2>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -39,15 +39,15 @@ export default component$(() => {
                     ].map((val, idx) => (
                         <div
                             key={idx}
-                            class="bg-white border border-[#c6c5d3] rounded-[4px] p-6 hover:border-[#4352a5] transition-all group"
+                            class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[6px] p-6 hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/50 transition-all group"
                         >
-                            <span class="text-xs font-['JetBrains_Mono',monospace] text-[#767683] block mb-3">
+                            <span class="text-xs font-['JetBrains_Mono',monospace] text-[#767683] dark:text-[#64748b] block mb-3">
                                 0{idx + 1} // VALUE
                             </span>
-                            <h3 class="font-['Syne',sans-serif] font-bold text-lg text-[#1b1b21] mb-2 group-hover:text-[#4352a5] transition-colors">
+                            <h3 class="font-['Syne',sans-serif] font-bold text-lg text-[#1b1b21] dark:text-white mb-2 group-hover:text-[#4352a5] dark:group-hover:text-[#818cf8] transition-colors">
                                 {val.title}
                             </h3>
-                            <p class="text-xs text-[#454651] leading-relaxed">
+                            <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                                 {val.desc}
                             </p>
                         </div>
@@ -56,11 +56,11 @@ export default component$(() => {
             </div>
 
             {/* ── Milestones Timeline ── */}
-            <div class="mb-20 border-t border-[#c6c5d3] pt-12 md:pt-20">
-                <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] mb-12">
+            <div class="mb-20 border-t border-[#c6c5d3] dark:border-[#1e2230] pt-12 md:pt-20">
+                <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] dark:text-white mb-12">
                     Ecosystem Timeline
                 </h2>
-                <div class="space-y-12 relative before:absolute before:inset-y-0 before:left-4 before:w-[1px] before:bg-[#c6c5d3]">
+                <div class="space-y-12 relative before:absolute before:inset-y-0 before:left-4 before:w-[1px] before:bg-[#c6c5d3] dark:before:bg-[#1e2230]">
                     {[
                         {
                             date: "Q1 2024",
@@ -84,16 +84,16 @@ export default component$(() => {
                         },
                     ].map((milestone, idx) => (
                         <div key={idx} class="relative pl-12 group">
-                            <span class="absolute left-2.5 top-1.5 w-3 h-3 rounded-full bg-white border border-[#4352a5] group-hover:bg-[#4352a5] transition-colors" />
+                            <span class="absolute left-2.5 top-1.5 w-3 h-3 rounded-full bg-white dark:bg-[#0e1017] border-2 border-[#4352a5] dark:border-[#818cf8] group-hover:bg-[#4352a5] dark:group-hover:bg-[#818cf8] transition-colors" />
                             <div class="flex flex-col md:flex-row md:items-start gap-2 md:gap-12">
-                                <span class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] tracking-wider md:w-24 shrink-0">
+                                <span class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] dark:text-[#818cf8] tracking-wider md:w-24 shrink-0">
                                     {milestone.date}
                                 </span>
                                 <div>
-                                    <h3 class="font-['Syne',sans-serif] font-bold text-base text-[#1b1b21] mb-1">
+                                    <h3 class="font-['Syne',sans-serif] font-bold text-base text-[#1b1b21] dark:text-white mb-1">
                                         {milestone.title}
                                     </h3>
-                                    <p class="text-xs text-[#454651] leading-relaxed max-w-2xl">
+                                    <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed max-w-2xl">
                                         {milestone.desc}
                                     </p>
                                 </div>
@@ -104,12 +104,12 @@ export default component$(() => {
             </div>
 
             {/* ── Sub CTA Banner ── */}
-            <div class="bg-[#071025] rounded-[6px] p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+            <div class="bg-[#071025] dark:bg-[#0e1017] border border-[#071025] dark:border-[#1e2230] rounded-[6px] p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
                 <div>
                     <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-white mb-2">
                         Build with us.
                     </h2>
-                    <p class="text-[#9aa6e0] text-sm">
+                    <p class="text-[#9aa6e0] dark:text-[#94a3b8] text-sm">
                         All our layout engines and core crates are free, open source, and available on GitHub.
                     </p>
                 </div>
@@ -124,7 +124,7 @@ export default component$(() => {
                     </a>
                     <a
                         href="/products"
-                        class="py-2.5 px-6 border border-white/20 text-white hover:bg-white/10 font-medium rounded-[4px] text-sm transition-colors"
+                        class="py-2.5 px-6 border border-white/20 dark:border-[#1e2230] text-white dark:text-[#e2e8f0] hover:bg-white/10 dark:hover:bg-[#12141f] font-medium rounded-[4px] text-sm transition-colors"
                     >
                         Our Products
                     </a>

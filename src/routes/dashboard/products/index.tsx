@@ -30,6 +30,18 @@ export default component$(() => {
             iconLetter: "AM"
         },
         {
+            id: "zenthree",
+            name: "Zenthree",
+            description: "High-performance GPU-accelerated code editor with Tree-sitter syntax, embedded PTY terminal, and AI assistant.",
+            status: "active",
+            lastLogin: "Today, 4:10 PM",
+            device: "Zenthree Desktop IDE",
+            ip: "192.168.1.14",
+            badgeColor: "#6366f1",
+            launchUrl: "/products/zenthra/apps/zenthree",
+            iconLetter: "ZT"
+        },
+        {
             id: "zenfile",
             name: "ZenFile",
             description: "Distributed file manager and assets syncing vault. Allows developers to share, version control, and lock media assets.",

@@ -45,21 +45,17 @@ export default component$(() => {
         }
     });
 
-    // Restore from localStorage if no query param, and keep activeDoc synced with browser URL
+    // Keep activeDoc synced with browser URL and history
     useVisibleTask$(({ cleanup }) => {
+        try {
+            // Clean up any legacy saved doc so intro remains the clean default
+            localStorage.removeItem("zenthra_active_doc");
+        } catch (e) {
+            void e;
+        }
+
         const urlDoc = new URL(window.location.href).searchParams.get("doc");
-        if (!urlDoc) {
-            try {
-                const savedDoc = localStorage.getItem("zenthra_active_doc");
-                if (savedDoc && docSequence.some(d => d.id === savedDoc)) {
-                    activeDoc.value = savedDoc;
-                    autoExpandPathForFile(savedDoc);
-                    const url = new URL(window.location.href);
-                    url.searchParams.set("doc", savedDoc);
-                    window.history.replaceState(null, "", url.toString());
-                }
-            } catch { /* localStorage not available */ }
-        } else {
+        if (urlDoc) {
             autoExpandPathForFile(urlDoc);
         }
 
@@ -92,9 +88,6 @@ export default component$(() => {
                 url.searchParams.delete("doc");
             }
             window.history.replaceState(null, "", url.toString());
-            try {
-                localStorage.setItem("zenthra_active_doc", fileId);
-            } catch { /* localStorage not available */ }
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
     });
@@ -144,15 +137,15 @@ export default component$(() => {
     const nextDoc = currentIndex < docSequence.length - 1 ? docSequence[currentIndex + 1] : null;
 
     return (
-        <div class="relative min-h-screen bg-[#fbf8ff] text-[#1b1b21]">
+        <div class="relative min-h-screen bg-neutral-50/50 dark:bg-[#07080d] text-neutral-900 dark:text-[#e2e8f0] transition-colors duration-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-6 sm:py-8">
                 {/* Breadcrumbs */}
                 <div class="flex items-center gap-2 mb-6 text-xs font-['JetBrains_Mono',monospace]">
-                    <a href="/products" class="text-[#767683] hover:text-[#4352a5] transition-colors">Products</a>
-                    <span class="text-[#c6c5d3]">/</span>
-                    <a href="/products/zenthra" class="text-[#767683] hover:text-[#4352a5] transition-colors">Zenthra</a>
-                    <span class="text-[#c6c5d3]">/</span>
-                    <span class="text-[#1b1b21] font-semibold">Documentation</span>
+                    <a href="/products" class="text-neutral-500 dark:text-[#94a3b8] hover:text-[#5c6bc0] dark:hover:text-[#818cf8] transition-colors">Products</a>
+                    <span class="text-neutral-300 dark:text-[#1e2230]">/</span>
+                    <a href="/products/zenthra" class="text-neutral-500 dark:text-[#94a3b8] hover:text-[#5c6bc0] dark:hover:text-[#818cf8] transition-colors">Zenthra</a>
+                    <span class="text-neutral-300 dark:text-[#1e2230]">/</span>
+                    <span class="text-neutral-900 dark:text-white font-semibold">Documentation</span>
                 </div>
 
                 <div class="flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
@@ -168,7 +161,7 @@ export default component$(() => {
 
                     {/* Main Content Area */}
                     <div class="flex-1 min-w-0 w-full">
-                        <article class="border border-[#c6c5d3] rounded-[4px] bg-white p-6 sm:p-10 shadow-sm font-['Inter',sans-serif]">
+                        <article class="doc-article border border-neutral-200 dark:border-[#1e2230] rounded-[6px] bg-white dark:bg-[#0e1017] p-6 sm:p-10 shadow-xl font-['Inter',sans-serif] text-neutral-900 dark:text-[#e2e8f0] transition-colors duration-200">
                             <DocContent activeDoc={activeDoc.value} />
 
                             <DocPagination

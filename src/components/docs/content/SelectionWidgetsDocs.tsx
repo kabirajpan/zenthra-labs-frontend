@@ -124,15 +124,15 @@ ui.dropdown(&mut selected_index, options).show();`;
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div class="border border-[#c6c5d3] p-4 rounded-[6px] bg-white">
-                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] mb-2">.shortcut(&amp;str)</div>
-                    <p class="text-xs text-[#454651] leading-relaxed">
+                <div class="border border-neutral-200 dark:border-[#1e2230] p-4 rounded-[6px] bg-neutral-50/50 dark:bg-[#0e1017]">
+                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] dark:text-[#818cf8] mb-2">.shortcut(&amp;str)</div>
+                    <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                         Draws a muted, right-aligned keyboard shortcut pill (e.g. <code>Ctrl+Shift+P</code>, <code>F2</code>, <code>Del</code>) that aligns neatly across all items in the popup.
                     </p>
                 </div>
-                <div class="border border-[#c6c5d3] p-4 rounded-[6px] bg-white">
-                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] mb-2">Radio / Checkmark Markers</div>
-                    <p class="text-xs text-[#454651] leading-relaxed">
+                <div class="border border-neutral-200 dark:border-[#1e2230] p-4 rounded-[6px] bg-neutral-50/50 dark:bg-[#0e1017]">
+                    <div class="font-['JetBrains_Mono',monospace] text-xs font-bold text-[#4352a5] dark:text-[#818cf8] mb-2">Radio / Checkmark Markers</div>
+                    <p class="text-xs text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                         For mutually exclusive choices (such as theme selection or view modes), prefix the label with <code>"● "</code> when active or <code>"  "</code> when inactive.
                     </p>
                 </div>

@@ -148,9 +148,9 @@ export default component$(() => {
 
                             <div class="col-span-12 lg:col-span-5 bg-[#0e091b] p-6 sm:p-8 border-t lg:border-t-0 lg:border-l border-violet-800/30 flex items-center justify-center relative overflow-hidden">
                                 <img
-                                    src="/assets/screenshots/after-motion/editing-screen.png"
+                                    src="/assets/screenshots/after-motion/android-medium-1.png"
                                     alt="After Motion Preview"
-                                    class="max-h-64 sm:max-h-72 w-auto object-contain rounded-[8px] shadow-2xl border border-white/10"
+                                    class="max-h-64 sm:max-h-72 w-auto object-contain rounded-[4px] shadow-2xl border border-white/10"
                                 />
                             </div>
                         </div>

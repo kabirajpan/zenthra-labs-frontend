@@ -1,6 +1,20 @@
 @import "tailwindcss";
+@import "./styles/theme.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-theme-bg: var(--theme-bg);
+  --color-theme-subtle: var(--theme-bg-subtle);
+  --color-theme-surface: var(--theme-surface);
+  --color-theme-card: var(--theme-card);
+  --color-theme-border: var(--theme-border);
+  --color-theme-primary: var(--theme-text-primary);
+  --color-theme-secondary: var(--theme-text-secondary);
+  --color-theme-muted: var(--theme-text-muted);
+  --color-theme-accent: var(--theme-accent);
+  --color-theme-accent-text: var(--theme-accent-text);
+}
 
 /* ─── Hero Section — Simple Square Grid Mesh ─────────────────────────────── */
 
@@ -8,20 +22,16 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(92, 107, 192, 0.18) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(92, 107, 192, 0.18) 1px, transparent 1px);
+    linear-gradient(var(--theme-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--theme-grid-line) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
-/* Right-side fade — grid visible on left, dissolves to white on right */
+/* Right-side fade — grid visible on left, dissolves on right */
 .hero-grid-fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right,
-      transparent 0%,
-      transparent 70%,
-      rgba(251, 248, 255, 0.5) 85%,
-      rgba(251, 248, 255, 0.7) 100%);
+  background: var(--theme-hero-fade);
 }
 
 /* ─── Hero Performance Code Panel ───────────────────────────────────────── */
@@ -284,12 +294,17 @@
 .hero3d-card {
   position: absolute;
   background: #ffffff;
-  /* remove border to visually match the rounded terminal panel */
   border: none;
   border-radius: 8px;
   box-shadow: 0 18px 40px rgba(2, 6, 23, 0.16);
   overflow: hidden;
   will-change: transform;
+}
+
+.dark .hero3d-card {
+  background: #0e1017;
+  border: 1px solid #1e2230;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
 }
 
 /* Title bar */
@@ -299,8 +314,12 @@
   gap: 5px;
   padding: 7px 10px;
   background: #f5f2fa;
-  /* remove bottom border for consistent rounded card */
   border-bottom: none;
+}
+
+.dark .hero3d-bar {
+  background: #141724;
+  border-bottom: 1px solid #1e2230;
 }
 
 .hero3d-dot {
@@ -316,6 +335,10 @@
   color: #767683;
   margin-left: 4px;
   letter-spacing: 0.05em;
+}
+
+.dark .hero3d-bar-title {
+  color: #9aa6e0;
 }
 
 /* Card body */
@@ -338,14 +361,26 @@
   white-space: nowrap;
 }
 
+.dark .hero3d-tline {
+  color: #94a3b8;
+}
+
 .hero3d-ps {
   color: #5c6bc0;
   font-weight: 700;
   margin-right: 5px;
 }
 
+.dark .hero3d-ps {
+  color: #818cf8;
+}
+
 .hero3d-ok {
   color: #28a745;
+}
+
+.dark .hero3d-ok {
+  color: #4ade80;
 }
 
 /* Cursor blink */
@@ -353,6 +388,10 @@
   display: inline-block;
   color: #5c6bc0;
   animation: hero3dBlink 1s step-end infinite;
+}
+
+.dark .hero3d-cursor {
+  color: #818cf8;
 }
 
 @keyframes hero3dBlink {
@@ -376,9 +415,17 @@
   color: #1b1b21;
 }
 
+.dark .hero3d-srow {
+  color: #e2e8f0;
+}
+
 .hero3d-live {
   color: #28a745;
   font-size: 8px;
+}
+
+.dark .hero3d-live {
+  color: #4ade80;
 }
 
 .hero3d-ms {
@@ -388,12 +435,21 @@
   font-size: 9px;
 }
 
+.dark .hero3d-ms {
+  color: #818cf8;
+}
+
 .hero3d-uptime {
   font-size: 8px;
   color: #767683;
   margin-top: 4px;
   padding-top: 6px;
   border-top: 1px solid #e3e1e9;
+}
+
+.dark .hero3d-uptime {
+  color: #94a3b8;
+  border-top: 1px solid #1e2230;
 }
 
 /* Product rows */
@@ -416,6 +472,10 @@
   font-family: 'Syne', sans-serif;
 }
 
+.dark .hero3d-pname {
+  color: #e2e8f0;
+}
+
 .hero3d-badge {
   font-size: 8px;
   font-weight: 600;
@@ -428,9 +488,19 @@
   color: #454651;
 }
 
+.dark .hero3d-stable {
+  background: #1e2235;
+  color: #818cf8;
+}
+
 .hero3d-beta {
   background: #dee0ff;
   color: #2f3f92;
+}
+
+.dark .hero3d-beta {
+  background: #232742;
+  color: #93c5fd;
 }
 
 .hero3d-ea {
@@ -438,22 +508,105 @@
   color: #5f4100;
 }
 
+.dark .hero3d-ea {
+  background: #3b2810;
+  color: #fcd34d;
+}
+
 /* ─── Documentation Locked Sidebar & Content Scrollbar ────────────────────────── */
 .docs-sidebar-scroll {
   scrollbar-width: thin;
   scrollbar-color: #c6c5d3 transparent;
 }
+
+.dark .docs-sidebar-scroll {
+  scrollbar-color: #1e2230 transparent;
+}
+
 .docs-sidebar-scroll::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
+
 .docs-sidebar-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .docs-sidebar-scroll::-webkit-scrollbar-thumb {
   background-color: #c6c5d3;
   border-radius: 4px;
 }
+
+.dark .docs-sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: #1e2230;
+}
+
 .docs-sidebar-scroll::-webkit-scrollbar-thumb:hover {
   background-color: #767683;
+}
+
+.dark .docs-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #5c6bc0;
+}
+
+/* ─── Documentation Dark Content Typography Overrides ───────────────────────── */
+.dark .doc-article h1,
+.dark .doc-article h2,
+.dark .doc-article h3,
+.dark .doc-article h4 {
+  color: #ffffff !important;
+}
+
+.dark .doc-article p,
+.dark .doc-article li {
+  color: #94a3b8 !important;
+}
+
+.dark .doc-article strong {
+  color: #ffffff !important;
+}
+
+.dark .doc-article code:not(pre code) {
+  background-color: #12141f !important;
+  color: #818cf8 !important;
+  border: 1px solid #1e2230 !important;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+}
+
+.dark .doc-article div[class*="bg-[#f5f2fa]"] {
+  background-color: #12141f !important;
+  border-color: #5c6bc0 !important;
+  color: #818cf8 !important;
+}
+
+.dark .doc-article div[class*="bg-white"],
+.dark .doc-article .bg-white {
+  background-color: #0e1017 !important;
+  border-color: #1e2230 !important;
+}
+
+.dark .doc-article div[class*="text-[#4352a5]"] {
+  color: #818cf8 !important;
+}
+
+.dark .doc-article div[class*="border-[#c6c5d3]"] {
+  border-color: #1e2230 !important;
+}
+
+.dark .doc-article table {
+  border-color: #1e2230 !important;
+}
+
+.dark .doc-article th,
+.dark .doc-article td {
+  border-color: #1e2230 !important;
+  color: #94a3b8 !important;
+}
+
+.dark .doc-article th {
+  background-color: #12141f !important;
+  color: #ffffff !important;
 }

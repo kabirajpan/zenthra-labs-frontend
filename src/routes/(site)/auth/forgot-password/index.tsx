@@ -48,16 +48,16 @@ export default component$(() => {
     });
 
     return (
-        <section class="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24 flex items-center justify-center min-h-[calc(100vh-16rem)] bg-[#f8fafc] dark:bg-[#07070b] transition-colors duration-200">
-            <div class="w-full max-w-lg bg-white dark:bg-[#0b0c11]/80 border border-neutral-200 dark:border-[#1e2030] rounded-xl shadow-xl p-8 md:p-10 relative overflow-hidden transition-all">
+        <section class="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24 flex items-center justify-center min-h-[calc(100vh-16rem)] bg-theme-bg transition-colors duration-200">
+            <div class="w-full max-w-lg bg-theme-card border border-theme rounded-xl shadow-xl p-8 md:p-10 relative overflow-hidden transition-all">
                 {/* Accent line */}
                 <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 to-indigo-700" />
 
                 <div class="text-center mb-8">
-                    <h1 class="font-['Syne',sans-serif] text-3xl font-bold text-neutral-900 dark:text-white mb-2">
+                    <h1 class="font-['Syne',sans-serif] text-3xl font-bold text-theme-primary mb-2">
                         Reset Password
                     </h1>
-                    <p class="text-sm text-neutral-500 dark:text-[#94a3b8] max-w-sm mx-auto">
+                    <p class="text-sm text-theme-secondary max-w-sm mx-auto">
                         Enter your registered email address or phone number, and we will send you instructions to reset your password.
                     </p>
                 </div>
@@ -83,13 +83,13 @@ export default component$(() => {
                 {/* Form */}
                 <form preventdefault:submit onSubmit$={handleResetRequest} class="space-y-4 mb-6">
                     <div>
-                        <label class="block text-xs font-bold text-neutral-700 dark:text-[#e2e8f0] mb-1.5">Email Address</label>
+                        <label class="block text-xs font-bold text-theme-primary mb-1.5">Email Address</label>
                         <input 
                             type="email" 
                             placeholder="name@domain.com" 
                             value={email.value}
                             onInput$={(e) => email.value = (e.target as HTMLInputElement).value}
-                            class="w-full border border-neutral-200 dark:border-[#1e2030] rounded-lg p-2.5 text-sm outline-none bg-neutral-50 dark:bg-black/30 text-neutral-900 dark:text-white focus:border-indigo-500 transition-colors" 
+                            class="w-full border border-theme rounded-lg p-2.5 text-sm outline-none bg-theme-elevated text-theme-primary focus:border-indigo-500 transition-colors" 
                             disabled={isLoading.value}
                             required
                         />

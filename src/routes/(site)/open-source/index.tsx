@@ -69,14 +69,14 @@ export default component$(() => {
     return (
         <section class="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16">
             {/* ── Hero ── */}
-            <div class="mb-16 border-b border-[#c6c5d3] pb-12">
-                <span class="inline-block px-3 py-1 bg-[#e9e7ef] text-[#4352a5] font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px] mb-4">
+            <div class="mb-16 border-b border-[#c6c5d3] dark:border-[#1e2230] pb-12">
+                <span class="inline-block px-3 py-1 bg-[#e9e7ef] dark:bg-[#1e2230] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#5c6bc0]/20 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px] mb-4">
                     ZenthraLabs · Open Source
                 </span>
-                <h1 class="font-['Syne',sans-serif] text-3xl lg:text-5xl font-bold text-[#1b1b21] leading-tight mb-4">
+                <h1 class="font-['Syne',sans-serif] text-3xl lg:text-5xl font-bold text-[#1b1b21] dark:text-white leading-tight mb-4">
                     Building in public. Building for speed.
                 </h1>
-                <p class="text-[#454651] text-base leading-relaxed max-w-2xl">
+                <p class="text-[#454651] dark:text-[#94a3b8] text-base leading-relaxed max-w-2xl">
                     All core crates and layout engines under the Zenthra framework are open source under the MIT and Apache 2.0 licenses. Join us in forging the future of immediate-mode desktop and mobile UI rendering.
                 </p>
             </div>
@@ -85,14 +85,14 @@ export default component$(() => {
             <div class="mb-20">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                     <div>
-                        <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] mb-2">Core Registry Packages</h2>
-                        <p class="text-xs text-[#767683]">Individual cargo crates published and maintained by ZenthraLabs.</p>
+                        <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] dark:text-white mb-2">Core Registry Packages</h2>
+                        <p class="text-xs text-[#454651] dark:text-[#94a3b8]">Individual cargo crates published and maintained by ZenthraLabs.</p>
                     </div>
                     <a
                         href="https://crates.io/teams/github:kabirajpan:zenthra-publishers"
                         target="_blank"
                         rel="noopener"
-                        class="px-4 py-2 border border-[#c6c5d3] hover:bg-[#e9e7ef] text-sm font-medium rounded-[4px] transition-all flex items-center justify-center gap-1.5 self-start sm:self-auto"
+                        class="px-4 py-2 border border-[#c6c5d3] dark:border-[#1e2230] bg-white dark:bg-[#0e1017] hover:bg-[#e9e7ef] dark:hover:bg-[#12141f] text-sm font-medium text-[#454651] dark:text-[#e2e8f0] rounded-[4px] transition-all flex items-center justify-center gap-1.5 self-start sm:self-auto"
                     >
                         crates.io Team
                     </a>
@@ -102,25 +102,25 @@ export default component$(() => {
                     {CRATES.map((c) => (
                         <div
                             key={c.name}
-                            class="bg-white border border-[#c6c5d3] rounded-[4px] p-5 flex flex-col justify-between hover:border-[#4352a5] transition-all group"
+                            class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[6px] p-5 flex flex-col justify-between hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 transition-all group"
                         >
                             <div>
                                 <div class="flex items-center justify-between mb-3">
-                                    <span class="font-['JetBrains_Mono',monospace] text-sm font-bold text-[#1b1b21] group-hover:text-[#4352a5] transition-colors">
+                                    <span class="font-['JetBrains_Mono',monospace] text-sm font-bold text-[#1b1b21] dark:text-white group-hover:text-[#4352a5] dark:group-hover:text-[#818cf8] transition-colors">
                                         {c.name}
                                     </span>
-                                    <span class="px-2 py-0.5 text-[10px] font-['JetBrains_Mono',monospace] bg-[#e9e7ef] text-[#767683] rounded-[4px]">
+                                    <span class="px-2 py-0.5 text-[10px] font-['JetBrains_Mono',monospace] bg-[#e9e7ef] dark:bg-[#1e2230] text-[#767683] dark:text-[#818cf8] border border-[#c6c5d3]/40 dark:border-[#5c6bc0]/20 rounded-[4px]">
                                         v{c.version}
                                     </span>
                                 </div>
-                                <p class="text-[#454651] text-xs leading-relaxed mb-6">{c.desc}</p>
+                                <p class="text-[#454651] dark:text-[#94a3b8] text-xs leading-relaxed mb-6">{c.desc}</p>
                             </div>
                             <div class="flex gap-4">
                                 <a
                                     href={`https://crates.io/crates/${c.name}`}
                                     target="_blank"
                                     rel="noopener"
-                                    class="text-[11px] font-['JetBrains_Mono',monospace] font-bold text-[#5c6bc0] hover:text-[#4352a5] transition-colors flex items-center gap-1"
+                                    class="text-[11px] font-['JetBrains_Mono',monospace] font-bold text-[#5c6bc0] dark:text-[#818cf8] hover:text-[#4352a5] dark:hover:text-white transition-colors flex items-center gap-1"
                                 >
                                     crates.io →
                                 </a>
@@ -128,7 +128,7 @@ export default component$(() => {
                                     href={`https://github.com/kabirajpan/zenthra-v2/tree/main/crates/${c.name}`}
                                     target="_blank"
                                     rel="noopener"
-                                    class="text-[11px] font-['JetBrains_Mono',monospace] font-bold text-[#767683] hover:text-[#1b1b21] transition-colors flex items-center gap-1"
+                                    class="text-[11px] font-['JetBrains_Mono',monospace] font-bold text-[#767683] dark:text-[#64748b] hover:text-[#1b1b21] dark:hover:text-[#94a3b8] transition-colors flex items-center gap-1"
                                 >
                                     source →
                                 </a>
@@ -139,31 +139,31 @@ export default component$(() => {
             </div>
 
             {/* ── Architecture & Philosophy ── */}
-            <div class="grid grid-cols-12 gap-8 lg:gap-12 items-center mb-20 border-t border-[#c6c5d3] pt-20">
+            <div class="grid grid-cols-12 gap-8 lg:gap-12 items-center mb-20 border-t border-[#c6c5d3] dark:border-[#1e2230] pt-20">
                 <div class="col-span-12 lg:col-span-6 space-y-6">
-                    <h2 class="font-['Syne',sans-serif] text-2xl sm:text-3xl font-bold text-[#1b1b21]">High-Performance Rust Architecture</h2>
-                    <p class="text-sm text-[#454651] leading-relaxed">
+                    <h2 class="font-['Syne',sans-serif] text-2xl sm:text-3xl font-bold text-[#1b1b21] dark:text-white">High-Performance Rust Architecture</h2>
+                    <p class="text-sm text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                         Zenthra's core pipeline decouples system multi-window event loops from the main UI thread. Layout is computed on a dedicated thread using specialized coordinate buffers, passing binary draw commands straight to low-level OpenGL/Vulkan contexts.
                     </p>
-                    <p class="text-sm text-[#454651] leading-relaxed">
+                    <p class="text-sm text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                         This guarantees that heavy computation, network requests, or disk indexing processes never cause keyframe dropped frames or micro-stuttering in animations.
                     </p>
                     <div class="flex gap-4 pt-2">
                         <div class="flex items-center gap-2">
                             <span class="w-2.5 h-2.5 rounded-full bg-[#28ca41]" />
-                            <span class="text-xs font-['JetBrains_Mono',monospace] text-[#454651]">MIT Licensed</span>
+                            <span class="text-xs font-['JetBrains_Mono',monospace] text-[#454651] dark:text-[#94a3b8]">MIT Licensed</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <span class="w-2.5 h-2.5 rounded-full bg-[#28ca41]" />
-                            <span class="text-xs font-['JetBrains_Mono',monospace] text-[#454651]">Apache 2.0 Licensed</span>
+                            <span class="text-xs font-['JetBrains_Mono',monospace] text-[#454651] dark:text-[#94a3b8]">Apache 2.0 Licensed</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Code Block */}
                 <div class="col-span-12 lg:col-span-6">
-                    <div class="bg-[#071025] rounded-[6px] overflow-hidden shadow-xl font-['JetBrains_Mono',monospace] w-full">
-                        <div class="flex items-center gap-1.5 px-4 py-3 border-b border-white/5">
+                    <div class="bg-[#071025] dark:bg-[#07080d] border border-transparent dark:border-[#1e2230] rounded-[6px] overflow-hidden shadow-xl font-['JetBrains_Mono',monospace] w-full">
+                        <div class="flex items-center gap-1.5 px-4 py-3 border-b border-white/5 dark:border-[#1e2230]">
                             <span class="w-2.5 h-2.5 rounded-full bg-[#ff6058]" />
                             <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
                             <span class="w-2.5 h-2.5 rounded-full bg-[#28ca41]" />
@@ -191,10 +191,10 @@ export default component$(() => {
             </div>
 
             {/* ── Sub CTA Banner ── */}
-            <div class="bg-[#071025] rounded-[6px] p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+            <div class="bg-[#071025] dark:bg-[#0e1017] border border-[#071025] dark:border-[#1e2230] rounded-[6px] p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
                 <div>
                     <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-white mb-2">Want to contribute?</h2>
-                    <p class="text-[#9aa6e0] text-sm">We welcome code contributions, issue reports, and documentation improvements.</p>
+                    <p class="text-[#9aa6e0] dark:text-[#94a3b8] text-sm">We welcome code contributions, issue reports, and documentation improvements.</p>
                 </div>
                 <div class="flex flex-wrap gap-4 justify-center md:justify-start">
                     <a
@@ -205,7 +205,7 @@ export default component$(() => {
                     >
                         GitHub Repository
                     </a>
-                    <a href="/products" class="py-2.5 px-6 border border-white/20 text-white hover:bg-white/10 font-medium rounded-[4px] text-sm transition-colors">
+                    <a href="/products" class="py-2.5 px-6 border border-white/20 dark:border-[#1e2230] text-white dark:text-[#e2e8f0] hover:bg-white/10 dark:hover:bg-[#12141f] font-medium rounded-[4px] text-sm transition-colors">
                         View Products
                     </a>
                 </div>

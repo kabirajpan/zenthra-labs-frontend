@@ -1,0 +1,117 @@
+/* ─── ZenthraLabs Global Theme System ──────────────────────────────────────── */
+
+:root {
+  /* Surface / Backgrounds */
+  --theme-bg: #f8fafc;
+  --theme-bg-subtle: #fbf8ff;
+  --theme-surface: #ffffff;
+  --theme-surface-hover: #f1f5f9;
+  --theme-card: #ffffff;
+  --theme-card-hover: #f8fafc;
+  --theme-elevated: #e9e7ef;
+  --theme-nav: rgba(255, 255, 255, 0.85);
+
+  /* Borders */
+  --theme-border: #c6c5d3;
+  --theme-border-subtle: rgba(198, 197, 211, 0.5);
+  --theme-border-hover: #5c6bc0;
+
+  /* Typography */
+  --theme-text-primary: #1b1b21;
+  --theme-text-secondary: #454651;
+  --theme-text-muted: #767683;
+
+  /* Accents & Brand */
+  --theme-accent: #5c6bc0;
+  --theme-accent-hover: #4d5cb0;
+  --theme-accent-subtle: #e9e7ef;
+  --theme-accent-text: #4352a5;
+  --theme-badge-bg: #e9e7ef;
+  --theme-badge-text: #4352a5;
+
+  /* Hero Grids & Effects */
+  --theme-grid-line: rgba(92, 107, 192, 0.16);
+  --theme-hero-fade: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 65%,
+    rgba(248, 250, 252, 0.7) 85%,
+    rgba(248, 250, 252, 0.98) 100%
+  );
+  --theme-hero-bg: #f8fafc;
+
+  /* Cards & Shadows */
+  --theme-shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  --theme-shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.08);
+
+  /* Scrollbars */
+  --theme-scroll-thumb: #c6c5d3;
+  --theme-scroll-thumb-hover: #767683;
+}
+
+html.dark,
+.dark {
+  /* Surface / Backgrounds */
+  --theme-bg: #07080d;
+  --theme-bg-subtle: #090a10;
+  --theme-surface: #0e1017;
+  --theme-surface-hover: #12141f;
+  --theme-card: #0e1017;
+  --theme-card-hover: #151928;
+  --theme-elevated: #161928;
+  --theme-nav: rgba(7, 8, 13, 0.85);
+
+  /* Borders */
+  --theme-border: #1e2230;
+  --theme-border-subtle: rgba(30, 34, 48, 0.7);
+  --theme-border-hover: rgba(92, 107, 192, 0.6);
+
+  /* Typography */
+  --theme-text-primary: #ffffff;
+  --theme-text-secondary: #94a3b8;
+  --theme-text-muted: #64748b;
+
+  /* Accents & Brand */
+  --theme-accent: #5c6bc0;
+  --theme-accent-hover: #818cf8;
+  --theme-accent-subtle: #1e2230;
+  --theme-accent-text: #818cf8;
+  --theme-badge-bg: #1e2230;
+  --theme-badge-text: #818cf8;
+
+  /* Hero Grids & Effects */
+  --theme-grid-line: rgba(92, 107, 192, 0.12);
+  --theme-hero-fade: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 60%,
+    rgba(7, 8, 13, 0.7) 85%,
+    rgba(7, 8, 13, 0.98) 100%
+  );
+  --theme-hero-bg: #07080d;
+
+  /* Cards & Shadows */
+  --theme-shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  --theme-shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.5);
+
+  /* Scrollbars */
+  --theme-scroll-thumb: #1e2230;
+  --theme-scroll-thumb-hover: #5c6bc0;
+}
+
+/* ─── Global Utility Classes for Seamless Theme Switching ─────────────────── */
+
+.bg-theme-bg { background-color: var(--theme-bg); }
+.bg-theme-subtle { background-color: var(--theme-bg-subtle); }
+.bg-theme-surface { background-color: var(--theme-surface); }
+.bg-theme-card { background-color: var(--theme-card); }
+.bg-theme-elevated { background-color: var(--theme-elevated); }
+.bg-theme-nav { background-color: var(--theme-nav); }
+
+.text-theme-primary { color: var(--theme-text-primary); }
+.text-theme-secondary { color: var(--theme-text-secondary); }
+.text-theme-muted { color: var(--theme-text-muted); }
+.text-theme-accent { color: var(--theme-accent-text); }
+
+.border-theme { border-color: var(--theme-border); }
+.border-theme-subtle { border-color: var(--theme-border-subtle); }

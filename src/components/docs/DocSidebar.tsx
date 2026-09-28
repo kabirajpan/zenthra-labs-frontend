@@ -25,10 +25,10 @@ export const TreeNodeView = component$<{
                 }}
                 style={{ paddingLeft: `${level * 12 + 6}px` }}
                 class={[
-                    "w-full flex items-center gap-2 py-1.5 pr-2 text-left text-xs font-['Inter',sans-serif] hover:bg-[#e9e7ef]/35 rounded-[3px] transition-all cursor-pointer group select-none",
+                    "w-full flex items-center gap-2 py-1.5 pr-2 text-left text-xs font-['Inter',sans-serif] hover:bg-neutral-100 dark:hover:bg-[#12141f] rounded-[4px] transition-all cursor-pointer group select-none",
                     isActive
-                        ? "text-[#4352a5] bg-[#e9e7ef]/60 font-bold border-l-2 border-[#5c6bc0] -ml-[2px]"
-                        : "text-[#454651] font-medium"
+                        ? "text-[#5c6bc0] dark:text-[#818cf8] bg-indigo-50 dark:bg-[#1a1e2e] font-bold border-l-2 border-[#5c6bc0] -ml-[2px]"
+                        : "text-neutral-600 dark:text-[#94a3b8] font-medium"
                 ].join(" ")}
             >
                 {isFolder ? (
@@ -38,7 +38,7 @@ export const TreeNodeView = component$<{
                         stroke="currentColor"
                         stroke-width="2.5"
                         class={[
-                            "w-3 h-3 text-[#767683] shrink-0 transition-transform duration-150",
+                            "w-3 h-3 text-neutral-400 dark:text-[#64748b] shrink-0 transition-transform duration-150",
                             isExpanded ? "rotate-90" : ""
                         ].join(" ")}
                     >
@@ -80,7 +80,7 @@ export const DocSidebar = component$<{
 }>(({ filteredTree, searchQuery, activeDoc, expandedPaths, onToggle$, onSelectFile$ }) => {
     return (
         <aside class="w-full lg:w-72 shrink-0 lg:sticky lg:top-20 lg:h-[calc(100vh-6rem)] flex flex-col">
-            <div class="border border-[#c6c5d3] rounded-[4px] bg-white p-3 shadow-sm font-['Inter',sans-serif] flex flex-col h-full overflow-hidden">
+            <div class="border border-neutral-200 dark:border-[#1e2230] rounded-[6px] bg-white dark:bg-[#0e1017] p-3 shadow-lg font-['Inter',sans-serif] flex flex-col h-full overflow-hidden transition-colors">
                 <div class="mb-3 shrink-0">
                     <div class="relative">
                         <input
@@ -90,10 +90,10 @@ export const DocSidebar = component$<{
                             onInput$={(e) => {
                                 searchQuery.value = (e.target as HTMLInputElement).value;
                             }}
-                            class="w-full pl-8 pr-3 py-1.5 text-xs bg-[#f5f2fa] border border-[#c6c5d3] rounded-[3px] focus:outline-none focus:border-[#4352a5] focus:bg-white text-[#1b1b21] placeholder-[#767683] transition-colors"
+                            class="w-full pl-8 pr-3 py-1.5 text-xs bg-neutral-50 dark:bg-[#07080d] border border-neutral-200 dark:border-[#1e2230] rounded-[4px] focus:outline-none focus:border-[#5c6bc0] text-neutral-900 dark:text-[#e2e8f0] placeholder-neutral-400 dark:placeholder-[#64748b] transition-colors"
                         />
                         <svg
-                            class="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-[#767683]"
+                            class="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-neutral-400 dark:text-[#64748b]"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -110,7 +110,7 @@ export const DocSidebar = component$<{
                                 onClick$={() => {
                                     searchQuery.value = "";
                                 }}
-                                class="absolute right-2.5 top-2 text-xs text-[#767683] hover:text-[#1b1b21]"
+                                class="absolute right-2.5 top-2 text-xs text-neutral-400 dark:text-[#64748b] hover:text-neutral-700 dark:hover:text-white"
                             >
                                 ×
                             </button>
@@ -118,7 +118,7 @@ export const DocSidebar = component$<{
                     </div>
                 </div>
 
-                <div class="text-[10px] font-bold text-[#767683] uppercase tracking-wider mb-2 px-1 shrink-0 font-['JetBrains_Mono',monospace]">
+                <div class="text-[10px] font-bold text-neutral-500 dark:text-[#64748b] uppercase tracking-wider mb-2 px-1 shrink-0 font-['JetBrains_Mono',monospace]">
                     Zenthra Architecture &amp; APIs
                 </div>
 
@@ -136,7 +136,7 @@ export const DocSidebar = component$<{
                             />
                         ))
                     ) : (
-                        <div class="py-6 text-center text-xs text-[#767683] font-medium italic">
+                        <div class="py-6 text-center text-xs text-neutral-500 dark:text-[#64748b] font-medium italic">
                             No matches found
                         </div>
                     )}
