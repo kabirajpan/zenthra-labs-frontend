@@ -105,21 +105,6 @@ const ZeneTerminalThumbnail = component$(() => (
     </div>
 ));
 
-const ZeneArtworkThumbnail = component$(() => (
-    <div class="w-full h-full bg-[#05060f] relative overflow-hidden group/art flex items-center justify-center">
-        <img
-            src="/assets/products/zene_neural_artwork.jpg"
-            alt="ZENE Neuromorphic Neural Circuit and Code Mesh"
-            class="w-full h-full object-cover group-hover/art:scale-105 transition-transform duration-500"
-            width={640}
-            height={400}
-        />
-        <div class="absolute inset-0 bg-gradient-to-t from-[#05060f]/80 via-transparent to-transparent pointer-events-none" />
-        <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded bg-purple-950/80 text-purple-200 border border-purple-500/40 text-[9px] font-['JetBrains_Mono',monospace] font-semibold tracking-wider uppercase backdrop-blur-xs">
-            Neuromorphic AI
-        </span>
-    </div>
-));
 
 const FutureLabsThumbnail = component$(() => (
     <div class="w-full h-full bg-[#f5f2fa] flex flex-col items-center justify-center gap-2">
@@ -202,11 +187,6 @@ const ZeneActions = component$(() => (
     </div>
 ));
 
-const ResearchActions = component$(() => (
-    <div class="flex flex-wrap gap-2 sm:gap-3">
-        <a href="/research" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">Explore R&amp;D</a>
-    </div>
-));
 
 const FutureLabsActions = component$(() => (
     <div class="flex flex-wrap gap-2 sm:gap-3">
