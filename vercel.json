@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    { "source": "/privacy", "destination": "/legal/privacy/" },
+    { "source": "/privacy/", "destination": "/legal/privacy/" },
+    { "source": "/delete-account", "destination": "/legal/privacy/" },
+    { "source": "/delete-account/", "destination": "/legal/privacy/" }
+  ],
   "headers": [
     {
       "source": "/(.*)?service-worker.js",
