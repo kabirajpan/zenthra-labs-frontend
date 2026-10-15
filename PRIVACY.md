@@ -1,15 +1,15 @@
-# Privacy Policy & Data Deletion — After Motion: Video Editor
+# Privacy Policy & Data Deletion — Morph-X: Motion & Video Editor
 
-**Last Updated:** October 4, 2026  
+**Last Updated:** October 15, 2026  
 **Developer:** Zenthra Labs (`kabirajpan`)  
-**App:** After Motion: Video Editor  
+**App:** Morph-X: Motion & Video Editor (formerly After Motion)  
 **Package:** `com.aftermotion.app`  
 
 ---
 
 ## 1. Overview & Privacy Commitment
 
-After Motion is built on a local-first creative architecture. Video rendering, 3D compositing, timeline keyframing, and export encodings are processed locally on your Android device. We do not sell, rent, or trade your personal information.
+Morph-X is built on a local-first creative architecture. Video rendering, 3D compositing, timeline keyframing, and export encodings are processed locally on your device. We do not sell, rent, or trade your personal information.
 
 ---
 
@@ -32,7 +32,7 @@ If you register or sign in using Google Sign-In or email/password:
 
 ## 3. Data Protection & Encryption
 
-All network communications between After Motion and our backend services are encrypted in transit using industry-standard **HTTPS/TLS (SSL)**.
+All network communications between Morph-X and our backend services are encrypted in transit using industry-standard **HTTPS/TLS (SSL)**.
 
 ---
 
@@ -41,7 +41,7 @@ All network communications between After Motion and our backend services are enc
 Users have the right to request deletion of their account and all associated personal data at any time.
 
 ### Method 1: Instant In-App Deletion
-1. Open **After Motion** on your device.
+1. Open **Morph-X** on your device.
 2. Tap the **Left Sidebar** (Profile avatar).
 3. Tap **"Delete Account & User ID"** and confirm.
 4. Your account, authentication credentials, user ID, and cloud backups are purged immediately.
@@ -49,7 +49,7 @@ Users have the right to request deletion of their account and all associated per
 ### Method 2: Web / Email Request (If Uninstalled)
 If you uninstalled the app or cannot log in:
 - **Email:** `zenthralabs@gmail.com`
-- **Subject:** `Data / Account Deletion Request - After Motion`
+- **Subject:** `Data / Account Deletion Request - Morph-X`
 - **Required Details:** Include your registered email address.
 - **Retention / Timeline:** All associated account data and cloud project metadata are permanently deleted from active servers within **30 days** of request receipt.
 

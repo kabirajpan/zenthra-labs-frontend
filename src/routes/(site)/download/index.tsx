@@ -63,12 +63,12 @@ const APPLICATIONS: ApplicationCard[] = [
         category: "desktop",
     },
     {
-        id: "after-motion",
-        title: "After Motion",
-        description: "A professional-grade on-device mobile video editor. Edit multitrack timelines at 60 FPS previews with zero telemetry and no subscriptions.",
+        id: "morph-x",
+        title: "Morph-X",
+        description: "Shape the Motion. High-performance on-device motion graphics & video editor. Edit multitrack timelines at 60 FPS previews with bezier curves, zero telemetry, and no subscriptions. Desktop suite coming soon.",
         status: "active",
-        statusLabel: "v1.0.0 (Google Play)",
-        platforms: ["Android"],
+        statusLabel: "v2.4.8 (Google Play)",
+        platforms: ["Android", "Windows (Soon)", "macOS (Soon)"],
         link: "https://play.google.com/store/apps/details?id=com.aftermotion.app",
         icon: (
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">

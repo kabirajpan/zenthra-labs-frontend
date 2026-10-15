@@ -266,9 +266,9 @@ export default component$(() => {
                 <ProductCard thumbnail={ZenthreeThumbnail} title="Zenthree" badge="New" badgeVariant="green" category="Desktop IDE & Code Editor"
                     description="A modern GPU-accelerated code editor built in Rust with Zenthra. Tree-sitter semantic syntax, native PTY terminal, and an integrated AI assistant sidecar."
                     Actions={ZenthreeActions} />
-                {/* 3. After Motion */}
-                <ProductCard thumbnail={AfterMotionThumbnail} title="After Motion" badge="Live" badgeVariant="green" category="Mobile Video Editor"
-                    description="A production-ready mobile video editor built for fast, fluid, on-device editing. No subscriptions. No cloud required."
+                {/* 3. Morph-X */}
+                <ProductCard thumbnail={AfterMotionThumbnail} title="Morph-X" badge="Live · Desktop Soon" badgeVariant="green" category="Motion & Video Editor"
+                    description="Shape the Motion. High-performance on-device motion graphics & video editor. Multi-track timeline, bezier curve keyframing, and Rust compositor engine."
                     Actions={AfterMotionActions} />
                 {/* 4. ZENE: Neuromorphic Coding Agent */}
                 <ProductCard thumbnail={ZeneTerminalThumbnail} title="ZENE: Neuromorphic Coding Agent" badge="Connectome Reflex Core" category="ZenthraLabs Research"

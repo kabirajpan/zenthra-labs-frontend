@@ -72,7 +72,7 @@ export default component$(() => {
                 <div class="flex items-center gap-2 mb-8 text-xs font-['JetBrains_Mono',monospace]">
                     <a href="/products" class="text-zinc-400 hover:text-white transition-colors">Products</a>
                     <span class="text-zinc-600">/</span>
-                    <span class="text-zinc-200">After Motion</span>
+                    <span class="text-zinc-200">Morph-X</span>
                 </div>
 
                 {/* ── Hero ── */}
@@ -83,6 +83,9 @@ export default component$(() => {
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/5 border border-white/10 text-zinc-300 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                                 Mobile App · Live
+                            </span>
+                            <span class="px-2.5 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
+                                Desktop Studio · End of 2026
                             </span>
                             <span class="px-2.5 py-1 bg-white/5 border border-white/10 text-zinc-400 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
                                 Android
@@ -97,23 +100,37 @@ export default component$(() => {
                         <div class="flex flex-col sm:flex-row items-center gap-4 pt-1">
                             <img
                                 src="/assets/screenshots/after-motion/logos/full.png"
-                                alt="After Motion App Icon"
+                                alt="Morph-X App Icon"
                                 class="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-[4px] border border-white/10 shadow-lg shrink-0"
                             />
                             <div>
                                 <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight">
-                                    After Motion
+                                    Morph-X
                                 </h1>
-                                <p class="text-xs sm:text-sm font-['JetBrains_Mono',monospace] text-zinc-400 mt-1">
-                                    Native On-Device Video Compositor &amp; Motion Design
+                                <p class="text-xs sm:text-sm font-['JetBrains_Mono',monospace] text-purple-400 mt-1">
+                                    Shape the Motion • Native On-Device Motion &amp; Video Editor
                                 </p>
                             </div>
                         </div>
 
                         {/* Description */}
                         <p class="text-sm sm:text-base text-zinc-300/90 leading-relaxed max-w-xl mx-auto lg:mx-0 font-normal">
-                            A production mobile video editor engineered for real-time, on-device timeline composition. Edit multi-track layers at 60 FPS previews with native GPU shaders, bezier keyframe graphs, zero telemetry, and no subscription fees.
+                            A production mobile motion graphics and video editor engineered for real-time, on-device timeline composition. Edit multi-track layers at 60 FPS previews with native GPU shaders, bezier keyframe graphs, zero telemetry, and no recurring fees.
                         </p>
+
+                        {/* Desktop Suite Coming Soon Announcement Box */}
+                        <div class="w-full max-w-xl bg-gradient-to-r from-purple-950/40 via-indigo-950/30 to-blue-950/20 border border-purple-500/30 rounded-[4px] p-4 text-left">
+                            <div class="flex items-center justify-between gap-2 mb-1.5 flex-wrap">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                                    <span class="font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider text-blue-300 font-bold">Morph-X Studio (Desktop)</span>
+                                </div>
+                                <span class="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-[2px] border border-purple-500/30 font-['JetBrains_Mono',monospace]">Arriving End of 2026</span>
+                            </div>
+                            <p class="text-xs text-zinc-300 leading-relaxed">
+                                Professional desktop suite for <strong>Windows &amp; macOS</strong> coming by the end of this year. Powered by <code>morphx-core</code> with cross-platform <code>.morphx</code> project files, multi-monitor canvas, and advanced node composition.
+                            </p>
+                        </div>
 
                         {/* Spec Highlights Grid */}
                         <div class="grid grid-cols-3 gap-3 w-full max-w-lg mx-auto lg:mx-0 pt-1">
@@ -341,10 +358,10 @@ export default component$(() => {
                 <div class="bg-white/[0.02] border border-white/10 rounded-[4px] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
                     <div>
                         <h2 class="text-lg sm:text-xl font-bold text-white mb-1">
-                            Experience After Motion on Android
+                            Experience Morph-X on Android
                         </h2>
                         <p class="text-zinc-400 text-xs sm:text-sm">
-                            Free download available on the Google Play Store. No subscriptions or hidden fees.
+                            Shape the Motion. Free download available on Google Play. Desktop suite arriving soon.
                         </p>
                     </div>
                     <div class="flex flex-col sm:flex-row w-full sm:w-auto gap-2.5 justify-center">
@@ -376,8 +393,8 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "After Motion — Mobile Video Editor | ZenthraLabs",
+    title: "Morph-X — Motion & Video Editor | ZenthraLabs",
     meta: [
-        { name: "description", content: "After Motion is a native, high-performance, subscription-free mobile video editor with precise multitrack composition." },
+        { name: "description", content: "Morph-X is a native, high-performance, subscription-free motion design & video editor with precise multitrack composition and upcoming desktop suite." },
     ],
 };

@@ -423,21 +423,21 @@ export default component$(() => {
                             </div>
                         </div>
 
-                        {/* 3. After Motion */}
+                        {/* 3. Morph-X */}
                         <div class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[4px] overflow-hidden flex flex-col hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 hover:-translate-y-1 transition-all duration-200 shadow-sm">
                             <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] dark:border-[#1e2230] bg-[#fbf8ff] dark:bg-[#07080d]">
                                 <AfterMotionThumbnail />
                             </div>
                             <div class="p-6 flex flex-col flex-grow">
-                                <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#4352a5] dark:text-[#818cf8] mb-2">Mobile Video Editor</p>
-                                <h3 class="font-['Syne',sans-serif] mb-2">
-                                    <img
-                                        src="/assets/screenshots/after-motion/logos/full.png"
-                                        alt="After Motion"
-                                        class="h-7 w-auto object-contain rounded-[4px]"
-                                    />
+                                <div class="flex items-center justify-between gap-2 mb-2">
+                                    <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#4352a5] dark:text-[#818cf8]">Motion &amp; Video Editor</p>
+                                    <span class="text-[9px] font-['JetBrains_Mono',monospace] px-2 py-0.5 rounded-[2px] bg-purple-500/10 text-purple-400 border border-purple-500/20 font-medium">Desktop Soon</span>
+                                </div>
+                                <h3 class="font-['Syne',sans-serif] text-xl font-bold text-[#1b1b21] dark:text-white mb-1">
+                                    Morph-X
                                 </h3>
-                                <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed flex-grow">A professional-grade on-device video composition app built for creators. Non-destructive timeline editing, precise cutting, and premium audio-video alignment without cloud rendering delays.</p>
+                                <p class="text-[11px] font-['JetBrains_Mono',monospace] text-purple-600 dark:text-purple-400/90 mb-2 font-medium">Shape the Motion</p>
+                                <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed flex-grow">A high-performance motion graphics and video editor built for creators. Non-destructive multi-layer timeline, bezier keyframe curves, and ultra-fast Rust engine without cloud rendering delays.</p>
                                 <div class="mt-6 flex flex-wrap gap-2.5">
                                     <a href="/products/after-motion" class="inline-block py-2 px-5 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">
                                         View Details
