@@ -25,6 +25,87 @@ export interface AdminUserItem {
     loggedInProducts?: string[];
 }
 
+export interface SubscriberItem {
+    id: string;
+    email: string | null;
+    phoneNumber: string | null;
+    firstName: string;
+    lastName: string;
+    role: "USER" | "ADMIN";
+    isPro: boolean;
+    isActive: boolean;
+    proPlan: "MONTHLY" | "ANNUAL" | string;
+    proExpiresAt: string | null;
+    daysRemaining: number | null;
+    provider: "PADDLE" | "DODO" | string;
+    dodoSubscriptionId?: string | null;
+    dodoCustomerId?: string | null;
+    paddleSubscriptionId?: string | null;
+    paddleCustomerId?: string | null;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface SubscriberSummary {
+    totalActive: number;
+    monthlyCount: number;
+    yearlyCount: number;
+    paddleCount: number;
+    dodoCount: number;
+    mrr: number;
+}
+
+export interface TransactionItem {
+    id: string;
+    userId: string;
+    provider: "PADDLE" | "DODO" | string;
+    providerPaymentId?: string | null;
+    subscriptionId?: string | null;
+    customerId?: string | null;
+    amount: number;
+    currency: string;
+    plan: "MONTHLY" | "ANNUAL" | string;
+    status: "COMPLETED" | "REFUNDED" | "FAILED" | string;
+    createdAt: string;
+    user?: {
+        email: string | null;
+        firstName: string;
+        lastName: string;
+    };
+}
+
+export interface TransactionSummary {
+    totalVolume: number;
+    totalCount: number;
+    paddleCount: number;
+    dodoCount: number;
+}
+
+export interface RevenueTimelinePoint {
+    month: string;
+    revenue: number;
+    count: number;
+}
+
+export interface RevenueData {
+    mrr: number;
+    arr: number;
+    totalVolume: number;
+    activeSubscribers: number;
+    monthlySubscribers: number;
+    yearlySubscribers: number;
+    arpu: number;
+    paddle: {
+        subscribers: number;
+        volume: number;
+    };
+    dodo: {
+        subscribers: number;
+        volume: number;
+    };
+    timeline: RevenueTimelinePoint[];
+}
+
 export interface AdminStoreState {
     stats: AdminStats | null;
     registrations: Record<number, RegistrationPoint[]>;
@@ -35,6 +116,22 @@ export interface AdminStoreState {
     lastFetchedStats: number;
     lastFetchedUsers: number;
     lastFetchedRegistrations: Record<number, number>;
+
+    // Subscribers global state (Redux-like cache)
+    subscribers: SubscriberItem[];
+    subscriberSummary: SubscriberSummary | null;
+    totalSubscribersCount: number;
+    lastFetchedSubscribers: number;
+
+    // Transactions global state
+    transactions: TransactionItem[];
+    transactionSummary: TransactionSummary | null;
+    totalTransactionsCount: number;
+    lastFetchedTransactions: number;
+
+    // Revenue global state
+    revenue: RevenueData | null;
+    lastFetchedRevenue: number;
 }
 
 export const AdminContext = createContextId<AdminStoreState>("admin-store-context");

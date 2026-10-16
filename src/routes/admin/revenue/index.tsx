@@ -1,35 +1,14 @@
 import { API_BASE } from "~/lib/api";
-import { component$, useSignal, useVisibleTask$, $, useTask$ } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$, $, useTask$, useContext } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
+import { AdminContext, RevenueData, RevenueTimelinePoint, setCachedAdminStore } from "~/stores/adminStore";
 import { notify } from "~/lib/notify";
 
-interface RevenueTimelinePoint {
-    month: string;
-    revenue: number;
-    count: number;
-}
-
-interface RevenueData {
-    mrr: number;
-    arr: number;
-    totalVolume: number;
-    activeSubscribers: number;
-    monthlySubscribers: number;
-    yearlySubscribers: number;
-    arpu: number;
-    paddle: {
-        subscribers: number;
-        volume: number;
-    };
-    dodo: {
-        subscribers: number;
-        volume: number;
-    };
-    timeline: RevenueTimelinePoint[];
-}
-
 export default component$(() => {
-    const revenue = useSignal<RevenueData>({
+    const adminStore = useContext(AdminContext);
+
+    // 0ms Instant Hydration from Global Redux-like Store
+    const revenue = useSignal<RevenueData>(adminStore.revenue || {
         mrr: 0,
         arr: 0,
         totalVolume: 0,
@@ -42,7 +21,7 @@ export default component$(() => {
         timeline: [],
     });
 
-    const isLoading = useSignal(true);
+    const isLoading = useSignal(!adminStore.revenue);
     const isRefreshing = useSignal(false);
     const selectedDays = useSignal<number>(180);
     const hoveredPoint = useSignal<RevenueTimelinePoint | null>(null);
@@ -54,11 +33,11 @@ export default component$(() => {
         return null;
     });
 
-    const fetchRevenue = $(async (silent = false) => {
+    const syncRevenue = $(async (showSpinner = false) => {
         const token = await getCookie("zenthra_auth_token");
         if (!token) return;
 
-        if (!silent) isLoading.value = true;
+        if (showSpinner) isLoading.value = true;
         isRefreshing.value = true;
 
         try {
@@ -72,9 +51,15 @@ export default component$(() => {
 
             if (data.revenue) {
                 revenue.value = data.revenue;
+                adminStore.revenue = data.revenue;
+                adminStore.lastFetchedRevenue = Date.now();
+                setCachedAdminStore({
+                    revenue: data.revenue,
+                    lastFetchedRevenue: Date.now()
+                });
             }
         } catch (e: any) {
-            if (!silent) notify.error(e.message || "Failed to load revenue metrics");
+            if (showSpinner) notify.error(e.message || "Failed to load revenue metrics");
         } finally {
             isLoading.value = false;
             isRefreshing.value = false;
@@ -83,28 +68,29 @@ export default component$(() => {
 
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async () => {
-        await fetchRevenue();
+        const hasCached = !!adminStore.revenue;
+        await syncRevenue(!hasCached);
     });
 
     useTask$(({ track }) => {
         track(() => selectedDays.value);
         const isBrowser = typeof window !== "undefined";
         if (isBrowser) {
-            fetchRevenue(true);
+            // Keep existing data on screen while silently updating timeline in background
+            syncRevenue(false);
         }
     });
 
-    // Formatting helpers
     const formatCurrency = (val: number) => {
         return new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: "USD",
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
-        }).format(val);
+        }).format(val || 0);
     };
 
-    const maxChartRev = Math.max(...revenue.value.timeline.map((p) => p.revenue), 50);
+    const maxChartRev = Math.max(...(revenue.value.timeline || []).map((p) => p.revenue), 50);
 
     return (
         <div class="space-y-6">
@@ -131,7 +117,7 @@ export default component$(() => {
                         <button
                             onClick$={() => selectedDays.value = 30}
                             class={[
-                                "px-2 py-1 text-[11px] font-semibold rounded-[3px] transition-all cursor-pointer",
+                                "px-2.5 py-1 text-[11px] font-semibold rounded-[3px] transition-all cursor-pointer",
                                 selectedDays.value === 30
                                     ? "bg-white dark:bg-[#252839] text-[#1b1b21] dark:text-white shadow-xs"
                                     : "text-[#767683] dark:text-[#94a3b8] hover:text-[#1b1b21] dark:hover:text-white"
@@ -142,7 +128,7 @@ export default component$(() => {
                         <button
                             onClick$={() => selectedDays.value = 90}
                             class={[
-                                "px-2 py-1 text-[11px] font-semibold rounded-[3px] transition-all cursor-pointer",
+                                "px-2.5 py-1 text-[11px] font-semibold rounded-[3px] transition-all cursor-pointer",
                                 selectedDays.value === 90
                                     ? "bg-white dark:bg-[#252839] text-[#1b1b21] dark:text-white shadow-xs"
                                     : "text-[#767683] dark:text-[#94a3b8] hover:text-[#1b1b21] dark:hover:text-white"
@@ -153,7 +139,7 @@ export default component$(() => {
                         <button
                             onClick$={() => selectedDays.value = 180}
                             class={[
-                                "px-2 py-1 text-[11px] font-semibold rounded-[3px] transition-all cursor-pointer",
+                                "px-2.5 py-1 text-[11px] font-semibold rounded-[3px] transition-all cursor-pointer",
                                 selectedDays.value === 180
                                     ? "bg-white dark:bg-[#252839] text-[#1b1b21] dark:text-white shadow-xs"
                                     : "text-[#767683] dark:text-[#94a3b8] hover:text-[#1b1b21] dark:hover:text-white"
@@ -164,7 +150,7 @@ export default component$(() => {
                         <button
                             onClick$={() => selectedDays.value = 365}
                             class={[
-                                "px-2 py-1 text-[11px] font-semibold rounded-[3px] transition-all cursor-pointer",
+                                "px-2.5 py-1 text-[11px] font-semibold rounded-[3px] transition-all cursor-pointer",
                                 selectedDays.value === 365
                                     ? "bg-white dark:bg-[#252839] text-[#1b1b21] dark:text-white shadow-xs"
                                     : "text-[#767683] dark:text-[#94a3b8] hover:text-[#1b1b21] dark:hover:text-white"
@@ -175,10 +161,10 @@ export default component$(() => {
                     </div>
 
                     <button
-                        onClick$={() => fetchRevenue(false)}
+                        onClick$={() => syncRevenue(false)}
                         disabled={isRefreshing.value}
                         class="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-[4px] bg-white dark:bg-[#1a1b26] border border-[#c6c5d3] dark:border-[#1e2030] text-[#1b1b21] dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all shadow-sm active:scale-95 disabled:opacity-50 cursor-pointer"
-                        title="Reload revenue metrics"
+                        title="Sync latest revenue metrics"
                     >
                         <svg
                             width="14"
@@ -191,7 +177,7 @@ export default component$(() => {
                         >
                             <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
                         </svg>
-                        <span>{isRefreshing.value ? "Refreshing..." : "Refresh"}</span>
+                        <span>{isRefreshing.value ? "Syncing..." : "Sync Latest"}</span>
                     </button>
                 </div>
             </div>
@@ -303,7 +289,7 @@ export default component$(() => {
 
                 {/* SVG Visual Bars */}
                 <div class="h-56 w-full flex items-end gap-2 sm:gap-4 pt-6 pb-2 border-b border-[#c6c5d3] dark:border-[#1e2030]">
-                    {revenue.value.timeline.map((point) => {
+                    {(revenue.value.timeline || []).map((point) => {
                         const heightPct = Math.max(8, Math.round((point.revenue / maxChartRev) * 100));
 
                         return (
@@ -352,19 +338,19 @@ export default component$(() => {
                                     <span>Paddle Billing</span>
                                 </div>
                                 <span class="font-['JetBrains_Mono',monospace] font-bold text-[#1b1b21] dark:text-white">
-                                    {formatCurrency(revenue.value.paddle.volume)}
+                                    {formatCurrency(revenue.value.paddle?.volume || 0)}
                                 </span>
                             </div>
                             <div class="w-full h-2 rounded-full bg-[#f1f0f5] dark:bg-[#1a1b26] overflow-hidden">
                                 <div
                                     class="h-full bg-emerald-500 rounded-full"
                                     style={{
-                                        width: `${revenue.value.totalVolume > 0 ? (revenue.value.paddle.volume / revenue.value.totalVolume) * 100 : 50}%`
+                                        width: `${revenue.value.totalVolume > 0 ? ((revenue.value.paddle?.volume || 0) / revenue.value.totalVolume) * 100 : 50}%`
                                     }}
                                 />
                             </div>
                             <p class="text-[10px] text-[#767683] dark:text-[#94a3b8] mt-1">
-                                {revenue.value.paddle.subscribers} active subscribers
+                                {revenue.value.paddle?.subscribers || 0} active subscribers
                             </p>
                         </div>
 
@@ -376,19 +362,19 @@ export default component$(() => {
                                     <span>Dodo Payments</span>
                                 </div>
                                 <span class="font-['JetBrains_Mono',monospace] font-bold text-[#1b1b21] dark:text-white">
-                                    {formatCurrency(revenue.value.dodo.volume)}
+                                    {formatCurrency(revenue.value.dodo?.volume || 0)}
                                 </span>
                             </div>
                             <div class="w-full h-2 rounded-full bg-[#f1f0f5] dark:bg-[#1a1b26] overflow-hidden">
                                 <div
                                     class="h-full bg-purple-500 rounded-full"
                                     style={{
-                                        width: `${revenue.value.totalVolume > 0 ? (revenue.value.dodo.volume / revenue.value.totalVolume) * 100 : 50}%`
+                                        width: `${revenue.value.totalVolume > 0 ? ((revenue.value.dodo?.volume || 0) / revenue.value.totalVolume) * 100 : 50}%`
                                     }}
                                 />
                             </div>
                             <p class="text-[10px] text-[#767683] dark:text-[#94a3b8] mt-1">
-                                {revenue.value.dodo.subscribers} active subscribers
+                                {revenue.value.dodo?.subscribers || 0} active subscribers
                             </p>
                         </div>
                     </div>

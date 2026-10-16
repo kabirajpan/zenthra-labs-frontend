@@ -32,6 +32,19 @@ export default component$(() => {
         lastFetchedStats: cachedStore?.lastFetchedStats || 0,
         lastFetchedUsers: cachedStore?.lastFetchedUsers || 0,
         lastFetchedRegistrations: cachedStore?.lastFetchedRegistrations || {},
+
+        subscribers: cachedStore?.subscribers || [],
+        subscriberSummary: cachedStore?.subscriberSummary || null,
+        totalSubscribersCount: cachedStore?.totalSubscribersCount || 0,
+        lastFetchedSubscribers: cachedStore?.lastFetchedSubscribers || 0,
+
+        transactions: cachedStore?.transactions || [],
+        transactionSummary: cachedStore?.transactionSummary || null,
+        totalTransactionsCount: cachedStore?.totalTransactionsCount || 0,
+        lastFetchedTransactions: cachedStore?.lastFetchedTransactions || 0,
+
+        revenue: cachedStore?.revenue || null,
+        lastFetchedRevenue: cachedStore?.lastFetchedRevenue || 0,
     });
     useContextProvider(AdminContext, adminStore);
 

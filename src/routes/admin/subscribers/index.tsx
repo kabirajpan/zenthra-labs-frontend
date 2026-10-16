@@ -1,36 +1,7 @@
 import { API_BASE } from "~/lib/api";
-import { component$, useSignal, useVisibleTask$, $, useTask$ } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$, $, useContext } from "@builder.io/qwik";
+import { AdminContext, SubscriberItem, SubscriberSummary, setCachedAdminStore } from "~/stores/adminStore";
 import { notify } from "~/lib/notify";
-
-interface SubscriberItem {
-    id: string;
-    email: string | null;
-    phoneNumber: string | null;
-    firstName: string;
-    lastName: string;
-    role: "USER" | "ADMIN";
-    isPro: boolean;
-    isActive: boolean;
-    proPlan: "MONTHLY" | "ANNUAL" | string;
-    proExpiresAt: string | null;
-    daysRemaining: number | null;
-    provider: "PADDLE" | "DODO" | string;
-    dodoSubscriptionId?: string | null;
-    dodoCustomerId?: string | null;
-    paddleSubscriptionId?: string | null;
-    paddleCustomerId?: string | null;
-    createdAt: string;
-    updatedAt: string;
-}
-
-interface SubscriberSummary {
-    totalActive: number;
-    monthlyCount: number;
-    yearlyCount: number;
-    paddleCount: number;
-    dodoCount: number;
-    mrr: number;
-}
 
 const parseAsUTC = (dateStr?: string | null) => {
     if (!dateStr) return null;
@@ -53,8 +24,11 @@ const formatDateIST = (dateStr?: string | null) => {
 };
 
 export default component$(() => {
-    const subscribers = useSignal<SubscriberItem[]>([]);
-    const summary = useSignal<SubscriberSummary>({
+    const adminStore = useContext(AdminContext);
+
+    // 0ms Instant Hydration from Global Redux-like Store
+    const allSubscribers = useSignal<SubscriberItem[]>(adminStore.subscribers || []);
+    const summary = useSignal<SubscriberSummary>(adminStore.subscriberSummary || {
         totalActive: 0,
         monthlyCount: 0,
         yearlyCount: 0,
@@ -63,17 +37,19 @@ export default component$(() => {
         mrr: 0,
     });
 
-    const isLoading = useSignal(true);
+    // Only show full loading spinner if store has zero data at start
+    const isLoading = useSignal(adminStore.subscribers.length === 0);
     const isRefreshing = useSignal(false);
+
+    // Filter controls
     const searchQuery = useSignal("");
     const planFilter = useSignal<"ALL" | "MONTHLY" | "ANNUAL">("ALL");
     const statusFilter = useSignal<"all" | "active" | "expiring_soon" | "expired">("active");
     const providerFilter = useSignal<"ALL" | "PADDLE" | "DODO">("ALL");
 
+    // Pagination
     const currentPage = useSignal(1);
-    const totalPages = useSignal(1);
-    const totalCount = useSignal(0);
-    const limit = useSignal(12);
+    const pageSize = 12;
 
     const getCookie = $((name: string) => {
         const value = `; ${document.cookie}`;
@@ -82,39 +58,41 @@ export default component$(() => {
         return null;
     });
 
-    const fetchSubscribers = $(async (silent = false) => {
+    // Background fetch & synchronization
+    const syncSubscribers = $(async (showSpinner = false) => {
         const token = await getCookie("zenthra_auth_token");
         if (!token) return;
 
-        if (!silent) isLoading.value = true;
+        if (showSpinner) isLoading.value = true;
         isRefreshing.value = true;
 
         try {
-            const planParam = planFilter.value !== "ALL" ? `&plan=${planFilter.value}` : "";
-            const statusParam = `&status=${statusFilter.value}`;
-            const providerParam = providerFilter.value !== "ALL" ? `&provider=${providerFilter.value}` : "";
-            const searchParam = searchQuery.value.trim() ? `&search=${encodeURIComponent(searchQuery.value.trim())}` : "";
-
-            const url = `${API_BASE}/api/admin/subscribers?page=${currentPage.value}&limit=${limit.value}${planParam}${statusParam}${providerParam}${searchParam}`;
-
+            // Fetch comprehensive active list for instant local filtering
+            const url = `${API_BASE}/api/admin/subscribers?limit=100&status=all`;
             const res = await fetch(url, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            if (!res.ok) throw new Error("Could not load subscribers");
+            if (!res.ok) throw new Error("Could not sync subscribers");
             const data = await res.json();
 
-            subscribers.value = data.subscribers || [];
+            const items: SubscriberItem[] = data.subscribers || [];
+            allSubscribers.value = items;
+            adminStore.subscribers = items;
+            adminStore.lastFetchedSubscribers = Date.now();
+
             if (data.summary) {
                 summary.value = data.summary;
+                adminStore.subscriberSummary = data.summary;
             }
-            if (data.pagination) {
-                totalCount.value = data.pagination.total;
-                totalPages.value = data.pagination.totalPages;
-                currentPage.value = data.pagination.currentPage;
-            }
+
+            setCachedAdminStore({
+                subscribers: items,
+                subscriberSummary: data.summary,
+                lastFetchedSubscribers: Date.now()
+            });
         } catch (e: any) {
-            if (!silent) notify.error(e.message || "Failed to fetch subscribers");
+            if (showSpinner) notify.error(e.message || "Failed to load subscribers");
         } finally {
             isLoading.value = false;
             isRefreshing.value = false;
@@ -123,20 +101,9 @@ export default component$(() => {
 
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async () => {
-        await fetchSubscribers();
-    });
-
-    useTask$(({ track }) => {
-        track(() => planFilter.value);
-        track(() => statusFilter.value);
-        track(() => providerFilter.value);
-        track(() => searchQuery.value);
-        track(() => currentPage.value);
-
-        const isBrowser = typeof window !== "undefined";
-        if (isBrowser) {
-            fetchSubscribers(true);
-        }
+        // If already cached, fetch quietly in background without replacing UI
+        const hasCached = adminStore.subscribers.length > 0;
+        await syncSubscribers(!hasCached);
     });
 
     const copyToClipboard = $((text: string, label: string) => {
@@ -145,6 +112,53 @@ export default component$(() => {
             notify.success(`Copied ${label} to clipboard`);
         }
     });
+
+    // 0ms Instant In-Memory Filter Computation (Never reloads or shows spinner!)
+    const getFilteredList = () => {
+        let list = allSubscribers.value;
+
+        // 1. Plan Filter
+        if (planFilter.value === "MONTHLY") {
+            list = list.filter((s) => s.proPlan !== "ANNUAL");
+        } else if (planFilter.value === "ANNUAL") {
+            list = list.filter((s) => s.proPlan === "ANNUAL");
+        }
+
+        // 2. Status Filter
+        if (statusFilter.value === "active") {
+            list = list.filter((s) => s.isActive);
+        } else if (statusFilter.value === "expiring_soon") {
+            list = list.filter((s) => s.isActive && s.daysRemaining !== null && s.daysRemaining !== undefined && s.daysRemaining <= 7 && s.daysRemaining >= 0);
+        } else if (statusFilter.value === "expired") {
+            list = list.filter((s) => !s.isActive || (s.daysRemaining !== null && s.daysRemaining !== undefined && s.daysRemaining < 0));
+        }
+
+        // 3. Provider Filter
+        if (providerFilter.value !== "ALL") {
+            list = list.filter((s) => s.provider === providerFilter.value);
+        }
+
+        // 4. Search Filter
+        const q = searchQuery.value.trim().toLowerCase();
+        if (q) {
+            list = list.filter((s) => {
+                const name = `${s.firstName || ""} ${s.lastName || ""}`.toLowerCase();
+                const email = (s.email || "").toLowerCase();
+                const phone = (s.phoneNumber || "").toLowerCase();
+                const subId = (s.paddleSubscriptionId || s.dodoSubscriptionId || "").toLowerCase();
+                const id = s.id.toLowerCase();
+                return name.includes(q) || email.includes(q) || phone.includes(q) || subId.includes(q) || id.includes(q);
+            });
+        }
+
+        return list;
+    };
+
+    const displayedSubscribers = getFilteredList();
+    const totalFiltered = displayedSubscribers.length;
+    const totalPagesCount = Math.max(1, Math.ceil(totalFiltered / pageSize));
+    const safeCurrentPage = Math.min(currentPage.value, totalPagesCount);
+    const paginatedSubscribers = displayedSubscribers.slice((safeCurrentPage - 1) * pageSize, safeCurrentPage * pageSize);
 
     return (
         <div class="space-y-6">
@@ -164,16 +178,16 @@ export default component$(() => {
                         </span>
                     </div>
                     <p class="text-xs text-[#767683] dark:text-[#94a3b8] mt-1">
-                        Live monitoring of paying subscribers, recurring billing terms, and renewal tracking.
+                        Instant monitoring of paying subscribers, recurring billing terms, and renewal tracking.
                     </p>
                 </div>
 
                 <div class="flex items-center gap-2">
                     <button
-                        onClick$={() => fetchSubscribers(false)}
+                        onClick$={() => syncSubscribers(false)}
                         disabled={isRefreshing.value}
                         class="flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-[4px] bg-white dark:bg-[#1a1b26] border border-[#c6c5d3] dark:border-[#1e2030] text-[#1b1b21] dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all shadow-sm active:scale-95 disabled:opacity-50 cursor-pointer"
-                        title="Reload subscribers list"
+                        title="Sync latest subscribers from server"
                     >
                         <svg
                             width="14"
@@ -186,7 +200,7 @@ export default component$(() => {
                         >
                             <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
                         </svg>
-                        <span>{isRefreshing.value ? "Refreshing..." : "Refresh"}</span>
+                        <span>{isRefreshing.value ? "Syncing..." : "Sync Latest"}</span>
                     </button>
                 </div>
             </div>
@@ -270,7 +284,7 @@ export default component$(() => {
                 </div>
             </div>
 
-            {/* ── Filter & Search Toolbar ── */}
+            {/* ── Instant Filter & Search Toolbar (0ms Switch, Never Reloads) ── */}
             <div class="p-3.5 rounded-[6px] bg-white dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs">
                 {/* Search Bar */}
                 <div class="relative flex-1 min-w-[220px]">
@@ -298,9 +312,9 @@ export default component$(() => {
                     )}
                 </div>
 
-                {/* Filters */}
+                {/* Instant Plan & Status Switches */}
                 <div class="flex flex-wrap items-center gap-2">
-                    {/* Plan Filter (All, Monthly, Annual) */}
+                    {/* Instant Plan Switcher */}
                     <div class="flex items-center p-0.5 rounded-[4px] bg-[#f1f0f5] dark:bg-[#1a1b26] border border-[#c6c5d3] dark:border-[#1e2030]">
                         <button
                             onClick$={() => { planFilter.value = "ALL"; currentPage.value = 1; }}
@@ -368,7 +382,7 @@ export default component$(() => {
                 </div>
             </div>
 
-            {/* ── Subscribers Table ── */}
+            {/* ── Subscribers Table (Instant Render, Zero Flashing) ── */}
             <div class="rounded-[6px] bg-white dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[0_2px_12px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.3)] overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -390,7 +404,7 @@ export default component$(() => {
                                         <span>Loading subscribers...</span>
                                     </td>
                                 </tr>
-                            ) : subscribers.value.length === 0 ? (
+                            ) : paginatedSubscribers.length === 0 ? (
                                 <tr>
                                     <td colSpan={6} class="py-14 text-center">
                                         <div class="w-10 h-10 mx-auto mb-2 text-[#767683] dark:text-[#64748b] flex items-center justify-center rounded-full bg-black/5 dark:bg-white/5">
@@ -398,12 +412,12 @@ export default component$(() => {
                                                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                                             </svg>
                                         </div>
-                                        <p class="text-sm font-semibold text-[#1b1b21] dark:text-white">No subscribers found</p>
-                                        <p class="text-xs text-[#767683] dark:text-[#94a3b8] mt-0.5">Try adjusting your search query, plan filter, or status criteria.</p>
+                                        <p class="text-sm font-semibold text-[#1b1b21] dark:text-white">No subscribers match current filter</p>
+                                        <p class="text-xs text-[#767683] dark:text-[#94a3b8] mt-0.5">Try changing plan, clearing search, or selecting another status filter.</p>
                                     </td>
                                 </tr>
                             ) : (
-                                subscribers.value.map((sub) => {
+                                paginatedSubscribers.map((sub) => {
                                     const isAnnual = sub.proPlan === "ANNUAL";
                                     const subId = sub.paddleSubscriptionId || sub.dodoSubscriptionId || "-";
                                     const custId = sub.paddleCustomerId || sub.dodoCustomerId;
@@ -548,22 +562,22 @@ export default component$(() => {
                 {/* ── Pagination Footer ── */}
                 <div class="px-4 py-3 border-t border-[#c6c5d3] dark:border-[#1e2030] bg-[#faf9fc] dark:bg-[#161722] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#767683] dark:text-[#94a3b8]">
                     <span>
-                        Showing {subscribers.value.length} of {totalCount.value} subscribers
+                        Showing {paginatedSubscribers.length} of {totalFiltered} subscribers {totalFiltered !== allSubscribers.value.length && `(filtered from ${allSubscribers.value.length})`}
                     </span>
                     <div class="flex items-center gap-2">
                         <button
                             onClick$={() => currentPage.value = Math.max(1, currentPage.value - 1)}
-                            disabled={currentPage.value <= 1 || isLoading.value}
+                            disabled={safeCurrentPage <= 1 || isLoading.value}
                             class="px-2.5 py-1 rounded-[3px] border border-[#c6c5d3] dark:border-[#1e2030] bg-white dark:bg-[#1a1b26] disabled:opacity-40 hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer disabled:cursor-not-allowed"
                         >
                             Previous
                         </button>
                         <span class="font-['JetBrains_Mono',monospace]">
-                            Page {currentPage.value} of {totalPages.value}
+                            Page {safeCurrentPage} of {totalPagesCount}
                         </span>
                         <button
-                            onClick$={() => currentPage.value = Math.min(totalPages.value, currentPage.value + 1)}
-                            disabled={currentPage.value >= totalPages.value || isLoading.value}
+                            onClick$={() => currentPage.value = Math.min(totalPagesCount, safeCurrentPage + 1)}
+                            disabled={safeCurrentPage >= totalPagesCount || isLoading.value}
                             class="px-2.5 py-1 rounded-[3px] border border-[#c6c5d3] dark:border-[#1e2030] bg-white dark:bg-[#1a1b26] disabled:opacity-40 hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer disabled:cursor-not-allowed"
                         >
                             Next

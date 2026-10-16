@@ -1,32 +1,7 @@
 import { API_BASE } from "~/lib/api";
-import { component$, useSignal, useVisibleTask$, $, useTask$ } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$, $, useContext } from "@builder.io/qwik";
+import { AdminContext, TransactionItem, TransactionSummary, setCachedAdminStore } from "~/stores/adminStore";
 import { notify } from "~/lib/notify";
-
-interface TransactionItem {
-    id: string;
-    userId: string;
-    provider: "PADDLE" | "DODO" | string;
-    providerPaymentId?: string | null;
-    subscriptionId?: string | null;
-    customerId?: string | null;
-    amount: number;
-    currency: string;
-    plan: "MONTHLY" | "ANNUAL" | string;
-    status: "COMPLETED" | "REFUNDED" | "FAILED" | string;
-    createdAt: string;
-    user?: {
-        email: string | null;
-        firstName: string;
-        lastName: string;
-    };
-}
-
-interface TransactionSummary {
-    totalVolume: number;
-    totalCount: number;
-    paddleCount: number;
-    dodoCount: number;
-}
 
 const parseAsUTC = (dateStr?: string | null) => {
     if (!dateStr) return null;
@@ -60,25 +35,29 @@ const formatTimeIST = (dateStr?: string | null) => {
 };
 
 export default component$(() => {
-    const transactions = useSignal<TransactionItem[]>([]);
-    const summary = useSignal<TransactionSummary>({
+    const adminStore = useContext(AdminContext);
+
+    // 0ms Instant Hydration from Global Redux-like Store
+    const allTransactions = useSignal<TransactionItem[]>(adminStore.transactions || []);
+    const summary = useSignal<TransactionSummary>(adminStore.transactionSummary || {
         totalVolume: 0,
         totalCount: 0,
         paddleCount: 0,
         dodoCount: 0,
     });
 
-    const isLoading = useSignal(true);
+    const isLoading = useSignal(adminStore.transactions.length === 0);
     const isRefreshing = useSignal(false);
+
+    // Filter Controls
     const searchQuery = useSignal("");
     const providerFilter = useSignal<"ALL" | "PADDLE" | "DODO">("ALL");
     const planFilter = useSignal<"ALL" | "MONTHLY" | "ANNUAL">("ALL");
     const statusFilter = useSignal<"ALL" | "COMPLETED" | "REFUNDED" | "FAILED">("ALL");
 
+    // Pagination
     const currentPage = useSignal(1);
-    const totalPages = useSignal(1);
-    const totalCount = useSignal(0);
-    const limit = useSignal(15);
+    const pageSize = 15;
 
     const getCookie = $((name: string) => {
         const value = `; ${document.cookie}`;
@@ -87,39 +66,40 @@ export default component$(() => {
         return null;
     });
 
-    const fetchTransactions = $(async (silent = false) => {
+    // Background Synchronization
+    const syncTransactions = $(async (showSpinner = false) => {
         const token = await getCookie("zenthra_auth_token");
         if (!token) return;
 
-        if (!silent) isLoading.value = true;
+        if (showSpinner) isLoading.value = true;
         isRefreshing.value = true;
 
         try {
-            const providerParam = providerFilter.value !== "ALL" ? `&provider=${providerFilter.value}` : "";
-            const planParam = planFilter.value !== "ALL" ? `&plan=${planFilter.value}` : "";
-            const statusParam = statusFilter.value !== "ALL" ? `&status=${statusFilter.value}` : "";
-            const searchParam = searchQuery.value.trim() ? `&search=${encodeURIComponent(searchQuery.value.trim())}` : "";
-
-            const url = `${API_BASE}/api/admin/transactions?page=${currentPage.value}&limit=${limit.value}${providerParam}${planParam}${statusParam}${searchParam}`;
-
+            const url = `${API_BASE}/api/admin/transactions?limit=100`;
             const res = await fetch(url, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            if (!res.ok) throw new Error("Could not load transactions");
+            if (!res.ok) throw new Error("Could not sync transactions");
             const data = await res.json();
 
-            transactions.value = data.transactions || [];
+            const items: TransactionItem[] = data.transactions || [];
+            allTransactions.value = items;
+            adminStore.transactions = items;
+            adminStore.lastFetchedTransactions = Date.now();
+
             if (data.summary) {
                 summary.value = data.summary;
+                adminStore.transactionSummary = data.summary;
             }
-            if (data.pagination) {
-                totalCount.value = data.pagination.total;
-                totalPages.value = data.pagination.totalPages;
-                currentPage.value = data.pagination.currentPage;
-            }
+
+            setCachedAdminStore({
+                transactions: items,
+                transactionSummary: data.summary,
+                lastFetchedTransactions: Date.now()
+            });
         } catch (e: any) {
-            if (!silent) notify.error(e.message || "Failed to fetch transactions");
+            if (showSpinner) notify.error(e.message || "Failed to load transactions");
         } finally {
             isLoading.value = false;
             isRefreshing.value = false;
@@ -128,20 +108,8 @@ export default component$(() => {
 
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async () => {
-        await fetchTransactions();
-    });
-
-    useTask$(({ track }) => {
-        track(() => providerFilter.value);
-        track(() => planFilter.value);
-        track(() => statusFilter.value);
-        track(() => searchQuery.value);
-        track(() => currentPage.value);
-
-        const isBrowser = typeof window !== "undefined";
-        if (isBrowser) {
-            fetchTransactions(true);
-        }
+        const hasCached = adminStore.transactions.length > 0;
+        await syncTransactions(!hasCached);
     });
 
     const copyToClipboard = $((text: string, label: string) => {
@@ -150,6 +118,47 @@ export default component$(() => {
             notify.success(`Copied ${label} to clipboard`);
         }
     });
+
+    // 0ms Instant In-Memory Filter Computation (Never reloads or shows spinner!)
+    const getFilteredList = () => {
+        let list = allTransactions.value;
+
+        // Provider Filter
+        if (providerFilter.value !== "ALL") {
+            list = list.filter((t) => t.provider === providerFilter.value);
+        }
+
+        // Plan Filter
+        if (planFilter.value !== "ALL") {
+            list = list.filter((t) => t.plan === planFilter.value);
+        }
+
+        // Status Filter
+        if (statusFilter.value !== "ALL") {
+            list = list.filter((t) => t.status === statusFilter.value);
+        }
+
+        // Search Filter
+        const q = searchQuery.value.trim().toLowerCase();
+        if (q) {
+            list = list.filter((t) => {
+                const id = t.id.toLowerCase();
+                const paymentId = (t.providerPaymentId || "").toLowerCase();
+                const subId = (t.subscriptionId || "").toLowerCase();
+                const email = (t.user?.email || "").toLowerCase();
+                const name = `${t.user?.firstName || ""} ${t.user?.lastName || ""}`.toLowerCase();
+                return id.includes(q) || paymentId.includes(q) || subId.includes(q) || email.includes(q) || name.includes(q);
+            });
+        }
+
+        return list;
+    };
+
+    const displayedTransactions = getFilteredList();
+    const totalFiltered = displayedTransactions.length;
+    const totalPagesCount = Math.max(1, Math.ceil(totalFiltered / pageSize));
+    const safeCurrentPage = Math.min(currentPage.value, totalPagesCount);
+    const paginatedTransactions = displayedTransactions.slice((safeCurrentPage - 1) * pageSize, safeCurrentPage * pageSize);
 
     return (
         <div class="space-y-6">
@@ -166,16 +175,16 @@ export default component$(() => {
                         </span>
                     </div>
                     <p class="text-xs text-[#767683] dark:text-[#94a3b8] mt-1">
-                        Audit trail of subscription transactions, processed charges, and checkout events.
+                        Instant audit trail of subscription transactions, processed charges, and checkout events.
                     </p>
                 </div>
 
                 <div class="flex items-center gap-2">
                     <button
-                        onClick$={() => fetchTransactions(false)}
+                        onClick$={() => syncTransactions(false)}
                         disabled={isRefreshing.value}
                         class="flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-[4px] bg-white dark:bg-[#1a1b26] border border-[#c6c5d3] dark:border-[#1e2030] text-[#1b1b21] dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all shadow-sm active:scale-95 disabled:opacity-50 cursor-pointer"
-                        title="Reload transactions"
+                        title="Sync transactions"
                     >
                         <svg
                             width="14"
@@ -188,7 +197,7 @@ export default component$(() => {
                         >
                             <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
                         </svg>
-                        <span>{isRefreshing.value ? "Refreshing..." : "Refresh"}</span>
+                        <span>{isRefreshing.value ? "Syncing..." : "Sync Latest"}</span>
                     </button>
                 </div>
             </div>
@@ -272,7 +281,7 @@ export default component$(() => {
                 </div>
             </div>
 
-            {/* ── Search & Filter Toolbar ── */}
+            {/* ── Search & Filter Toolbar (0ms Instant Filtering) ── */}
             <div class="p-3.5 rounded-[6px] bg-white dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs">
                 {/* Search */}
                 <div class="relative flex-1 min-w-[220px]">
@@ -347,7 +356,7 @@ export default component$(() => {
                 </div>
             </div>
 
-            {/* ── Transactions Table ── */}
+            {/* ── Transactions Table (Instant Render, Zero Flashing) ── */}
             <div class="rounded-[6px] bg-white dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] shadow-[0_2px_12px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.3)] overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -369,7 +378,7 @@ export default component$(() => {
                                         <span>Loading transactions...</span>
                                     </td>
                                 </tr>
-                            ) : transactions.value.length === 0 ? (
+                            ) : paginatedTransactions.length === 0 ? (
                                 <tr>
                                     <td colSpan={6} class="py-14 text-center">
                                         <div class="w-10 h-10 mx-auto mb-2 text-[#767683] dark:text-[#64748b] flex items-center justify-center rounded-full bg-black/5 dark:bg-white/5">
@@ -378,12 +387,12 @@ export default component$(() => {
                                                 <line x1="1" y1="10" x2="23" y2="10" />
                                             </svg>
                                         </div>
-                                        <p class="text-sm font-semibold text-[#1b1b21] dark:text-white">No transactions found</p>
-                                        <p class="text-xs text-[#767683] dark:text-[#94a3b8] mt-0.5">Transactions from Paddle and Dodo Payments will automatically log here.</p>
+                                        <p class="text-sm font-semibold text-[#1b1b21] dark:text-white">No transactions match current filter</p>
+                                        <p class="text-xs text-[#767683] dark:text-[#94a3b8] mt-0.5">Try selecting another gateway, plan, or clearing the search bar.</p>
                                     </td>
                                 </tr>
                             ) : (
-                                transactions.value.map((tx) => {
+                                paginatedTransactions.map((tx) => {
                                     const isAnnual = tx.plan === "ANNUAL";
                                     const displayId = tx.providerPaymentId || tx.id;
 
@@ -491,22 +500,22 @@ export default component$(() => {
                 {/* ── Pagination Footer ── */}
                 <div class="px-4 py-3 border-t border-[#c6c5d3] dark:border-[#1e2030] bg-[#faf9fc] dark:bg-[#161722] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#767683] dark:text-[#94a3b8]">
                     <span>
-                        Showing {transactions.value.length} of {totalCount.value} transactions
+                        Showing {paginatedTransactions.length} of {totalFiltered} transactions {totalFiltered !== allTransactions.value.length && `(filtered from ${allTransactions.value.length})`}
                     </span>
                     <div class="flex items-center gap-2">
                         <button
                             onClick$={() => currentPage.value = Math.max(1, currentPage.value - 1)}
-                            disabled={currentPage.value <= 1 || isLoading.value}
+                            disabled={safeCurrentPage <= 1 || isLoading.value}
                             class="px-2.5 py-1 rounded-[3px] border border-[#c6c5d3] dark:border-[#1e2030] bg-white dark:bg-[#1a1b26] disabled:opacity-40 hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer disabled:cursor-not-allowed"
                         >
                             Previous
                         </button>
                         <span class="font-['JetBrains_Mono',monospace]">
-                            Page {currentPage.value} of {totalPages.value}
+                            Page {safeCurrentPage} of {totalPagesCount}
                         </span>
                         <button
-                            onClick$={() => currentPage.value = Math.min(totalPages.value, currentPage.value + 1)}
-                            disabled={currentPage.value >= totalPages.value || isLoading.value}
+                            onClick$={() => currentPage.value = Math.min(totalPagesCount, safeCurrentPage + 1)}
+                            disabled={safeCurrentPage >= totalPagesCount || isLoading.value}
                             class="px-2.5 py-1 rounded-[3px] border border-[#c6c5d3] dark:border-[#1e2030] bg-white dark:bg-[#1a1b26] disabled:opacity-40 hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer disabled:cursor-not-allowed"
                         >
                             Next
