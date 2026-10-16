@@ -172,6 +172,53 @@ export default component$(() => {
                         </Link>
 
                         <Link
+                            href="/admin/revenue"
+                            class={[
+                                "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
+                                loc.url.pathname.startsWith("/admin/revenue")
+                                    ? "bg-[#1b1b21] text-white border-[#1b1b21] dark:bg-white dark:text-[#1b1b21] dark:border-white shadow-sm"
+                                    : "text-[#767683] hover:text-[#1b1b21] dark:text-[#94a3b8] dark:hover:text-white border-transparent hover:bg-black/5 dark:hover:bg-white/5"
+                            ].join(" ")}
+                        >
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <line x1="12" y1="1" x2="12" y2="23" />
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                            </svg>
+                            Revenue
+                        </Link>
+
+                        <Link
+                            href="/admin/subscribers"
+                            class={[
+                                "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
+                                loc.url.pathname.startsWith("/admin/subscribers")
+                                    ? "bg-[#1b1b21] text-white border-[#1b1b21] dark:bg-white dark:text-[#1b1b21] dark:border-white shadow-sm"
+                                    : "text-[#767683] hover:text-[#1b1b21] dark:text-[#94a3b8] dark:hover:text-white border-transparent hover:bg-black/5 dark:hover:bg-white/5"
+                            ].join(" ")}
+                        >
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                            </svg>
+                            Subscribers
+                        </Link>
+
+                        <Link
+                            href="/admin/transactions"
+                            class={[
+                                "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
+                                loc.url.pathname.startsWith("/admin/transactions")
+                                    ? "bg-[#1b1b21] text-white border-[#1b1b21] dark:bg-white dark:text-[#1b1b21] dark:border-white shadow-sm"
+                                    : "text-[#767683] hover:text-[#1b1b21] dark:text-[#94a3b8] dark:hover:text-white border-transparent hover:bg-black/5 dark:hover:bg-white/5"
+                            ].join(" ")}
+                        >
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                                <line x1="1" y1="10" x2="23" y2="10" />
+                            </svg>
+                            Transactions
+                        </Link>
+
+                        <Link
                             href="/admin"
                             class={[
                                 "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
