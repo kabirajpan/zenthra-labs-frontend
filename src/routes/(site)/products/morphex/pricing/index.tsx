@@ -6,7 +6,7 @@ const PRICE_MONTHLY = "pri_01m52g019ymcmtbzx3wtrs25yn";
 const PRICE_ANNUAL = "pri_01m52g5bsnbqhd579r55zp1ah5";
 
 export default component$(() => {
-    const billingCycle = useSignal<"monthly" | "annual">("annual");
+    const billingCycle = useSignal<"monthly" | "annual">("monthly");
     const activeTxn = useSignal<string | null>(null);
     const checkoutStatus = useSignal<string | null>(null);
 
@@ -42,6 +42,13 @@ export default component$(() => {
     useVisibleTask$(({ cleanup }) => {
         const urlParams = new URLSearchParams(window.location.search);
         const ptxn = urlParams.get("_ptxn") || urlParams.get("txn") || urlParams.get("transactionId");
+        const plan = urlParams.get("plan") || urlParams.get("cycle") || urlParams.get("billing");
+
+        if (plan === "annual" || plan === "yearly" || plan === "year") {
+            billingCycle.value = "annual";
+        } else if (plan === "monthly" || plan === "month") {
+            billingCycle.value = "monthly";
+        }
         
         if (urlParams.get("checkout") === "success") {
             window.location.href = "aftermotion://billing/success";
