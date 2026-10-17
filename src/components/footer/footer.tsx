@@ -14,6 +14,7 @@ export const Footer = component$(() => {
             <h4 class="font-bold text-[#1b1b21] dark:text-white mb-4 text-sm">Navigation</h4>
             <ul class="space-y-2 text-[#454651] dark:text-[#94a3b8] text-sm">
               <li><a class="hover:text-[#4352a5] dark:hover:text-[#818cf8] transition-colors" href="/products">Products</a></li>
+              <li><a class="hover:text-[#4352a5] dark:hover:text-[#818cf8] transition-colors" href="/pricing">Pricing</a></li>
               <li><a class="hover:text-[#4352a5] dark:hover:text-[#818cf8] transition-colors" href="/download">Download</a></li>
               <li><a class="hover:text-[#4352a5] dark:hover:text-[#818cf8] transition-colors" href="/open-source">Open Source</a></li>
               <li><a class="hover:text-[#4352a5] dark:hover:text-[#818cf8] transition-colors" href="/about">About</a></li>
@@ -25,6 +26,7 @@ export const Footer = component$(() => {
             <ul class="space-y-2 text-[#454651] dark:text-[#94a3b8] text-sm">
               <li><a class="hover:text-[#4352a5] dark:hover:text-[#818cf8] transition-colors" href="/legal/privacy">Privacy</a></li>
               <li><a class="hover:text-[#4352a5] dark:hover:text-[#818cf8] transition-colors" href="/legal/terms">Terms</a></li>
+              <li><a class="hover:text-[#4352a5] dark:hover:text-[#818cf8] transition-colors" href="/legal/refund">Refunds</a></li>
               <li><a class="hover:text-[#4352a5] dark:hover:text-[#818cf8] transition-colors" href="/legal/licenses">Licenses</a></li>
             </ul>
           </div>
