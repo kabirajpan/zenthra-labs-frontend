@@ -48,7 +48,7 @@ const AfterMotionThumbnail = component$(() => (
         />
         <img
             src="/assets/screenshots/after-motion/android-medium-1.png"
-            alt="After Motion"
+            alt="Morphex"
             class="h-full w-auto object-contain relative z-10 rounded-[4px] shadow-xl"
         />
     </div>
@@ -142,7 +142,8 @@ const ZenthraViewActions = component$(() => (
 
 const AfterMotionActions = component$(() => (
     <div class="flex flex-wrap gap-2 sm:gap-3">
-        <a href="/products/after-motion" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
+        <a href="/products/morphex" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
+        <a href="/products/morphex/pricing" class="py-2 px-3 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">Pricing</a>
         <a 
             href="https://play.google.com/store/apps/details?id=com.aftermotion.app" 
             target="_blank" 
@@ -229,12 +230,15 @@ const ProductCard = component$<CardProps>(({
             <div class="p-5 flex flex-col flex-grow">
                 <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#4352a5] dark:text-[#818cf8] mb-2">{category}</p>
                 <div class="flex flex-wrap items-center gap-2 mb-2">
-                    {title === "After Motion" ? (
-                        <img
-                            src="/assets/screenshots/after-motion/logos/full.png"
-                            alt="After Motion"
-                            class="h-6 w-auto object-contain rounded-[4px]"
-                        />
+                    {title === "MORPHEX" || title === "Morphex" || title === "After Motion" ? (
+                        <div class="flex items-center gap-2">
+                            <img
+                                src="/assets/screenshots/after-motion/logos/full.png"
+                                alt="MORPHEX"
+                                class="h-6 w-auto object-contain rounded-[4px]"
+                            />
+                            <h3 class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21] dark:text-white">MORPHEX</h3>
+                        </div>
                     ) : (
                         <h3 class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21] dark:text-white">{title}</h3>
                     )}
@@ -266,8 +270,8 @@ export default component$(() => {
                 <ProductCard thumbnail={ZenthreeThumbnail} title="Zenthree" badge="New" badgeVariant="green" category="Desktop IDE & Code Editor"
                     description="A modern GPU-accelerated code editor built in Rust with Zenthra. Tree-sitter semantic syntax, native PTY terminal, and an integrated AI assistant sidecar."
                     Actions={ZenthreeActions} />
-                {/* 3. Morph-X */}
-                <ProductCard thumbnail={AfterMotionThumbnail} title="Morph-X" badge="Live · Desktop Soon" badgeVariant="green" category="Motion & Video Editor"
+                {/* 3. MORPHEX */}
+                <ProductCard thumbnail={AfterMotionThumbnail} title="MORPHEX" badge="Live · Desktop Soon" badgeVariant="green" category="Motion & Video Editor"
                     description="Shape the Motion. High-performance on-device motion graphics & video editor. Multi-track timeline, bezier curve keyframing, and Rust compositor engine."
                     Actions={AfterMotionActions} />
                 {/* 4. ZENE: Neuromorphic Coding Agent */}

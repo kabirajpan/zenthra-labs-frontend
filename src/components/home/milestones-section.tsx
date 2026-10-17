@@ -6,11 +6,11 @@ export const MilestonesSection = component$(() => {
             <div class="max-w-7xl mx-auto px-6 md:px-12 py-10 md:py-12">
                 {/* 3-Column Minimalist Divider Grid */}
                 <div class="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#c6c5d3]/70 dark:divide-[#1e2230]">
-                    {/* 1. After Motion */}
+                    {/* 1. MORPHEX */}
                     <div class="py-5 md:py-1 md:px-8 first:pl-0 last:pr-0 flex flex-col justify-between">
                         <div>
                             <div class="text-[11px] font-['JetBrains_Mono',monospace] text-[#767683] dark:text-[#94a3b8] uppercase tracking-wider mb-2">
-                                After Motion · Mobile Editor
+                                MORPHEX · Mobile Editor
                             </div>
                             <div class="flex items-baseline flex-wrap gap-x-2 gap-y-1 mb-2">
                                 <span class="font-['JetBrains_Mono',monospace] text-2xl sm:text-3xl font-bold text-[#1b1b21] dark:text-white">
@@ -29,7 +29,7 @@ export const MilestonesSection = component$(() => {
                         </div>
                         <div class="pt-4">
                             <a
-                                href="/products/after-motion"
+                                href="/products/morphex"
                                 class="inline-flex items-center gap-1 text-xs text-[#4352a5] dark:text-[#818cf8] hover:underline"
                             >
                                 View product →

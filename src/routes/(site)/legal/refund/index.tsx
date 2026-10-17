@@ -18,7 +18,7 @@ export default component$(() => {
                 <div>
                     <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">1. Satisfaction Guarantee &amp; 14-Day Refund Window</h2>
                     <p>
-                        At ZenthraLabs, we stand behind the performance of our software. If you are not satisfied with your subscription to <strong>Morph-X Pro</strong>, you may request a full refund within <strong>14 days</strong> of your initial purchase or renewal.
+                        At ZenthraLabs, we stand behind the performance of our software. If you are not satisfied with your subscription to <strong>Morphex (MORPHEX Pro)</strong>, you may request a full refund within <strong>14 days</strong> of your initial purchase or renewal.
                     </p>
                 </div>
 
@@ -47,7 +47,7 @@ export default component$(() => {
                 <div>
                     <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">4. Subscription Cancellations</h2>
                     <p>
-                        You can cancel your recurring subscription at any time prior to the next billing cycle. Once cancelled, your Pro features remain active until the end of your current paid billing period, and no further automatic renewals will take place.
+                        You can cancel your recurring subscription at any time prior to the next billing cycle. Once cancelled, your MORPHEX Pro features remain active until the end of your current paid billing period, and no further automatic renewals will take place.
                     </p>
                 </div>
 
@@ -63,8 +63,8 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-    title: "Refund Policy — ZenthraLabs",
+    title: "Refund Policy — MORPHEX | ZenthraLabs",
     meta: [
-        { name: "description", content: "Refund and cancellation policy for ZenthraLabs and Morph-X Pro subscriptions." },
+        { name: "description", content: "Refund and cancellation policy for ZenthraLabs and Morphex (MORPHEX Pro) subscriptions." },
     ],
 };

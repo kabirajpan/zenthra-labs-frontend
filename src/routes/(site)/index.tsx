@@ -423,7 +423,7 @@ export default component$(() => {
                             </div>
                         </div>
 
-                        {/* 3. Morph-X */}
+                        {/* 3. MORPHEX */}
                         <div class="bg-white dark:bg-[#0e1017] border border-[#c6c5d3] dark:border-[#1e2230] rounded-[4px] overflow-hidden flex flex-col hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/60 hover:-translate-y-1 transition-all duration-200 shadow-sm">
                             <div class="aspect-[16/10] overflow-hidden border-b border-[#c6c5d3] dark:border-[#1e2230] bg-[#fbf8ff] dark:bg-[#07080d]">
                                 <AfterMotionThumbnail />
@@ -434,13 +434,16 @@ export default component$(() => {
                                     <span class="text-[9px] font-['JetBrains_Mono',monospace] px-2 py-0.5 rounded-[2px] bg-purple-500/10 text-purple-400 border border-purple-500/20 font-medium">Desktop Soon</span>
                                 </div>
                                 <h3 class="font-['Syne',sans-serif] text-xl font-bold text-[#1b1b21] dark:text-white mb-1">
-                                    Morph-X
+                                    Morphex
                                 </h3>
                                 <p class="text-[11px] font-['JetBrains_Mono',monospace] text-purple-600 dark:text-purple-400/90 mb-2 font-medium">Shape the Motion</p>
                                 <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed flex-grow">A high-performance motion graphics and video editor built for creators. Non-destructive multi-layer timeline, bezier keyframe curves, and ultra-fast Rust engine without cloud rendering delays.</p>
                                 <div class="mt-6 flex flex-wrap gap-2.5">
-                                    <a href="/products/after-motion" class="inline-block py-2 px-5 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">
+                                    <a href="/products/morphex" class="inline-block py-2 px-5 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">
                                         View Details
+                                    </a>
+                                    <a href="/products/morphex/pricing" class="inline-block py-2 px-3 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all">
+                                        Pricing
                                     </a>
                                     <a 
                                         href="https://play.google.com/store/apps/details?id=com.aftermotion.app" 

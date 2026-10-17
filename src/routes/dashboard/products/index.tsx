@@ -18,16 +18,16 @@ interface ProductSession {
 export default component$(() => {
     const products = useSignal<ProductSession[]>([
         {
-            id: "after-motion",
-            name: "After Motion",
-            description: "Advanced timeline video compositor and animation canvas. Designed for high-performance frame sequencing and video editing.",
+            id: "morphex",
+            name: "Morphex",
+            description: "Advanced on-device timeline video compositor, GPU shaders, and motion graphics editor.",
             status: "active",
             lastLogin: "Today, 6:42 PM",
-            device: "Chrome / Linux (Ubuntu)",
+            device: "Android",
             ip: "192.168.1.14",
-            badgeColor: "#5c6bc0",
-            launchUrl: "http://localhost:5173/editor",
-            iconLetter: "AM"
+            badgeColor: "#8b5cf6",
+            launchUrl: "https://zenthralabs.dev/products/morphex",
+            iconLetter: "MX"
         },
         {
             id: "zenthree",
@@ -184,7 +184,7 @@ export default component$(() => {
                 
                 const dbDeviceLower = (dbDevice.value || "").toLowerCase();
                 
-                if (dbDeviceLower.includes("android") || dbDeviceLower.includes("aftermotion")) {
+                if (dbDeviceLower.includes("android") || dbDeviceLower.includes("aftermotion") || dbDeviceLower.includes("morphex")) {
                     deviceVal = "Android";
                 } else if (dbDeviceLower.includes("ios") || dbDeviceLower.includes("iphone") || dbDeviceLower.includes("ipad")) {
                     deviceVal = "iOS";
@@ -196,7 +196,7 @@ export default component$(() => {
                     deviceVal = "macOS";
                 } else {
                     // Fallback defaults if no device info matched
-                    if (p.id === "after-motion") {
+                    if (p.id === "morphex" || p.id === "after-motion") {
                         deviceVal = "Android";
                     } else if (p.id === "zenfile") {
                         deviceVal = "Linux";
@@ -205,7 +205,7 @@ export default component$(() => {
                     }
                 }
 
-                if (p.id === "after-motion") {
+                if (p.id === "morphex" || p.id === "after-motion") {
                     ipVal = clientIp.value || "192.168.1.14";
                     const nowTime = new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
                     loginVal = `Today, ${nowTime}`;

@@ -1,1 +1,1 @@
-export { default, head } from "../after-motion/index";
+export { default, head } from "../morphex/index";

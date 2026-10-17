@@ -63,9 +63,9 @@ const APPLICATIONS: ApplicationCard[] = [
         category: "desktop",
     },
     {
-        id: "morph-x",
-        title: "Morph-X",
-        description: "Shape the Motion. High-performance on-device motion graphics & video editor. Edit multitrack timelines at 60 FPS previews with bezier curves, zero telemetry, and no subscriptions. Desktop suite coming soon.",
+        id: "morphex",
+        title: "MORPHEX",
+        description: "Shape the Motion. High-performance on-device motion graphics & video editor. Edit multitrack timelines at 60 FPS previews with bezier curves, zero telemetry, and Pro features. Desktop suite coming soon.",
         status: "active",
         statusLabel: "v2.4.8 (Google Play)",
         platforms: ["Android", "Windows (Soon)", "macOS (Soon)"],
@@ -199,10 +199,10 @@ export default component$(() => {
                             <div>
                                 {/* Icon & Header */}
                                 <div class="flex items-center gap-4 mb-6">
-                                    {app.id === "after-motion" ? (
+                                    {app.id === "morphex" || app.id === "after-motion" || app.id === "morph-x" ? (
                                         <img
                                             src="/assets/screenshots/after-motion/logos/full.png"
-                                            alt="After Motion Logo"
+                                            alt="MORPHEX Logo"
                                             class="w-12 h-12 rounded-[4px] object-cover shadow-sm"
                                         />
                                     ) : (
@@ -255,7 +255,7 @@ export default component$(() => {
 
                             {/* Download Action */}
                             {isActive ? (
-                                app.id === "after-motion" ? (
+                                app.id === "morphex" || app.id === "after-motion" || app.id === "morph-x" ? (
                                     <a
                                         href={app.link}
                                         target="_blank"

@@ -71,9 +71,9 @@ export default component$(() => {
                     Articles and documentation written by developers at ZenthraLabs on rendering architectures, GUI performance pipelines, and Rust design patterns.
                 </p>
                 <div class="mt-6 flex flex-wrap items-center gap-3">
-                    <a href="/products/after-motion/blog" class="inline-flex items-center gap-2 px-4 py-2 bg-[#fbf8ff] dark:bg-[#0b0813] text-[#4352a5] dark:text-[#e2dff0] border border-violet-300 dark:border-violet-700/50 hover:bg-violet-50 dark:hover:bg-violet-950 transition-all rounded-[6px] text-xs font-['JetBrains_Mono',monospace] shadow-md">
+                    <a href="/products/morphex/blog" class="inline-flex items-center gap-2 px-4 py-2 bg-[#fbf8ff] dark:bg-[#0b0813] text-[#4352a5] dark:text-[#e2dff0] border border-violet-300 dark:border-violet-700/50 hover:bg-violet-50 dark:hover:bg-violet-950 transition-all rounded-[6px] text-xs font-['JetBrains_Mono',monospace] shadow-md">
                         <span class="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
-                        <span>After Motion Engineering Journal &rarr;</span>
+                        <span>MORPHEX Engineering Journal &rarr;</span>
                     </a>
                 </div>
             </div>

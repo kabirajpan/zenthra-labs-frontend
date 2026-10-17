@@ -259,7 +259,7 @@ export default component$(() => {
                     </div>
 
                     <div class="p-4 bg-[#f4f2f8] dark:bg-[#12131b] border border-[#c6c5d3] dark:border-[#1e2030] rounded-[4px]">
-                        <span class="text-[10px] text-[#767683] dark:text-[#94a3b8] uppercase block">After Motion</span>
+                        <span class="text-[10px] text-[#767683] dark:text-[#94a3b8] uppercase block">Morphex</span>
                         <span class="text-xl font-bold text-[#1b1b21] dark:text-white mt-1 block">{stats.value.afterMotionCount || 0}</span>
                     </div>
 
@@ -358,8 +358,8 @@ export default component$(() => {
                                             </td>
 
                                             <td class="p-3 font-['JetBrains_Mono',monospace] text-[11px]">
-                                                {products.includes("after-motion") ? (
-                                                    <span class="text-purple-600 dark:text-purple-400 font-bold">After Motion</span>
+                                                {products.includes("after-motion") || products.includes("morphex") ? (
+                                                    <span class="text-purple-600 dark:text-purple-400 font-bold">Morphex</span>
                                                 ) : (
                                                     <span class="text-[#767683]">Web</span>
                                                 )}

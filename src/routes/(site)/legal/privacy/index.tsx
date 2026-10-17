@@ -18,7 +18,7 @@ export default component$(() => {
                 <div>
                     <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">1. Overview &amp; Local-First Architecture</h2>
                     <p class="mb-3">
-                        Zenthra Labs is committed to protecting your privacy and upholding a transparent, local-first development model. Our applications—including <strong>After Motion: Video Editor</strong>, the Zenthra UI framework, and companion tools—perform video rendering, keyframing, and motion graphics processing locally on your hardware.
+                        Zenthra Labs is committed to protecting your privacy and upholding a transparent, local-first development model. Our applications—including <strong>Morphex (MORPHEX) Video &amp; Motion Editor</strong> (formerly After Motion), the Zenthra UI framework, and companion tools—perform video rendering, keyframing, and motion graphics processing locally on your hardware.
                     </p>
                     <p>
                         Your creative assets, local video clips, project compositions, and exported media files remain on your device and are never transmitted to third parties without your explicit direction.
@@ -26,9 +26,9 @@ export default component$(() => {
                 </div>
 
                 <div>
-                    <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">2. Information We Collect in After Motion</h2>
+                    <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">2. Information We Collect in Morphex (MORPHEX)</h2>
                     <p class="mb-3">
-                        When using <strong>After Motion: Video Editor</strong>, we collect minimal data required to provide account synchronization, billing, and ad-supported features:
+                        When using <strong>Morphex (MORPHEX)</strong>, we collect minimal data required to provide account synchronization, billing, and ad-supported features:
                     </p>
                     <ul class="list-disc pl-5 space-y-2">
                         <li>
@@ -38,7 +38,7 @@ export default component$(() => {
                             <strong>Device &amp; Other Identifiers:</strong> For free-tier users, third-party advertising partners (such as Start.io) and Google Play Services may collect standard device identifiers (such as the Android Advertising ID - AAID) and anonymous diagnostic metrics for ad delivery, fraud prevention, and performance analytics. Pro members experience zero third-party ads.
                         </li>
                         <li>
-                            <strong>In-App Purchases &amp; Subscriptions:</strong> Subscription transactions are processed directly and securely by Google Play Billing. We never receive or store your credit card or financial details.
+                            <strong>In-App Purchases &amp; Subscriptions:</strong> Subscription transactions are processed directly and securely by Google Play Billing and Paddle (our Merchant of Record). We never receive or store your credit card or financial details.
                         </li>
                     </ul>
                 </div>
@@ -59,7 +59,7 @@ export default component$(() => {
                     </p>
                     <h3 class="font-semibold text-theme-primary mt-3 mb-1">Option A: Direct In-App Deletion</h3>
                     <ol class="list-decimal pl-5 space-y-1 mb-3">
-                        <li>Open the <strong>After Motion</strong> app on your device.</li>
+                        <li>Open the <strong>Morphex (MORPHEX)</strong> app on your device.</li>
                         <li>Tap your profile avatar or the left sidebar menu.</li>
                         <li>Navigate to your profile details and tap <strong>"Delete Account &amp; User ID"</strong>.</li>
                         <li>Confirm the prompt. Your user account, authentication tokens, and synced data will be wiped immediately.</li>
@@ -70,8 +70,8 @@ export default component$(() => {
                     </p>
                     <ul class="list-disc pl-5 space-y-1">
                         <li><strong>Recipient:</strong> <code class="bg-theme-elevated text-theme-accent border border-theme-subtle px-1.5 py-0.5 rounded font-['JetBrains_Mono',monospace]">zenthralabs@gmail.com</code></li>
-                        <li><strong>Subject:</strong> Account &amp; Data Deletion Request - After Motion</li>
-                        <li><strong>Details to Include:</strong> Your registered email address associated with your After Motion account.</li>
+                        <li><strong>Subject:</strong> Account &amp; Data Deletion Request - Morphex</li>
+                        <li><strong>Details to Include:</strong> Your registered email address associated with your Morphex account.</li>
                         <li><strong>Processing Time:</strong> Requests are verified and permanently purged from our active databases within 30 days.</li>
                     </ul>
                 </div>
