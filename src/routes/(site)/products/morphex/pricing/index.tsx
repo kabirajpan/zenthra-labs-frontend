@@ -1,8 +1,109 @@
-import { component$, useSignal } from "@builder.io/qwik";
+import { component$, useSignal, useVisibleTask$, $ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
+
+const PADDLE_CLIENT_TOKEN = "live_4b1250b546adb75871fb308f00e";
+const PRICE_MONTHLY = "pri_01m52g019ymcmtbzx3wtrs25yn";
+const PRICE_ANNUAL = "pri_01m52g5bsnbqhd579r55zp1ah5";
 
 export default component$(() => {
     const billingCycle = useSignal<"monthly" | "annual">("annual");
+    const activeTxn = useSignal<string | null>(null);
+    const checkoutStatus = useSignal<string | null>(null);
+
+    const openCheckout = $( (priceId?: string) => {
+        if (typeof window === "undefined") return;
+        const paddle = (window as any).Paddle;
+        if (!paddle) {
+            checkoutStatus.value = "Paddle checkout is initializing, please tap again in a moment...";
+            return;
+        }
+
+        const currentTxn = activeTxn.value;
+        if (currentTxn) {
+            checkoutStatus.value = "Opening secure checkout...";
+            paddle.Checkout.open({
+                transactionId: currentTxn,
+                settings: {
+                    displayMode: "overlay",
+                    theme: "dark",
+                    successUrl: "aftermotion://billing/success"
+                }
+            });
+            return;
+        }
+
+        const targetPrice = priceId || (billingCycle.value === "annual" ? PRICE_ANNUAL : PRICE_MONTHLY);
+        checkoutStatus.value = "Opening secure checkout...";
+        paddle.Checkout.open({
+            items: [
+                {
+                    priceId: targetPrice,
+                    quantity: 1
+                }
+            ],
+            settings: {
+                displayMode: "overlay",
+                theme: "dark",
+                successUrl: "aftermotion://billing/success"
+            }
+        });
+    });
+
+    // Initialize Paddle.js and auto-open if _ptxn is present
+    useVisibleTask$(({ cleanup }) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const ptxn = urlParams.get("_ptxn") || urlParams.get("txn") || urlParams.get("transactionId");
+        if (ptxn) {
+            activeTxn.value = ptxn;
+            checkoutStatus.value = "Preparing your secure checkout...";
+        }
+
+        const initPaddle = () => {
+            const paddle = (window as any).Paddle;
+            if (paddle) {
+                try {
+                    paddle.Initialize({
+                        token: PADDLE_CLIENT_TOKEN,
+                        eventCallback: function(data: any) {
+                            if (data.name === "checkout.completed") {
+                                window.location.href = "aftermotion://billing/success";
+                            }
+                        }
+                    });
+
+                    if (ptxn) {
+                        setTimeout(() => {
+                            paddle.Checkout.open({
+                                transactionId: ptxn,
+                                settings: {
+                                    displayMode: "overlay",
+                                    theme: "dark",
+                                    successUrl: "aftermotion://billing/success"
+                                }
+                            });
+                            checkoutStatus.value = null;
+                        }, 400);
+                    }
+                } catch (err) {
+                    console.error("Failed to initialize Paddle:", err);
+                }
+            }
+        };
+
+        if ((window as any).Paddle) {
+            initPaddle();
+        } else {
+            const script = document.createElement("script");
+            script.src = "https://cdn.paddle.com/paddle/v2/paddle.js";
+            script.async = true;
+            script.onload = () => {
+                initPaddle();
+            };
+            document.head.appendChild(script);
+        }
+
+        cleanup(() => {});
+    });
 
     return (
         <section class="max-w-6xl mx-auto px-6 md:px-12 py-12 md:py-20 text-[#e2dff0]">
@@ -14,6 +115,33 @@ export default component$(() => {
                 <span class="text-zinc-600">/</span>
                 <span class="text-zinc-200">Pricing</span>
             </div>
+
+            {/* Active Transaction Banner if launched from mobile app */}
+            {activeTxn.value && (
+                <div class="mb-8 p-4 bg-purple-900/30 border border-purple-500/40 rounded-[6px] flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+                    <div>
+                        <div class="text-xs font-['JetBrains_Mono',monospace] text-purple-300 font-bold uppercase tracking-wider">
+                            Mobile App Session Active
+                        </div>
+                        <p class="text-xs text-zinc-300 mt-0.5">
+                            Complete your checkout below to unlock MORPHEX Pro on your device immediately.
+                        </p>
+                    </div>
+                    <button
+                        type="button"
+                        onClick$={() => openCheckout()}
+                        class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs rounded-[4px] transition-all shadow-md cursor-pointer shrink-0"
+                    >
+                        Open Payment Form &rarr;
+                    </button>
+                </div>
+            )}
+
+            {checkoutStatus.value && (
+                <div class="mb-6 p-3 bg-white/5 border border-white/10 text-xs text-center text-purple-300 font-['JetBrains_Mono',monospace] rounded-[4px] animate-pulse">
+                    {checkoutStatus.value}
+                </div>
+            )}
 
             <div class="text-center max-w-3xl mx-auto mb-12">
                 <span class="inline-block px-3 py-1 bg-white/5 border border-white/10 text-purple-300 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px] mb-4">
@@ -98,7 +226,7 @@ export default component$(() => {
                             rel="noopener noreferrer"
                             class="block w-full py-2.5 px-4 text-center rounded-[4px] border border-white/10 hover:border-white/20 text-zinc-200 hover:text-white text-xs font-semibold transition-colors"
                         >
-                            Download Free
+                            Download Free App
                         </a>
                     </div>
                 </div>
@@ -145,7 +273,7 @@ export default component$(() => {
                             </li>
                             <li class="flex items-center gap-2">
                                 <svg class="w-4 h-4 text-purple-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                <span>Ad-Free experience &amp; priority customer support</span>
+                                <span>Cards, UPI, GPay, Apple Pay &amp; PayPal accepted</span>
                             </li>
                             <li class="flex items-center gap-2">
                                 <svg class="w-4 h-4 text-purple-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -155,14 +283,13 @@ export default component$(() => {
                     </div>
 
                     <div class="pt-8">
-                        <a
-                            href="https://play.google.com/store/apps/details?id=com.aftermotion.app"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="block w-full py-2.5 px-4 text-center rounded-[4px] bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition-colors shadow-md"
+                        <button
+                            type="button"
+                            onClick$={() => openCheckout()}
+                            class="block w-full py-2.5 px-4 text-center rounded-[4px] bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition-colors shadow-md cursor-pointer"
                         >
-                            Get MORPHEX Pro
-                        </a>
+                            {activeTxn.value ? "Complete Purchase Now" : "Pay with Paddle (Instant Unlock)"}
+                        </button>
                         <p class="text-[11px] text-zinc-500 text-center mt-2.5">
                             Secure billing powered by Paddle · Cancel anytime
                         </p>
