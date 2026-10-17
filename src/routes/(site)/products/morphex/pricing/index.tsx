@@ -10,30 +10,19 @@ export default component$(() => {
     const activeTxn = useSignal<string | null>(null);
     const checkoutStatus = useSignal<string | null>(null);
 
-    const openCheckout = $( (priceId?: string) => {
+    const openCheckout = $((priceId?: string) => {
         if (typeof window === "undefined") return;
         const paddle = (window as any).Paddle;
         if (!paddle) {
-            checkoutStatus.value = "Paddle checkout is initializing, please tap again in a moment...";
-            return;
-        }
-
-        const currentTxn = activeTxn.value;
-        if (currentTxn) {
-            checkoutStatus.value = "Opening secure checkout...";
-            paddle.Checkout.open({
-                transactionId: currentTxn,
-                settings: {
-                    displayMode: "overlay",
-                    theme: "dark",
-                    successUrl: "aftermotion://billing/success"
-                }
-            });
+            checkoutStatus.value = "Initializing secure checkout...";
+            setTimeout(() => { checkoutStatus.value = null; }, 2500);
             return;
         }
 
         const targetPrice = priceId || (billingCycle.value === "annual" ? PRICE_ANNUAL : PRICE_MONTHLY);
         checkoutStatus.value = "Opening secure checkout...";
+        setTimeout(() => { checkoutStatus.value = null; }, 3000);
+
         paddle.Checkout.open({
             items: [
                 {
@@ -53,9 +42,15 @@ export default component$(() => {
     useVisibleTask$(({ cleanup }) => {
         const urlParams = new URLSearchParams(window.location.search);
         const ptxn = urlParams.get("_ptxn") || urlParams.get("txn") || urlParams.get("transactionId");
+        
+        let statusTimeout: any = null;
         if (ptxn) {
             activeTxn.value = ptxn;
             checkoutStatus.value = "Preparing your secure checkout...";
+            // Automatically clear status after 3s in case popup or overlay doesn't fire event
+            statusTimeout = setTimeout(() => {
+                checkoutStatus.value = null;
+            }, 3000);
         }
 
         const initPaddle = () => {
@@ -65,6 +60,9 @@ export default component$(() => {
                     paddle.Initialize({
                         token: PADDLE_CLIENT_TOKEN,
                         eventCallback: function(data: any) {
+                            if (data.name === "checkout.loaded" || data.name === "checkout.closed") {
+                                checkoutStatus.value = null;
+                            }
                             if (data.name === "checkout.completed") {
                                 window.location.href = "aftermotion://billing/success";
                             }
@@ -82,10 +80,11 @@ export default component$(() => {
                                 }
                             });
                             checkoutStatus.value = null;
-                        }, 400);
+                        }, 500);
                     }
                 } catch (err) {
                     console.error("Failed to initialize Paddle:", err);
+                    checkoutStatus.value = null;
                 }
             }
         };
@@ -102,7 +101,9 @@ export default component$(() => {
             document.head.appendChild(script);
         }
 
-        cleanup(() => {});
+        cleanup(() => {
+            if (statusTimeout) clearTimeout(statusTimeout);
+        });
     });
 
     return (
@@ -158,7 +159,11 @@ export default component$(() => {
                 <div class="inline-flex items-center gap-1 bg-white/5 border border-white/10 p-1 rounded-[6px] mt-8">
                     <button
                         type="button"
-                        onClick$={() => { billingCycle.value = "monthly"; }}
+                        onClick$={() => {
+                            billingCycle.value = "monthly";
+                            activeTxn.value = null;
+                            checkoutStatus.value = null;
+                        }}
                         class={`px-4 py-1.5 text-xs font-semibold rounded-[4px] transition-all cursor-pointer ${
                             billingCycle.value === "monthly"
                                 ? "bg-white text-black shadow-sm"
@@ -169,7 +174,11 @@ export default component$(() => {
                     </button>
                     <button
                         type="button"
-                        onClick$={() => { billingCycle.value = "annual"; }}
+                        onClick$={() => {
+                            billingCycle.value = "annual";
+                            activeTxn.value = null;
+                            checkoutStatus.value = null;
+                        }}
                         class={`px-4 py-1.5 text-xs font-semibold rounded-[4px] transition-all flex items-center gap-1.5 cursor-pointer ${
                             billingCycle.value === "annual"
                                 ? "bg-white text-black shadow-sm"
@@ -288,7 +297,7 @@ export default component$(() => {
                             onClick$={() => openCheckout()}
                             class="block w-full py-2.5 px-4 text-center rounded-[4px] bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition-colors shadow-md cursor-pointer"
                         >
-                            {activeTxn.value ? "Complete Purchase Now" : "Pay with Paddle (Instant Unlock)"}
+                            {billingCycle.value === "annual" ? "Pay Yearly ($39.99/yr) with Paddle" : "Pay Monthly ($4.99/mo) with Paddle"}
                         </button>
                         <p class="text-[11px] text-zinc-500 text-center mt-2.5">
                             Secure billing powered by Paddle · Cancel anytime
