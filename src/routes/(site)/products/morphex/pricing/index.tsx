@@ -33,7 +33,7 @@ export default component$(() => {
             settings: {
                 displayMode: "overlay",
                 theme: "dark",
-                successUrl: "aftermotion://billing/success"
+                successUrl: "https://zenthralabs.dev/products/morphex/pricing?checkout=success"
             }
         });
     });
@@ -43,6 +43,11 @@ export default component$(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const ptxn = urlParams.get("_ptxn") || urlParams.get("txn") || urlParams.get("transactionId");
         
+        if (urlParams.get("checkout") === "success") {
+            window.location.href = "aftermotion://billing/success";
+            return;
+        }
+
         let statusTimeout: any = null;
         if (ptxn) {
             activeTxn.value = ptxn;
@@ -76,7 +81,7 @@ export default component$(() => {
                                 settings: {
                                     displayMode: "overlay",
                                     theme: "dark",
-                                    successUrl: "aftermotion://billing/success"
+                                    successUrl: "https://zenthralabs.dev/products/morphex/pricing?checkout=success"
                                 }
                             });
                             checkoutStatus.value = null;
