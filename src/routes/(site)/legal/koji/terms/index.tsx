@@ -7,7 +7,7 @@ export default component$(() => {
             <div class="mb-12 border-b border-theme pb-8">
                 <div class="flex items-center gap-2 mb-4">
                     <span class="inline-block px-3 py-1 bg-theme-elevated text-pink-500 border border-theme-subtle font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
-                        Kōji (糀) Dating
+                        Kōji Dating
                     </span>
                     <span class="inline-block px-3 py-1 bg-theme-elevated text-theme-accent border border-theme-subtle font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
                         Terms &amp; Conditions
@@ -17,7 +17,7 @@ export default component$(() => {
                     Terms &amp; Conditions of Service
                 </h1>
                 <p class="text-xs text-theme-muted mt-2 font-['JetBrains_Mono',monospace]">
-                    Effective Date: October 2026 · App: Kōji (糀) Ephemeral Dating
+                    Effective Date: October 2026 · App: Kōji Ephemeral Dating
                 </p>
             </div>
 
@@ -25,7 +25,7 @@ export default component$(() => {
                 <div>
                     <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">1. Agreement to Terms</h2>
                     <p class="mb-3">
-                        These Terms and Conditions constitute a legally binding agreement made between you and <strong>Zenthra Labs</strong> concerning your access to and use of the <strong>Kōji (糀)</strong> mobile application, website, and related services.
+                        These Terms and Conditions constitute a legally binding agreement made between you and <strong>Zenthra Labs</strong> concerning your access to and use of the <strong>Kōji</strong> mobile application, website, and related services.
                     </p>
                     <p>
                         By installing, registering, or accessing Kōji, you confirm that you have read, understood, and agreed to be bound by all of these terms and conditions.
@@ -120,7 +120,7 @@ export const head: DocumentHead = {
     meta: [
         {
             name: "description",
-            content: "Official Terms and Conditions of service for Kōji (糀) Ephemeral Dating App by Zenthra Labs.",
+            content: "Official Terms and Conditions of service for Kōji Ephemeral Dating App by Zenthra Labs.",
         },
         {
             property: "og:title",

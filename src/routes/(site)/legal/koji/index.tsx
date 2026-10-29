@@ -6,7 +6,7 @@ export default component$(() => {
         <section class="max-w-4xl mx-auto px-6 md:px-12 py-12 md:py-16">
             <div class="mb-12 border-b border-theme pb-8">
                 <span class="inline-block px-3 py-1 bg-theme-elevated text-pink-500 border border-theme-subtle font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px] mb-4">
-                    Kōji (糀) · Zenthra Labs
+                    Kōji · Zenthra Labs
                 </span>
                 <h1 class="font-['Syne',sans-serif] text-3xl sm:text-5xl font-bold text-theme-primary leading-tight">
                     Kōji Legal &amp; Safety Portal
@@ -101,7 +101,7 @@ export const head: DocumentHead = {
     meta: [
         {
             name: "description",
-            content: "Official legal and safety portal for Kōji (糀) Ephemeral Dating App by Zenthra Labs.",
+            content: "Official legal and safety portal for Kōji Ephemeral Dating App by Zenthra Labs.",
         },
     ],
 };
