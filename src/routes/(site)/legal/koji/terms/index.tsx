@@ -81,28 +81,41 @@ export default component$(() => {
                 </div>
 
                 <div>
-                    <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">5. Ephemeral 24-Hour Timer &amp; View-Once Data</h2>
+                    <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">5. Child Sexual Abuse and Exploitation (CSAE) Prevention Policy</h2>
+                    <p class="mb-3">
+                        Zenthra Labs enforces an absolute, zero-tolerance standard against Child Sexual Abuse Material (CSAM) and Child Sexual Exploitation and Abuse (CSAE). We strictly prohibit any depiction, distribution, facilitation, or solicitation of content that exploits or endangers minors. 
+                    </p>
+                    <p class="mb-3">
+                        Any identified instance of CSAE results in immediate permanent account termination, device hardware identification bans, and immediate mandatory referral to law enforcement authorities, including the National Center for Missing &amp; Exploited Children (NCMEC) under 18 U.S.C. § 2258A and relevant regional authorities.
+                    </p>
+                    <p class="text-xs text-theme-muted">
+                        Users can report any child safety concerns directly through the in-app reporting button or by contacting our dedicated child safety contact at <code class="text-pink-500 font-mono">zenthralabs@gmail.com</code>.
+                    </p>
+                </div>
+
+                <div>
+                    <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">6. Ephemeral 24-Hour Timer &amp; View-Once Data</h2>
                     <p class="mb-3">
                         All mutual matches and chat threads are governed by a 24-hour self-destruct mechanism. Conversations and media files automatically expire and are purged when the 24-hour timer elapses. Zenthra Labs is not liable for data naturally erased pursuant to the ephemeral architecture of the application.
                     </p>
                 </div>
 
                 <div>
-                    <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">6. Account Termination</h2>
+                    <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">7. Account Termination</h2>
                     <p class="mb-3">
                         You may terminate your account at any time via the in-app "Delete Account" button in Settings. Zenthra Labs reserves the right to suspend or terminate any account, without prior notice, that violates these terms or threatens community safety.
                     </p>
                 </div>
 
                 <div>
-                    <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">7. Disclaimers &amp; Limitation of Liability</h2>
+                    <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">8. Disclaimers &amp; Limitation of Liability</h2>
                     <p>
                         Kōji is provided on an "as-is" and "as-available" basis. While we provide safety and cryptographic features, you are solely responsible for your interactions and decisions to meet or communicate with individuals both on and offline.
                     </p>
                 </div>
 
                 <div>
-                    <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">8. Contact Information</h2>
+                    <h2 class="font-['Syne',sans-serif] text-xl font-bold text-theme-primary mb-3">9. Contact Information</h2>
                     <p>
                         For inquiries concerning these Terms &amp; Conditions, please contact:
                     </p>
