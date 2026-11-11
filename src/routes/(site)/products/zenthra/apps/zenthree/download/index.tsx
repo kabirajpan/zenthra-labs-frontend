@@ -19,24 +19,24 @@ const DOWNLOAD_ICON = (
 
 const DOWNLOADS: Record<PlatformKey, DownloadOption> = {
     linux: {
-        label: "Linux (x86_64)",
-        description: "Standalone binary package (.tar.gz)",
-        filename: "zenthree-linux-x86_64.tar.gz",
-        url: "https://github.com/kabirajpan/zenthree/releases/latest/download/zenthree-linux-x86_64.tar.gz",
+        label: "Linux (.deb Installer)",
+        description: "Debian & Ubuntu package with desktop shortcut & icon (.deb)",
+        filename: "zenthree-linux-amd64.deb",
+        url: "https://github.com/kabirajpan/zenthree/releases/latest/download/zenthree-linux-amd64.deb",
         icon: DOWNLOAD_ICON,
     },
     windows: {
-        label: "Windows (x64)",
-        description: "Portable standalone package (.zip)",
-        filename: "zenthree-windows-x86_64.zip",
-        url: "https://github.com/kabirajpan/zenthree/releases/latest/download/zenthree-windows-x86_64.zip",
+        label: "Windows (Setup Wizard)",
+        description: "Modern graphical installer with desktop & start menu shortcuts (.exe)",
+        filename: "zenthree-windows-x86_64-setup.exe",
+        url: "https://github.com/kabirajpan/zenthree/releases/latest/download/zenthree-windows-x86_64-setup.exe",
         icon: DOWNLOAD_ICON,
     },
     macos: {
-        label: "macOS (Universal)",
-        description: "Apple Silicon & Intel package (.tar.gz)",
-        filename: "zenthree-macos-universal.tar.gz",
-        url: "https://github.com/kabirajpan/zenthree/releases/latest/download/zenthree-macos-universal.tar.gz",
+        label: "macOS (.dmg Installer)",
+        description: "Universal Apple Silicon & Intel Disk Image (.dmg)",
+        filename: "zenthree-macos-universal.dmg",
+        url: "https://github.com/kabirajpan/zenthree/releases/latest/download/zenthree-macos-universal.dmg",
         icon: DOWNLOAD_ICON,
     },
     unknown: {
@@ -51,6 +51,59 @@ const DOWNLOADS: Record<PlatformKey, DownloadOption> = {
         ),
     },
 };
+
+interface PackageCard {
+    platform: string;
+    type: string;
+    filename: string;
+    description: string;
+    url: string;
+}
+
+const ALL_PACKAGES: PackageCard[] = [
+    {
+        platform: "Windows (x64)",
+        type: "Setup Installer (.exe)",
+        filename: "zenthree-windows-x86_64-setup.exe",
+        description: "Wizard setup with Desktop icon, Start Menu, & Explorer menu",
+        url: "https://github.com/kabirajpan/zenthree/releases/latest/download/zenthree-windows-x86_64-setup.exe",
+    },
+    {
+        platform: "Windows (x64)",
+        type: "Portable (.zip)",
+        filename: "zenthree-windows-x86_64.zip",
+        description: "Standalone archive without installation",
+        url: "https://github.com/kabirajpan/zenthree/releases/latest/download/zenthree-windows-x86_64.zip",
+    },
+    {
+        platform: "macOS (Universal)",
+        type: "Installer (.dmg)",
+        filename: "zenthree-macos-universal.dmg",
+        description: "Drag-and-drop to Applications for Apple Silicon & Intel",
+        url: "https://github.com/kabirajpan/zenthree/releases/latest/download/zenthree-macos-universal.dmg",
+    },
+    {
+        platform: "macOS (Universal)",
+        type: "Standalone (.tar.gz)",
+        filename: "zenthree-macos-universal.tar.gz",
+        description: "Universal application bundle archive",
+        url: "https://github.com/kabirajpan/zenthree/releases/latest/download/zenthree-macos-universal.tar.gz",
+    },
+    {
+        platform: "Linux (amd64)",
+        type: "Debian Package (.deb)",
+        filename: "zenthree-linux-amd64.deb",
+        description: "Native deb package for Ubuntu, Debian, Pop!_OS, and Mint",
+        url: "https://github.com/kabirajpan/zenthree/releases/latest/download/zenthree-linux-amd64.deb",
+    },
+    {
+        platform: "Linux (x86_64)",
+        type: "Standalone (.tar.gz)",
+        filename: "zenthree-linux-x86_64.tar.gz",
+        description: "Portable tarball with 1-click desktop installer script",
+        url: "https://github.com/kabirajpan/zenthree/releases/latest/download/zenthree-linux-x86_64.tar.gz",
+    },
+];
 
 export default component$(() => {
     const detectedPlatform = useSignal<PlatformKey>("unknown");
@@ -133,47 +186,35 @@ export default component$(() => {
 
             {/* All Platforms & Packages */}
             <div class="border-t border-[#c6c5d3] dark:border-[#1e2230] pt-12 mb-16">
-                <h3 class="font-['Syne',sans-serif] text-lg font-bold text-[#1b1b21] dark:text-white mb-6">All Platforms &amp; Architectures</h3>
-                <div class="grid gap-4 sm:grid-cols-3">
-                    {(["macos", "windows", "linux"] as PlatformKey[]).map((key) => {
-                        const opt = DOWNLOADS[key];
-                        const isFeatured = detectedPlatform.value === key;
-
-                        return (
-                            <div
-                                key={key}
-                                class={[
-                                    "p-5 rounded-[4px] border transition-all flex flex-col justify-between shadow-sm",
-                                    isFeatured
-                                        ? "bg-white dark:bg-[#0e1017] border-[#5c6bc0] dark:border-[#5c6bc0]/60 shadow-md shadow-[#5c6bc0]/10"
-                                        : "bg-white dark:bg-[#0e1017] border-[#c6c5d3] dark:border-[#1e2230] hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/40",
-                                ].join(" ")}
-                            >
-                                <div>
-                                    <div class="flex items-center justify-between mb-2">
-                                        <span class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21] dark:text-white">
-                                            {opt.label}
-                                        </span>
-                                        {isFeatured && (
-                                            <span class="px-2 py-0.5 text-[9px] font-['JetBrains_Mono',monospace] bg-[#e9e7ef] dark:bg-[#1e2235] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#312e81]/40 rounded-[4px]">
-                                                Detected
-                                            </span>
-                                        )}
-                                    </div>
-                                    <p class="text-xs text-[#454651] dark:text-[#94a3b8] mb-1">{opt.description}</p>
-                                    <p class="text-[10px] text-[#767683] dark:text-[#64748b] font-['JetBrains_Mono',monospace] mb-5 truncate">
-                                        {opt.filename}
-                                    </p>
+                <h3 class="font-['Syne',sans-serif] text-lg font-bold text-[#1b1b21] dark:text-white mb-6">All Platforms &amp; Installers</h3>
+                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {ALL_PACKAGES.map((pkg) => (
+                        <div
+                            key={pkg.filename}
+                            class="p-5 rounded-[4px] border bg-white dark:bg-[#0e1017] border-[#c6c5d3] dark:border-[#1e2230] hover:border-[#4352a5] dark:hover:border-[#5c6bc0]/40 transition-all flex flex-col justify-between shadow-sm"
+                        >
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-['Syne',sans-serif] text-sm font-bold text-[#1b1b21] dark:text-white">
+                                        {pkg.platform}
+                                    </span>
+                                    <span class="px-2 py-0.5 text-[9px] font-['JetBrains_Mono',monospace] bg-[#e9e7ef] dark:bg-[#1e2235] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#312e81]/40 rounded-[4px]">
+                                        {pkg.type}
+                                    </span>
                                 </div>
-                                <a
-                                    href={opt.url}
-                                    class="py-2 px-4 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] text-xs font-semibold rounded-[4px] text-center transition-all flex items-center justify-center gap-1.5"
-                                >
-                                    Download Package
-                                </a>
+                                <p class="text-xs text-[#454651] dark:text-[#94a3b8] mb-1">{pkg.description}</p>
+                                <p class="text-[10px] text-[#767683] dark:text-[#64748b] font-['JetBrains_Mono',monospace] mb-5 truncate">
+                                    {pkg.filename}
+                                </p>
                             </div>
-                        );
-                    })}
+                            <a
+                                href={pkg.url}
+                                class="py-2 px-4 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] text-xs font-semibold rounded-[4px] text-center transition-all flex items-center justify-center gap-1.5"
+                            >
+                                Download
+                            </a>
+                        </div>
+                    ))}
                 </div>
             </div>
 
@@ -206,28 +247,29 @@ export default component$(() => {
 
                 <div class="space-y-6 text-sm text-[#454651] dark:text-[#94a3b8]">
                     <div>
-                        <h4 class="font-['Syne',sans-serif] font-bold text-sm text-[#1b1b21] dark:text-white mb-1.5">Linux</h4>
+                        <h4 class="font-['Syne',sans-serif] font-bold text-sm text-[#1b1b21] dark:text-white mb-1.5">Windows</h4>
                         <p class="leading-relaxed text-xs">
-                            Extract the package archive, make the binary executable, and launch:
+                            Run the modern UI setup wizard <code class="text-[#4352a5] dark:text-[#818cf8]">zenthree-windows-x86_64-setup.exe</code>. It automatically creates Desktop and Start Menu shortcuts, registers File Explorer context menus, and launches directly without opening any command prompts.
                         </p>
-                        <div class="bg-[#f5f2fa] dark:bg-[#07080d] border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-[#9aa6e0] font-['JetBrains_Mono',monospace] text-[11px] p-3 rounded-[4px] mt-2 select-all">
-                            tar -xzf zenthree-linux-x86_64.tar.gz<br />
-                            chmod +x zenthree<br />
-                            ./zenthree
-                        </div>
                     </div>
 
                     <div>
                         <h4 class="font-['Syne',sans-serif] font-bold text-sm text-[#1b1b21] dark:text-white mb-1.5">macOS</h4>
                         <p class="leading-relaxed text-xs">
-                            Extract the tarball and launch `zenthree`. If running on macOS Sequoia or Sonoma, right-click the binary and choose <strong>Open</strong> to approve the Gatekeeper security prompt.
+                            Open <code class="text-[#4352a5] dark:text-[#818cf8]">zenthree-macos-universal.dmg</code> and drag <strong>Zenthree</strong> to your Applications folder. Launch directly via Spotlight or Launchpad like standard Mac applications.
                         </p>
                     </div>
 
                     <div>
-                        <h4 class="font-['Syne',sans-serif] font-bold text-sm text-[#1b1b21] dark:text-white mb-1.5">Windows</h4>
+                        <h4 class="font-['Syne',sans-serif] font-bold text-sm text-[#1b1b21] dark:text-white mb-1.5">Linux (Ubuntu / Debian / Pop!_OS)</h4>
                         <p class="leading-relaxed text-xs">
-                            Unzip `zenthree-windows-x86_64.zip` and run `zenthree.exe`. Requires Vulkan, DirectX 12, or OpenGL graphics drivers.
+                            Install the Debian package for automatic desktop application menu integration and icon support:
+                        </p>
+                        <div class="bg-[#f5f2fa] dark:bg-[#07080d] border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-[#9aa6e0] font-['JetBrains_Mono',monospace] text-[11px] p-3 rounded-[4px] mt-2 select-all">
+                            sudo dpkg -i zenthree-linux-amd64.deb
+                        </div>
+                        <p class="leading-relaxed text-xs mt-2">
+                            Or extract <code class="text-[#4352a5] dark:text-[#818cf8]">zenthree-linux-x86_64.tar.gz</code> and run <code class="text-[#4352a5] dark:text-[#818cf8]">./scripts/install-linux.sh</code> to install to your local applications menu.
                         </p>
                     </div>
                 </div>
