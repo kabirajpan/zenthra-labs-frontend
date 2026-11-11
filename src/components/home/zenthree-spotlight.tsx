@@ -16,9 +16,18 @@ export const ZenthreeSpotlight = component$(() => {
                             </span>
                         </div>
 
-                        <h2 class="font-['Syne',sans-serif] text-2xl sm:text-4xl font-bold text-[#1b1b21] dark:text-white tracking-tight">
-                            Meet Zenthree.
-                        </h2>
+                        <div class="flex items-center gap-3">
+                            <img
+                                src="/assets/logos/zenthree/v2/logo-icon.svg"
+                                alt="Zenthree IDE Logo"
+                                class="w-9 h-9 sm:w-11 sm:h-11 rounded-lg shadow-sm shrink-0"
+                                width={44}
+                                height={44}
+                            />
+                            <h2 class="font-['Syne',sans-serif] text-2xl sm:text-4xl font-bold text-[#1b1b21] dark:text-white tracking-tight">
+                                Meet Zenthree.
+                            </h2>
+                        </div>
 
                         <p class="text-sm sm:text-base text-[#454651] dark:text-[#94a3b8] leading-relaxed">
                             A lightweight, GPU-accelerated code editor built from scratch in Rust on the Zenthra GUI engine. Instant startup, Tree-sitter syntax highlighting, embedded PTY terminal, and native autonomous agent intelligence powered by <strong class="text-purple-700 dark:text-purple-400 font-semibold">ZENE</strong>.

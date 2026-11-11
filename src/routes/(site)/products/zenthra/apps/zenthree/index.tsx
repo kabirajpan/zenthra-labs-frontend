@@ -26,9 +26,18 @@ export default component$(() => {
                             </span>
                         </div>
 
-                        <h1 class="font-['Syne',sans-serif] text-3xl sm:text-5xl lg:text-6xl font-bold text-[#1b1b21] dark:text-white leading-tight tracking-tight">
-                            Zenthree
-                        </h1>
+                        <div class="flex items-center gap-3.5 sm:gap-4">
+                            <img
+                                src="/assets/logos/zenthree/v2/logo-icon.svg"
+                                alt="Zenthree IDE Logo"
+                                class="w-12 h-12 sm:w-16 sm:h-16 rounded-xl shadow-md shadow-[#5c6bc0]/20 shrink-0"
+                                width={64}
+                                height={64}
+                            />
+                            <h1 class="font-['Syne',sans-serif] text-3xl sm:text-5xl lg:text-6xl font-bold text-[#1b1b21] dark:text-white leading-tight tracking-tight">
+                                Zenthree
+                            </h1>
+                        </div>
 
                         <p class="text-base sm:text-lg text-[#454651] dark:text-[#94a3b8] leading-relaxed max-w-xl">
                             A high-performance, lightweight, and modern code editor engineered in Rust on the Zenthra GUI framework. Delivers instant startup, Tree-sitter semantic syntax, native embedded terminal, and an integrated AI assistant sidecar with zero sRGB gamma washout.

@@ -239,6 +239,15 @@ const ProductCard = component$<CardProps>(({
                             />
                             <h3 class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21] dark:text-white">MORPHEX</h3>
                         </div>
+                    ) : title === "Zenthree" ? (
+                        <div class="flex items-center gap-2">
+                            <img
+                                src="/assets/logos/zenthree/v2/logo-icon.svg"
+                                alt="Zenthree"
+                                class="h-6 w-6 object-contain rounded-[4px]"
+                            />
+                            <h3 class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21] dark:text-white">Zenthree</h3>
+                        </div>
                     ) : (
                         <h3 class="font-['Syne',sans-serif] text-base font-bold text-[#1b1b21] dark:text-white">{title}</h3>
                     )}

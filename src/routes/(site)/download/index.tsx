@@ -40,10 +40,13 @@ const APPLICATIONS: ApplicationCard[] = [
         platforms: ["Linux", "macOS", "Windows"],
         link: "/products/zenthra/apps/zenthree/download",
         icon: (
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <polyline points="16 18 22 12 16 6" />
-                <polyline points="8 6 2 12 8 18" />
-            </svg>
+            <img
+                src="/assets/logos/zenthree/v2/logo-icon.svg"
+                alt="Zenthree Logo"
+                class="w-8 h-8 rounded-[4px] object-contain"
+                width={32}
+                height={32}
+            />
         ),
         category: "desktop",
     },
