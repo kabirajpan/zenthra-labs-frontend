@@ -146,17 +146,22 @@ export default component$(() => {
                 <span class="inline-block px-3 py-1 bg-[#e9e7ef] dark:bg-[#1e2235] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#312e81]/40 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
                     Zenthree · Native Desktop Editor
                 </span>
-                <div class="flex items-center justify-center gap-3 pt-2">
-                    <img
-                        src="/assets/logos/zenthree/v2/logo-icon.svg"
-                        alt="Zenthree Logo"
-                        class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl shadow-md shadow-[#5c6bc0]/20 shrink-0"
-                        width={48}
-                        height={48}
-                    />
-                    <h1 class="font-['Syne',sans-serif] text-4xl sm:text-5xl font-bold text-[#1b1b21] dark:text-white">
-                        Download Zenthree
+                <div class="space-y-3 pt-2">
+                    <h1 class="font-['Syne',sans-serif] text-3xl sm:text-4xl font-bold text-[#1b1b21] dark:text-white tracking-tight">
+                        Download
                     </h1>
+                    <div class="flex items-center justify-center gap-3">
+                        <img
+                            src="/assets/logos/zenthree/v2/logo-icon.svg"
+                            alt="Zenthree Logo"
+                            class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl shadow-md shadow-[#5c6bc0]/20 shrink-0"
+                            width={48}
+                            height={48}
+                        />
+                        <span class="font-['Syne',sans-serif] text-4xl sm:text-5xl font-bold text-[#1b1b21] dark:text-white">
+                            Zenthree
+                        </span>
+                    </div>
                 </div>
                 <p class="text-[#454651] dark:text-[#94a3b8] text-base max-w-xl mx-auto">
                     Get the GPU-accelerated code editor for your operating system. Standalone, lightweight, zero Electron runtime.

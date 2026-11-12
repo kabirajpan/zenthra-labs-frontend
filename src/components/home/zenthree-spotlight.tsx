@@ -12,21 +12,26 @@ export const ZenthreeSpotlight = component$(() => {
                                 // NATIVE DESKTOP IDE
                             </span>
                             <span class="inline-block px-2 py-0.5 bg-[#28ca41]/10 text-[#1b882d] dark:text-[#28ca41] text-[11px] font-['JetBrains_Mono',monospace] rounded">
-                                v0.1.0 Preview
+                                v0.1.3 Preview
                             </span>
                         </div>
 
-                        <div class="flex items-center gap-3">
-                            <img
-                                src="/assets/logos/zenthree/v2/logo-icon.svg"
-                                alt="Zenthree IDE Logo"
-                                class="w-9 h-9 sm:w-11 sm:h-11 rounded-lg shadow-sm shrink-0"
-                                width={44}
-                                height={44}
-                            />
-                            <h2 class="font-['Syne',sans-serif] text-2xl sm:text-4xl font-bold text-[#1b1b21] dark:text-white tracking-tight">
-                                Meet Zenthree.
-                            </h2>
+                        <div class="space-y-1">
+                            <span class="font-['Syne',sans-serif] text-xl sm:text-2xl font-bold text-[#1b1b21] dark:text-white block">
+                                Meet
+                            </span>
+                            <div class="flex items-center gap-3">
+                                <img
+                                    src="/assets/logos/zenthree/v2/logo-icon.svg"
+                                    alt="Zenthree IDE Logo"
+                                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-lg shadow-sm shrink-0"
+                                    width={44}
+                                    height={44}
+                                />
+                                <h2 class="font-['Syne',sans-serif] text-2xl sm:text-4xl font-bold text-[#1b1b21] dark:text-white tracking-tight">
+                                    Zenthree.
+                                </h2>
+                            </div>
                         </div>
 
                         <p class="text-sm sm:text-base text-[#454651] dark:text-[#94a3b8] leading-relaxed">

@@ -410,7 +410,16 @@ export default component$(() => {
                             </div>
                             <div class="p-6 flex flex-col flex-grow">
                                 <p class="text-[10px] font-['JetBrains_Mono',monospace] uppercase tracking-widest text-[#4352a5] dark:text-[#818cf8] mb-2">Desktop Code Editor &amp; IDE</p>
-                                <h3 class="font-['Syne',sans-serif] text-lg font-bold text-[#1b1b21] dark:text-white mb-2">Zenthree</h3>
+                                <div class="flex items-center gap-2.5 mb-2">
+                                    <img
+                                        src="/assets/logos/zenthree/v2/logo-icon.svg"
+                                        alt="Zenthree Logo"
+                                        class="w-6 h-6 rounded-md shadow-sm shrink-0"
+                                        width={24}
+                                        height={24}
+                                    />
+                                    <h3 class="font-['Syne',sans-serif] text-lg font-bold text-[#1b1b21] dark:text-white">Zenthree</h3>
+                                </div>
                                 <p class="text-[#454651] dark:text-[#94a3b8] text-sm leading-relaxed flex-grow">A high-performance code editor built in Rust with Zenthra. Tree-sitter semantic syntax, native PTY terminal drawer, and an integrated AI assistant sidecar.</p>
                                 <div class="mt-6 flex flex-wrap gap-2">
                                     <a href="/products/zenthra/apps/zenthree" class="inline-block py-2 px-5 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">
