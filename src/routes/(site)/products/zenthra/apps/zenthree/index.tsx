@@ -19,7 +19,7 @@ export default component$(() => {
                     <div class="col-span-12 lg:col-span-7 space-y-6">
                         <div class="flex flex-wrap items-center gap-2">
                             <span class="inline-block px-3 py-1 bg-[#e9e7ef] dark:bg-[#1e2235] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#312e81]/40 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
-                                Featured Application · v0.1.3 Preview
+                                Featured Application · v0.1.4 Preview
                             </span>
                             <span class="inline-block px-2.5 py-1 bg-[#e2f7e6] dark:bg-emerald-950/60 text-[#147a32] dark:text-emerald-400 border border-transparent dark:border-emerald-800/40 font-['JetBrains_Mono',monospace] text-xs font-semibold rounded-[4px]">
                                 GPU-Accelerated
@@ -72,7 +72,7 @@ export default component$(() => {
                                     <polyline points="7 10 12 15 17 10" />
                                     <line x1="12" y1="15" x2="12" y2="3" />
                                 </svg>
-                                Download Zenthree (v0.1.3)
+                                Download Zenthree (v0.1.4)
                             </a>
                             <a 
                                 href="https://github.com/kabirajpan/zenthree" 

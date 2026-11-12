@@ -12,7 +12,7 @@ export const ZenthreeSpotlight = component$(() => {
                                 // NATIVE DESKTOP IDE
                             </span>
                             <span class="inline-block px-2 py-0.5 bg-[#28ca41]/10 text-[#1b882d] dark:text-[#28ca41] text-[11px] font-['JetBrains_Mono',monospace] rounded">
-                                v0.1.3 Preview
+                                v0.1.4 Preview
                             </span>
                         </div>
 

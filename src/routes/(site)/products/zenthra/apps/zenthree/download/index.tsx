@@ -11,7 +11,7 @@ interface DownloadOption {
     icon: any;
 }
 
-const CURRENT_VERSION = "v0.1.3";
+const CURRENT_VERSION = "v0.1.4";
 
 const DOWNLOAD_ICON = (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">

@@ -36,7 +36,7 @@ const APPLICATIONS: ApplicationCard[] = [
         title: "Zenthree",
         description: "A high-performance GPU-accelerated code editor built in Rust with Zenthra. Features Tree-sitter semantic syntax, native PTY terminal, and integrated AI coding companion.",
         status: "active",
-        statusLabel: "v0.1.3 (Developer Preview)",
+        statusLabel: "v0.1.4 (Developer Preview)",
         platforms: ["Linux", "macOS", "Windows"],
         link: "/products/zenthra/apps/zenthree/download",
         icon: (
