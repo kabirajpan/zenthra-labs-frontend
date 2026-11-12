@@ -15,18 +15,25 @@ export default component$(() => {
      */
 
     const themeState = useStore<ThemeStoreState>({
-        theme: "dark",
+        theme: "light",
     });
     useContextProvider(ThemeContext, themeState);
 
     useVisibleTask$(() => {
         try {
-            const saved = localStorage.getItem(THEME_STORAGE_KEY) || localStorage.theme;
-            const isDark = saved ? saved === "dark" : true;
-            themeState.theme = isDark ? "dark" : "light";
-            if (isDark) {
-                document.documentElement.classList.add("dark");
+            const path = window.location.pathname;
+            const isDashboardOrAdmin = path.startsWith("/admin") || path.startsWith("/dashboard");
+            if (isDashboardOrAdmin) {
+                const saved = localStorage.getItem(THEME_STORAGE_KEY) || localStorage.theme;
+                const isDark = saved === "dark";
+                themeState.theme = isDark ? "dark" : "light";
+                if (isDark) {
+                    document.documentElement.classList.add("dark");
+                } else {
+                    document.documentElement.classList.remove("dark");
+                }
             } else {
+                themeState.theme = "light";
                 document.documentElement.classList.remove("dark");
             }
         } catch (e) {
@@ -51,10 +58,16 @@ export default component$(() => {
                     dangerouslySetInnerHTML={`
                         (function() {
                             try {
-                                var theme = localStorage.getItem('${THEME_STORAGE_KEY}') || localStorage.theme;
-                                var isDark = theme ? theme === 'dark' : true;
-                                if (isDark) {
-                                    document.documentElement.classList.add('dark');
+                                var path = window.location.pathname;
+                                var isDashboardOrAdmin = path.startsWith('/admin') || path.startsWith('/dashboard');
+                                if (isDashboardOrAdmin) {
+                                    var theme = localStorage.getItem('${THEME_STORAGE_KEY}') || localStorage.theme;
+                                    var isDark = theme === 'dark';
+                                    if (isDark) {
+                                        document.documentElement.classList.add('dark');
+                                    } else {
+                                        document.documentElement.classList.remove('dark');
+                                    }
                                 } else {
                                     document.documentElement.classList.remove('dark');
                                 }

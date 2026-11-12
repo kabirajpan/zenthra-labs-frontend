@@ -1,9 +1,14 @@
-import { component$, Slot } from "@builder.io/qwik";
+import { component$, Slot, useVisibleTask$ } from "@builder.io/qwik";
 import { Navbar } from "../../components/navbar/navbar";
 import { Footer } from "../../components/footer/footer";
 import AbstractBackground from "../../components/background/abstract-background";
 
 export default component$(() => {
+    // Public pages are always white/light theme
+    useVisibleTask$(() => {
+        document.documentElement.classList.remove("dark");
+    });
+
     return (
         <div class="relative min-h-screen">
             <AbstractBackground />

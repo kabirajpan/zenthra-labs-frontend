@@ -1,29 +1,5 @@
 import { component$, useSignal, useVisibleTask$, $ } from "@builder.io/qwik";
 import { useLocation } from "@builder.io/qwik-city";
-import { useTheme } from "../../stores/themeStore";
-
-const ThemeToggleIcon = component$(({ isDark }: { isDark: boolean }) => {
-    if (isDark) {
-        return (
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-            </svg>
-        );
-    }
-    return (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-        </svg>
-    );
-});
 
 const isLinkActive = (linkHref: string, currentPath: string) => {
     if (linkHref === "/products") {
@@ -35,7 +11,6 @@ const isLinkActive = (linkHref: string, currentPath: string) => {
 export const Navbar = component$(() => {
     const loc = useLocation();
     const isMenuOpen = useSignal(false);
-    const { state: themeState, toggleTheme } = useTheme();
     
     // Auth status signals
     const isLoggedIn = useSignal(false);
@@ -120,19 +95,8 @@ export const Navbar = component$(() => {
                     </div>
                 </div>
 
-                {/* Desktop Call to Actions + Theme Toggle */}
+                {/* Desktop Call to Actions */}
                 <div class="hidden md:flex items-center gap-3">
-                    {/* Dark/Light Mode Switcher Button */}
-                    <button 
-                        type="button"
-                        onClick$={toggleTheme}
-                        class="p-2 rounded-[6px] text-neutral-600 dark:text-[#94a3b8] hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-[#151928] border border-neutral-200 dark:border-[#1e2230] transition-all cursor-pointer flex items-center justify-center"
-                        title={themeState.theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
-                        aria-label="Toggle theme"
-                    >
-                        <ThemeToggleIcon isDark={themeState.theme === "dark"} />
-                    </button>
-
                     {isLoggedIn.value ? (
                         <>
                             {userRole.value === "ADMIN" && (
@@ -174,18 +138,8 @@ export const Navbar = component$(() => {
                     )}
                 </div>
 
-                {/* Mobile Header: Theme Switcher + Menu Hamburger */}
+                {/* Mobile Header: Menu Hamburger */}
                 <div class="flex md:hidden items-center gap-1.5">
-                    <button 
-                        type="button"
-                        onClick$={toggleTheme}
-                        class="p-2 rounded-[4px] text-neutral-600 dark:text-[#94a3b8] hover:bg-neutral-100 dark:hover:bg-[#151928] hover:text-neutral-900 dark:hover:text-white active:scale-95 transition-all cursor-pointer flex items-center justify-center"
-                        title={themeState.theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
-                        aria-label="Toggle theme"
-                    >
-                        <ThemeToggleIcon isDark={themeState.theme === "dark"} />
-                    </button>
-
                     <button 
                         onClick$={() => isMenuOpen.value = !isMenuOpen.value}
                         class="flex items-center justify-center p-2 rounded-[4px] text-neutral-600 dark:text-[#94a3b8] hover:bg-neutral-100 dark:hover:bg-[#151928] hover:text-neutral-900 dark:hover:text-white active:scale-95 transition-all cursor-pointer"
