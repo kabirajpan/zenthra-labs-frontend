@@ -11,6 +11,8 @@ interface DownloadOption {
     icon: any;
 }
 
+const CURRENT_VERSION = "v0.1.3";
+
 const DOWNLOAD_ICON = (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5 5-5M12 4v12" />
@@ -144,7 +146,7 @@ export default component$(() => {
                 </div>
                 <br />
                 <span class="inline-block px-3 py-1 bg-[#e9e7ef] dark:bg-[#1e2235] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#312e81]/40 font-['JetBrains_Mono',monospace] text-xs uppercase tracking-wider rounded-[4px]">
-                    Zenthree · Native Desktop Editor
+                    Zenthree · Native Desktop Editor · {CURRENT_VERSION}
                 </span>
                 <div class="space-y-3 pt-2">
                     <h1 class="font-['Syne',sans-serif] text-3xl sm:text-4xl font-bold text-[#1b1b21] dark:text-white tracking-tight">
@@ -177,24 +179,34 @@ export default component$(() => {
                         <p class="text-xs font-['JetBrains_Mono',monospace] text-[#4352a5] dark:text-[#818cf8] uppercase tracking-wider mb-2">
                             {detectedPlatform.value !== "unknown" ? "✓ Recommended for your system" : "Download Zenthree"}
                         </p>
-                        <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] dark:text-white mb-1">
-                            {activeDownload.label}
-                        </h2>
+                        <div class="flex items-center gap-2.5 mb-1 flex-wrap">
+                            <h2 class="font-['Syne',sans-serif] text-2xl font-bold text-[#1b1b21] dark:text-white">
+                                {activeDownload.label}
+                            </h2>
+                            <span class="px-2 py-0.5 text-xs font-['JetBrains_Mono',monospace] font-semibold bg-[#28ca41]/10 text-[#1b882d] dark:text-[#28ca41] border border-[#28ca41]/30 rounded">
+                                {CURRENT_VERSION}
+                            </span>
+                        </div>
                         <p class="text-xs text-[#4352a5] dark:text-[#818cf8] font-['JetBrains_Mono',monospace]">
-                            File: {activeDownload.filename}
+                            Version: <span class="font-semibold text-[#1b1b21] dark:text-white">{CURRENT_VERSION}</span> • File: {activeDownload.filename}
                         </p>
                         <p class="text-sm text-[#454651] dark:text-[#94a3b8] mt-2">
                             {activeDownload.description}
                         </p>
                     </div>
 
-                    <a
-                        href={activeDownload.url}
-                        class="py-3 px-8 bg-[#5c6bc0] hover:bg-[#4d5cb0] text-white font-medium rounded-[4px] text-sm transition-all shadow-lg shadow-[#5c6bc0]/25 flex items-center justify-center gap-2 self-start sm:self-auto"
-                    >
-                        {activeDownload.icon}
-                        Download Now
-                    </a>
+                    <div class="flex flex-col items-center sm:items-end gap-1.5 self-start sm:self-auto">
+                        <a
+                            href={activeDownload.url}
+                            class="py-3 px-8 bg-[#5c6bc0] hover:bg-[#4d5cb0] text-white font-medium rounded-[4px] text-sm transition-all shadow-lg shadow-[#5c6bc0]/25 flex items-center justify-center gap-2 w-full sm:w-auto"
+                        >
+                            {activeDownload.icon}
+                            Download Now ({CURRENT_VERSION})
+                        </a>
+                        <span class="text-[11px] text-[#767683] dark:text-[#64748b] font-['JetBrains_Mono',monospace]">
+                            Latest release: {CURRENT_VERSION}
+                        </span>
+                    </div>
                 </div>
             </div>
 
@@ -212,9 +224,14 @@ export default component$(() => {
                                     <span class="font-['Syne',sans-serif] text-sm font-bold text-[#1b1b21] dark:text-white">
                                         {pkg.platform}
                                     </span>
-                                    <span class="px-2 py-0.5 text-[9px] font-['JetBrains_Mono',monospace] bg-[#e9e7ef] dark:bg-[#1e2235] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#312e81]/40 rounded-[4px]">
-                                        {pkg.type}
-                                    </span>
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="px-1.5 py-0.5 text-[9px] font-['JetBrains_Mono',monospace] font-semibold bg-[#28ca41]/10 text-[#1b882d] dark:text-[#28ca41] border border-[#28ca41]/30 rounded">
+                                            {CURRENT_VERSION}
+                                        </span>
+                                        <span class="px-2 py-0.5 text-[9px] font-['JetBrains_Mono',monospace] bg-[#e9e7ef] dark:bg-[#1e2235] text-[#4352a5] dark:text-[#818cf8] border border-[#c6c5d3]/50 dark:border-[#312e81]/40 rounded-[4px]">
+                                            {pkg.type}
+                                        </span>
+                                    </div>
                                 </div>
                                 <p class="text-xs text-[#454651] dark:text-[#94a3b8] mb-1">{pkg.description}</p>
                                 <p class="text-[10px] text-[#767683] dark:text-[#64748b] font-['JetBrains_Mono',monospace] mb-5 truncate">
@@ -225,7 +242,7 @@ export default component$(() => {
                                 href={pkg.url}
                                 class="py-2 px-4 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] text-xs font-semibold rounded-[4px] text-center transition-all flex items-center justify-center gap-1.5"
                             >
-                                Download
+                                Download {CURRENT_VERSION}
                             </a>
                         </div>
                     ))}
