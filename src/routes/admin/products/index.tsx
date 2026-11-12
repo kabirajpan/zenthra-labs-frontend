@@ -12,6 +12,8 @@ interface Stats {
 export default component$(() => {
     const stats = useSignal<Stats | null>(null);
     const adStrategy = useSignal<string>("ADMOB_FALLBACK_STARTIO");
+    const selectedStrategy = useSignal<string>("ADMOB_FALLBACK_STARTIO");
+    const isEditing = useSignal<boolean>(false);
     const isSaving = useSignal<boolean>(false);
     const statusMessage = useSignal<string>("");
 
@@ -50,6 +52,7 @@ export default component$(() => {
                 const data = await res.json();
                 if (data.strategy) {
                     adStrategy.value = data.strategy;
+                    selectedStrategy.value = data.strategy;
                 }
             }
         } catch {
@@ -74,6 +77,8 @@ export default component$(() => {
             });
             if (res.ok) {
                 adStrategy.value = newStrategy;
+                selectedStrategy.value = newStrategy;
+                isEditing.value = false;
                 statusMessage.value = "Ad strategy updated successfully!";
                 setTimeout(() => {
                     statusMessage.value = "";
@@ -127,117 +132,188 @@ export default component$(() => {
                             <span class="text-xs font-['Syne',sans-serif] font-bold text-[#1b1b21] dark:text-white uppercase tracking-wider">
                                 Ad Routing Strategy
                             </span>
-                            {statusMessage.value && (
-                                <span class="text-[11px] font-['JetBrains_Mono',monospace] text-emerald-600 dark:text-emerald-400 animate-pulse">
-                                    {statusMessage.value}
-                                </span>
-                            )}
+                            <div class="flex items-center gap-2">
+                                {statusMessage.value && (
+                                    <span class="text-[11px] font-['JetBrains_Mono',monospace] text-emerald-600 dark:text-emerald-400 animate-pulse">
+                                        {statusMessage.value}
+                                    </span>
+                                )}
+                                {!isEditing.value ? (
+                                    <button
+                                        type="button"
+                                        onClick$={() => {
+                                            selectedStrategy.value = adStrategy.value;
+                                            isEditing.value = true;
+                                        }}
+                                        class="px-2.5 py-1 text-[11px] font-bold font-['JetBrains_Mono',monospace] bg-purple-600 hover:bg-purple-500 text-white rounded transition-colors"
+                                    >
+                                        Edit
+                                    </button>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        onClick$={() => {
+                                            selectedStrategy.value = adStrategy.value;
+                                            isEditing.value = false;
+                                        }}
+                                        class="px-2.5 py-1 text-[11px] font-['JetBrains_Mono',monospace] bg-gray-500/20 hover:bg-gray-500/30 text-[#767683] dark:text-[#94a3b8] rounded transition-colors"
+                                    >
+                                        Cancel
+                                    </button>
+                                )}
+                            </div>
                         </div>
 
-                        <div class="space-y-2">
-                            {/* Strategy 1: AdMob + Start.io Fallback */}
-                            <label
-                                class={`flex items-start gap-3 p-3 rounded border text-xs cursor-pointer transition-all ${
-                                    adStrategy.value === "ADMOB_FALLBACK_STARTIO"
-                                        ? "bg-purple-500/10 border-purple-500/50 dark:border-purple-500/60"
-                                        : "bg-white/40 dark:bg-[#0c0d14] border-[#c6c5d3] dark:border-[#1e2030] hover:border-purple-400/40"
-                                }`}
-                                onClick$={() => saveAdConfig("ADMOB_FALLBACK_STARTIO")}
-                            >
-                                <input
-                                    type="radio"
-                                    name="ad_strategy"
-                                    value="ADMOB_FALLBACK_STARTIO"
-                                    checked={adStrategy.value === "ADMOB_FALLBACK_STARTIO"}
-                                    disabled={isSaving.value}
-                                    class="mt-0.5 text-purple-600"
-                                />
-                                <div>
-                                    <div class="font-bold text-[#1b1b21] dark:text-white flex items-center gap-2">
-                                        AdMob + Start.io Fallback
-                                        <span class="text-[9px] px-1.5 py-0.2 bg-purple-500/20 text-purple-400 rounded font-mono">RECOMMENDED</span>
+                        {!isEditing.value ? (
+                            /* View Mode: Clean summary card */
+                            <div class="p-3 bg-purple-500/10 border border-purple-500/40 rounded text-xs space-y-1">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-[#1b1b21] dark:text-white flex items-center gap-2">
+                                        {adStrategy.value === "ADMOB_FALLBACK_STARTIO" && "AdMob + Start.io Fallback"}
+                                        {adStrategy.value === "ADMOB_ONLY" && "Full AdMob Only"}
+                                        {adStrategy.value === "STARTIO_ONLY" && "Full Start.io Only"}
+                                        {adStrategy.value === "ADS_DISABLED" && "All Ads Disabled (Kill Switch)"}
+                                    </span>
+                                    <span class="text-[9px] px-2 py-0.5 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-mono font-bold rounded">
+                                        ACTIVE
+                                    </span>
+                                </div>
+                                <p class="text-[11px] text-[#767683] dark:text-[#94a3b8]">
+                                    {adStrategy.value === "ADMOB_FALLBACK_STARTIO" && "AdMob primary (instant 0ms). If no fill or network fails, Start.io handles fallback."}
+                                    {adStrategy.value === "ADMOB_ONLY" && "100% AdMob. Start.io is completely OFF. Blocks export if no fill."}
+                                    {adStrategy.value === "STARTIO_ONLY" && "100% Start.io. AdMob is completely OFF. Useful if AdMob freezes."}
+                                    {adStrategy.value === "ADS_DISABLED" && "Zero ads served app-wide across all devices."}
+                                </p>
+                            </div>
+                        ) : (
+                            /* Edit Mode: Strategy Radio Options with Save button */
+                            <div class="space-y-2">
+                                {/* Strategy 1: AdMob + Start.io Fallback */}
+                                <label
+                                    class={`flex items-start gap-3 p-3 rounded border text-xs cursor-pointer transition-all ${
+                                        selectedStrategy.value === "ADMOB_FALLBACK_STARTIO"
+                                            ? "bg-purple-500/10 border-purple-500/50 dark:border-purple-500/60"
+                                            : "bg-white/40 dark:bg-[#0c0d14] border-[#c6c5d3] dark:border-[#1e2030] hover:border-purple-400/40"
+                                    }`}
+                                    onClick$={() => { selectedStrategy.value = "ADMOB_FALLBACK_STARTIO"; }}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="ad_strategy"
+                                        value="ADMOB_FALLBACK_STARTIO"
+                                        checked={selectedStrategy.value === "ADMOB_FALLBACK_STARTIO"}
+                                        disabled={isSaving.value}
+                                        class="mt-0.5 text-purple-600"
+                                    />
+                                    <div>
+                                        <div class="font-bold text-[#1b1b21] dark:text-white flex items-center gap-2">
+                                            AdMob + Start.io Fallback
+                                            <span class="text-[9px] px-1.5 py-0.2 bg-purple-500/20 text-purple-400 rounded font-mono">RECOMMENDED</span>
+                                        </div>
+                                        <p class="text-[11px] text-[#767683] dark:text-[#94a3b8] mt-0.5">
+                                            AdMob primary (instant 0ms). If no fill or network fails, Start.io handles fallback.
+                                        </p>
                                     </div>
-                                    <p class="text-[11px] text-[#767683] dark:text-[#94a3b8] mt-0.5">
-                                        AdMob primary (instant 0ms). If no fill or network fails, Start.io handles fallback.
-                                    </p>
-                                </div>
-                            </label>
+                                </label>
 
-                            {/* Strategy 2: AdMob Only */}
-                            <label
-                                class={`flex items-start gap-3 p-3 rounded border text-xs cursor-pointer transition-all ${
-                                    adStrategy.value === "ADMOB_ONLY"
-                                        ? "bg-purple-500/10 border-purple-500/50 dark:border-purple-500/60"
-                                        : "bg-white/40 dark:bg-[#0c0d14] border-[#c6c5d3] dark:border-[#1e2030] hover:border-purple-400/40"
-                                }`}
-                                onClick$={() => saveAdConfig("ADMOB_ONLY")}
-                            >
-                                <input
-                                    type="radio"
-                                    name="ad_strategy"
-                                    value="ADMOB_ONLY"
-                                    checked={adStrategy.value === "ADMOB_ONLY"}
-                                    disabled={isSaving.value}
-                                    class="mt-0.5 text-purple-600"
-                                />
-                                <div>
-                                    <div class="font-bold text-[#1b1b21] dark:text-white">Full AdMob Only</div>
-                                    <p class="text-[11px] text-[#767683] dark:text-[#94a3b8] mt-0.5">
-                                        100% AdMob. Start.io is completely OFF. Blocks export if no fill.
-                                    </p>
-                                </div>
-                            </label>
+                                {/* Strategy 2: AdMob Only */}
+                                <label
+                                    class={`flex items-start gap-3 p-3 rounded border text-xs cursor-pointer transition-all ${
+                                        selectedStrategy.value === "ADMOB_ONLY"
+                                            ? "bg-purple-500/10 border-purple-500/50 dark:border-purple-500/60"
+                                            : "bg-white/40 dark:bg-[#0c0d14] border-[#c6c5d3] dark:border-[#1e2030] hover:border-purple-400/40"
+                                    }`}
+                                    onClick$={() => { selectedStrategy.value = "ADMOB_ONLY"; }}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="ad_strategy"
+                                        value="ADMOB_ONLY"
+                                        checked={selectedStrategy.value === "ADMOB_ONLY"}
+                                        disabled={isSaving.value}
+                                        class="mt-0.5 text-purple-600"
+                                    />
+                                    <div>
+                                        <div class="font-bold text-[#1b1b21] dark:text-white">Full AdMob Only</div>
+                                        <p class="text-[11px] text-[#767683] dark:text-[#94a3b8] mt-0.5">
+                                            100% AdMob. Start.io is completely OFF. Blocks export if no fill.
+                                        </p>
+                                    </div>
+                                </label>
 
-                            {/* Strategy 3: Start.io Only */}
-                            <label
-                                class={`flex items-start gap-3 p-3 rounded border text-xs cursor-pointer transition-all ${
-                                    adStrategy.value === "STARTIO_ONLY"
-                                        ? "bg-purple-500/10 border-purple-500/50 dark:border-purple-500/60"
-                                        : "bg-white/40 dark:bg-[#0c0d14] border-[#c6c5d3] dark:border-[#1e2030] hover:border-purple-400/40"
-                                }`}
-                                onClick$={() => saveAdConfig("STARTIO_ONLY")}
-                            >
-                                <input
-                                    type="radio"
-                                    name="ad_strategy"
-                                    value="STARTIO_ONLY"
-                                    checked={adStrategy.value === "STARTIO_ONLY"}
-                                    disabled={isSaving.value}
-                                    class="mt-0.5 text-purple-600"
-                                />
-                                <div>
-                                    <div class="font-bold text-[#1b1b21] dark:text-white">Full Start.io Only</div>
-                                    <p class="text-[11px] text-[#767683] dark:text-[#94a3b8] mt-0.5">
-                                        100% Start.io. AdMob is completely OFF. Useful if AdMob freezes.
-                                    </p>
-                                </div>
-                            </label>
+                                {/* Strategy 3: Start.io Only */}
+                                <label
+                                    class={`flex items-start gap-3 p-3 rounded border text-xs cursor-pointer transition-all ${
+                                        selectedStrategy.value === "STARTIO_ONLY"
+                                            ? "bg-purple-500/10 border-purple-500/50 dark:border-purple-500/60"
+                                            : "bg-white/40 dark:bg-[#0c0d14] border-[#c6c5d3] dark:border-[#1e2030] hover:border-purple-400/40"
+                                    }`}
+                                    onClick$={() => { selectedStrategy.value = "STARTIO_ONLY"; }}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="ad_strategy"
+                                        value="STARTIO_ONLY"
+                                        checked={selectedStrategy.value === "STARTIO_ONLY"}
+                                        disabled={isSaving.value}
+                                        class="mt-0.5 text-purple-600"
+                                    />
+                                    <div>
+                                        <div class="font-bold text-[#1b1b21] dark:text-white">Full Start.io Only</div>
+                                        <p class="text-[11px] text-[#767683] dark:text-[#94a3b8] mt-0.5">
+                                            100% Start.io. AdMob is completely OFF. Useful if AdMob freezes.
+                                        </p>
+                                    </div>
+                                </label>
 
-                            {/* Strategy 4: Ads Disabled */}
-                            <label
-                                class={`flex items-start gap-3 p-3 rounded border text-xs cursor-pointer transition-all ${
-                                    adStrategy.value === "ADS_DISABLED"
-                                        ? "bg-red-500/10 border-red-500/50 dark:border-red-500/60"
-                                        : "bg-white/40 dark:bg-[#0c0d14] border-[#c6c5d3] dark:border-[#1e2030] hover:border-red-400/40"
-                                }`}
-                                onClick$={() => saveAdConfig("ADS_DISABLED")}
-                            >
-                                <input
-                                    type="radio"
-                                    name="ad_strategy"
-                                    value="ADS_DISABLED"
-                                    checked={adStrategy.value === "ADS_DISABLED"}
-                                    disabled={isSaving.value}
-                                    class="mt-0.5 text-red-600"
-                                />
-                                <div>
-                                    <div class="font-bold text-red-600 dark:text-red-400">All Ads Disabled (Kill Switch)</div>
-                                    <p class="text-[11px] text-[#767683] dark:text-[#94a3b8] mt-0.5">
-                                        Zero ads served app-wide across all devices.
-                                    </p>
+                                {/* Strategy 4: Ads Disabled */}
+                                <label
+                                    class={`flex items-start gap-3 p-3 rounded border text-xs cursor-pointer transition-all ${
+                                        selectedStrategy.value === "ADS_DISABLED"
+                                            ? "bg-red-500/10 border-red-500/50 dark:border-red-500/60"
+                                            : "bg-white/40 dark:bg-[#0c0d14] border-[#c6c5d3] dark:border-[#1e2030] hover:border-red-400/40"
+                                    }`}
+                                    onClick$={() => { selectedStrategy.value = "ADS_DISABLED"; }}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="ad_strategy"
+                                        value="ADS_DISABLED"
+                                        checked={selectedStrategy.value === "ADS_DISABLED"}
+                                        disabled={isSaving.value}
+                                        class="mt-0.5 text-red-600"
+                                    />
+                                    <div>
+                                        <div class="font-bold text-red-600 dark:text-red-400">All Ads Disabled (Kill Switch)</div>
+                                        <p class="text-[11px] text-[#767683] dark:text-[#94a3b8] mt-0.5">
+                                            Zero ads served app-wide across all devices.
+                                        </p>
+                                    </div>
+                                </label>
+
+                                <div class="flex items-center gap-2 pt-2">
+                                    <button
+                                        type="button"
+                                        disabled={isSaving.value}
+                                        onClick$={() => saveAdConfig(selectedStrategy.value)}
+                                        class="px-3 py-1.5 text-xs font-bold bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white rounded transition-colors"
+                                    >
+                                        {isSaving.value ? "Updating..." : "Update Strategy"}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        disabled={isSaving.value}
+                                        onClick$={() => {
+                                            selectedStrategy.value = adStrategy.value;
+                                            isEditing.value = false;
+                                        }}
+                                        class="px-3 py-1.5 text-xs bg-gray-500/20 hover:bg-gray-500/30 text-[#767683] dark:text-[#94a3b8] rounded transition-colors"
+                                    >
+                                        Cancel
+                                    </button>
                                 </div>
-                            </label>
-                        </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 
