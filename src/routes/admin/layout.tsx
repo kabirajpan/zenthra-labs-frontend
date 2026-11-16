@@ -260,6 +260,22 @@ export default component$(() => {
                             </svg>
                             Production Products
                         </Link>
+
+                        <Link
+                            href="/admin/notifications"
+                            class={[
+                                "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
+                                loc.url.pathname.startsWith("/admin/notifications")
+                                    ? "bg-[#1b1b21] text-white border-[#1b1b21] dark:bg-white dark:text-[#1b1b21] dark:border-white shadow-sm"
+                                    : "text-[#767683] hover:text-[#1b1b21] dark:text-[#94a3b8] dark:hover:text-white border-transparent hover:bg-black/5 dark:hover:bg-white/5"
+                            ].join(" ")}
+                        >
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                            </svg>
+                            Notifications
+                        </Link>
                     </div>
                 </nav>
             </aside>
