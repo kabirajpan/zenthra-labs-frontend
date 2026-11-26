@@ -66,17 +66,14 @@ export default component$(() => {
         };
 
         try {
-            const webhookUrl = import.meta.env.PUBLIC_POISON_WAITLIST_URL;
-            if (webhookUrl) {
-                await fetch(webhookUrl, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json", Accept: "application/json" },
-                    body: JSON.stringify(payload),
-                });
-            }
+            await fetch("/api/poison-early-access", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
             localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
         } catch {
-            // Still unlock prototype download on client even if optional webhook fails
+            // Still unlock prototype download on client even if network fails
         } finally {
             submitting.value = false;
             unlocked.value = true;

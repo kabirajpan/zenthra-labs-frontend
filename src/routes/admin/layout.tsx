@@ -276,6 +276,25 @@ export default component$(() => {
                             </svg>
                             Notifications
                         </Link>
+
+                        <Link
+                            href="/admin/poison-access"
+                            class={[
+                                "flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-semibold transition-all duration-150 border",
+                                loc.url.pathname.startsWith("/admin/poison-access")
+                                    ? "bg-[#1b1b21] text-white border-[#1b1b21] dark:bg-white dark:text-[#1b1b21] dark:border-white shadow-sm"
+                                    : "text-[#767683] hover:text-[#1b1b21] dark:text-[#94a3b8] dark:hover:text-white border-transparent hover:bg-black/5 dark:hover:bg-white/5"
+                            ].join(" ")}
+                        >
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <rect x="2" y="6" width="20" height="12" rx="4" />
+                                <line x1="6" y1="12" x2="10" y2="12" />
+                                <line x1="8" y1="10" x2="8" y2="14" />
+                                <circle cx="15.5" cy="11" r="0.75" fill="currentColor" />
+                                <circle cx="17.5" cy="13" r="0.75" fill="currentColor" />
+                            </svg>
+                            Poison Access
+                        </Link>
                     </div>
                 </nav>
             </aside>
