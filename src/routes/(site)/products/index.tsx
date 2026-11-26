@@ -313,7 +313,7 @@ export default component$(() => {
                     Actions={ZenthraViewActions} />
                 {/* 7. Poison */}
                 <ProductCard thumbnail={PoisonThumbnail} title="Poison" badge="Prototype v1.0.0" badgeVariant="green" category="Mobile Game"
-                    description="Fast-paced native Android game by ZenthraLabs. Join Play Store early access and download the Prototype v1.0.0 APK."
+                    description="Fast-paced native Android game developed by Contr and published by ZenthraLabs. Join Play Store early access and download Prototype v1.0.0."
                     Actions={PoisonActions} />
                 {/* 8. Future Labs */}
                 <ProductCard thumbnail={FutureLabsThumbnail} title="Future Labs" category="R&D"

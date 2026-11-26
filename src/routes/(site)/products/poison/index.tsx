@@ -109,7 +109,7 @@ export default component$(() => {
                     Poison
                 </h1>
                 <p class="mt-4 text-base sm:text-lg text-[#454651] dark:text-[#94a3b8] max-w-2xl leading-relaxed">
-                    Fast-paced native Android game by ZenthraLabs. Sign up for Google Play Store early access and download the Prototype v1.0.0 APK immediately.
+                    Fast-paced native Android game developed by <strong class="text-[#1b1b21] dark:text-white font-semibold">Contr</strong> and published by <strong class="text-[#1b1b21] dark:text-white font-semibold">ZenthraLabs</strong>. Sign up for Google Play Store early access and download the Prototype v1.0.0 APK immediately.
                 </p>
 
                 {/* Early Access Registration Form or Unlocked Download */}
@@ -240,10 +240,10 @@ export default component$(() => {
                     </div>
                     <div>
                         <div class="text-[11px] font-['JetBrains_Mono',monospace] uppercase tracking-wider text-[#767683] dark:text-[#64748b]">
-                            Early Access
+                            Credits
                         </div>
                         <div class="mt-1 text-sm font-semibold text-[#1b1b21] dark:text-white">
-                            Google Play Store Invite
+                            Developed by Contr · Published by ZenthraLabs
                         </div>
                     </div>
                     <div>
