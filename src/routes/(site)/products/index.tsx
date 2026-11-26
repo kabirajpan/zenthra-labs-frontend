@@ -40,6 +40,16 @@ const ZenthraViewThumbnail = component$(() => (
     </div>
 ));
 
+const PoisonThumbnail = component$(() => (
+    <div class="w-full h-full bg-[#090b14] relative overflow-hidden">
+        <img
+            src="/assets/screenshots/poison/Screenshot_20261126-140919.png"
+            alt="Poison Android Game"
+            class="w-full h-full object-cover"
+        />
+    </div>
+));
+
 const AfterMotionThumbnail = component$(() => (
     <div class="w-full h-full bg-[#0b0813] relative overflow-hidden flex items-center justify-center py-2">
         <div 
@@ -195,6 +205,20 @@ const FutureLabsActions = component$(() => (
     </div>
 ));
 
+const PoisonActions = component$(() => (
+    <div class="flex flex-wrap gap-2 sm:gap-3">
+        <a href="/products/poison" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
+        <a
+            href="https://drive.google.com/uc?export=download&id=1rJk1X9Q-wK8viFwEZVoXNsY5qdRRgsNR"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="py-2 px-4 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all"
+        >
+            Download APK
+        </a>
+    </div>
+));
+
 // ── Shared card ───────────────────────────────────────────────────────────────
 
 interface CardProps {
@@ -295,7 +319,11 @@ export default component$(() => {
                 <ProductCard thumbnail={ZenthraViewThumbnail} title="Zenthra View" badge="Example App" category="Desktop App"
                     description="A native desktop image viewer built with Zenthra — file browser, zoom, slideshow, and thumbnail filmstrip."
                     Actions={ZenthraViewActions} />
-                {/* 7. Future Labs */}
+                {/* 7. Poison */}
+                <ProductCard thumbnail={PoisonThumbnail} title="Poison" badge="Android APK" badgeVariant="green" category="Mobile Game"
+                    description="Fast-paced native Android game by ZenthraLabs. Download the APK directly and play on your Android device."
+                    Actions={PoisonActions} />
+                {/* 8. Future Labs */}
                 <ProductCard thumbnail={FutureLabsThumbnail} title="Future Labs" category="R&D"
                     description="Mobile apps and games — exploring next-generation interface metaphors and GPU-accelerated rendering."
                     comingSoon={true} Actions={FutureLabsActions} />

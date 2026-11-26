@@ -82,6 +82,25 @@ const APPLICATIONS: ApplicationCard[] = [
         category: "mobile",
     },
     {
+        id: "poison",
+        title: "Poison",
+        description: "Fast-paced native Android game by ZenthraLabs. Direct APK download for Android devices.",
+        status: "active",
+        statusLabel: "Android APK",
+        platforms: ["Android"],
+        link: "/products/poison",
+        icon: (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="2" y="6" width="20" height="12" rx="4" />
+                <line x1="6" y1="12" x2="10" y2="12" />
+                <line x1="8" y1="10" x2="8" y2="14" />
+                <circle cx="15.5" cy="11" r="0.75" fill="currentColor" />
+                <circle cx="17.5" cy="13" r="0.75" fill="currentColor" />
+            </svg>
+        ),
+        category: "mobile",
+    },
+    {
         id: "domo",
         title: "Domo Dashboard",
         description: "An experimental web dashboard showing real-time interactive canvas widgets, charts, and coordinate visualizer tools.",
