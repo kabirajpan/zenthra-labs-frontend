@@ -84,9 +84,9 @@ const APPLICATIONS: ApplicationCard[] = [
     {
         id: "poison",
         title: "Poison",
-        description: "Fast-paced native Android game by ZenthraLabs. Direct APK download for Android devices.",
+        description: "Fast-paced native Android game by ZenthraLabs. Join Play Store early access and download Prototype v1.0.0 APK.",
         status: "active",
-        statusLabel: "Android APK",
+        statusLabel: "Prototype v1.0.0 (Early Access)",
         platforms: ["Android"],
         link: "/products/poison",
         icon: (

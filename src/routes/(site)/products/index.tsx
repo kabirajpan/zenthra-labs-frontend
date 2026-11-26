@@ -207,15 +207,7 @@ const FutureLabsActions = component$(() => (
 
 const PoisonActions = component$(() => (
     <div class="flex flex-wrap gap-2 sm:gap-3">
-        <a href="/products/poison" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">View Details</a>
-        <a
-            href="https://drive.google.com/uc?export=download&id=1rJk1X9Q-wK8viFwEZVoXNsY5qdRRgsNR"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="py-2 px-4 border border-[#c6c5d3] dark:border-[#1e2230] text-[#1b1b21] dark:text-white font-medium rounded-[4px] text-sm hover:bg-[#f5f2fa] dark:hover:bg-[#151928] hover:border-[#4352a5] dark:hover:border-[#312e81] transition-all"
-        >
-            Download APK
-        </a>
+        <a href="/products/poison" class="py-2 px-4 bg-[#5c6bc0] text-white font-medium rounded-[4px] text-sm hover:brightness-110 transition-all">Early Access &amp; APK</a>
     </div>
 ));
 
@@ -320,8 +312,8 @@ export default component$(() => {
                     description="A native desktop image viewer built with Zenthra — file browser, zoom, slideshow, and thumbnail filmstrip."
                     Actions={ZenthraViewActions} />
                 {/* 7. Poison */}
-                <ProductCard thumbnail={PoisonThumbnail} title="Poison" badge="Android APK" badgeVariant="green" category="Mobile Game"
-                    description="Fast-paced native Android game by ZenthraLabs. Download the APK directly and play on your Android device."
+                <ProductCard thumbnail={PoisonThumbnail} title="Poison" badge="Prototype v1.0.0" badgeVariant="green" category="Mobile Game"
+                    description="Fast-paced native Android game by ZenthraLabs. Join Play Store early access and download the Prototype v1.0.0 APK."
                     Actions={PoisonActions} />
                 {/* 8. Future Labs */}
                 <ProductCard thumbnail={FutureLabsThumbnail} title="Future Labs" category="R&D"
