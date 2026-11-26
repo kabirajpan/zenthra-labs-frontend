@@ -43,7 +43,7 @@ const ZenthraViewThumbnail = component$(() => (
 const PoisonThumbnail = component$(() => (
     <div class="w-full h-full bg-[#090b14] relative overflow-hidden">
         <img
-            src="/assets/screenshots/poison/Screenshot_20261126-140919.png"
+            src="/assets/screenshots/poison/Screenshot_20261126-140848.png"
             alt="Poison Android Game"
             class="w-full h-full object-cover"
         />
