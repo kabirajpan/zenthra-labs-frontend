@@ -1,5 +1,6 @@
 import { component$, useSignal, useVisibleTask$, $ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
+import { API_BASE } from "~/lib/api";
 
 interface PoisonEntry {
     id: string;
@@ -14,34 +15,28 @@ interface PoisonEntry {
 export default component$(() => {
     const entries = useSignal<PoisonEntry[]>([]);
     const loading = useSignal(true);
-    const configured = useSignal(true);
     const errorMsg = useSignal("");
     const search = useSignal("");
-
-    const getToken = () => {
-        const value = `; ${document.cookie}`;
-        const parts = value.split("; zenthra_auth_token=");
-        return parts.length === 2 ? parts.pop()?.split(";").shift() || "" : "";
-    };
 
     const fetchEntries$ = $(async () => {
         loading.value = true;
         errorMsg.value = "";
         try {
-            const token = getToken();
-            const res = await fetch("/api/poison-early-access", {
+            const value = `; ${document.cookie}`;
+            const parts = value.split("; zenthra_auth_token=");
+            const token = parts.length === 2 ? parts.pop()?.split(";").shift() || "" : "";
+
+            const res = await fetch(`${API_BASE}/api/admin/poison-early-access`, {
                 headers: token ? { Authorization: `Bearer ${token}` } : {},
             });
             const data = (await res.json()) as {
                 ok?: boolean;
-                configured?: boolean;
                 entries?: PoisonEntry[];
                 error?: string;
             };
             if (!res.ok || !data.ok) {
                 errorMsg.value = data.error || "Failed to load early access list.";
             } else {
-                configured.value = data.configured !== false;
                 entries.value = data.entries || [];
             }
         } catch {
@@ -51,6 +46,7 @@ export default component$(() => {
         }
     });
 
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {
         fetchEntries$();
     });
@@ -113,12 +109,6 @@ export default component$(() => {
                     </button>
                 </div>
             </div>
-
-            {!configured.value && (
-                <div class="p-4 rounded-[6px] bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800/50 text-xs text-amber-900 dark:text-amber-200">
-                    <strong>Storage not connected yet:</strong> Add a free Upstash Redis / Vercel KV database in your Vercel Project &rarr; Storage (sets <code class="font-mono">KV_REST_API_URL</code> &amp; <code class="font-mono">KV_REST_API_TOKEN</code>) to persist signups across all visitors.
-                </div>
-            )}
 
             {errorMsg.value && (
                 <div class="p-3 rounded-[6px] bg-red-50 dark:bg-red-950/30 border border-red-300 dark:border-red-800/50 text-xs text-red-700 dark:text-red-300">

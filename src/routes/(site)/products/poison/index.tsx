@@ -1,5 +1,6 @@
 import { component$, useSignal, useVisibleTask$, $ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
+import { API_BASE } from "~/lib/api";
 
 const POISON_APK_DIRECT_URL =
     "https://drive.google.com/uc?export=download&id=1rJk1X9Q-wK8viFwEZVoXNsY5qdRRgsNR";
@@ -66,18 +67,26 @@ export default component$(() => {
         };
 
         try {
-            await fetch("/api/poison-early-access", {
+            const res = await fetch(`${API_BASE}/api/app/poison-early-access`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
+            if (!res.ok) {
+                const errData = (await res.json().catch(() => ({}))) as { error?: string };
+                errorMsg.value = errData.error || "Could not register. Please try again.";
+                submitting.value = false;
+                return;
+            }
             localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
         } catch {
-            // Still unlock prototype download on client even if network fails
+            errorMsg.value = "Network error while registering. Please try again.";
+            submitting.value = false;
+            return;
         } finally {
             submitting.value = false;
-            unlocked.value = true;
         }
+        unlocked.value = true;
     });
 
     return (
